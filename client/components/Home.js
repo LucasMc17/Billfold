@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 /**
@@ -25,6 +26,8 @@ export default function Home() {
   const afterFixedCats =
     afterExpenses - fixedCats.reduce((acc, cat) => acc + cat.amount, 0);
   const unfixedCats = categories.filter((cat) => cat.rule === 'PERCENT');
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth() + 1;
 
   return (
     <div>
@@ -59,7 +62,7 @@ export default function Home() {
           )
           .join(', ')}
       </div>
-      <p>{new Date().getFullYear()}</p>
+      <Link to={`/year/${year}/month/${month}`}>SEE THIS MONTH</Link>
     </div>
   );
 }
