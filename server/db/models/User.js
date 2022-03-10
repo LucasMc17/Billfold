@@ -2,7 +2,6 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const axios = require('axios');
 
 const SALT_ROUNDS = 5;
 
@@ -11,9 +10,69 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   password: {
     type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  income: {
+    type: Sequelize.INTEGER,
+    defaultValue: 40000,
+  },
+  incomeAfterDeduction: {
+    type: Sequelize.VIRTUAL,
+    async get() {
+      const expenses = await YearlyDeduction.findAll({
+        where: {
+          userId: this.id,
+        },
+      });
+      const total = expenses.reduce((val, exp) => val + exp.amount, 0);
+      return this.income - total;
+    },
+    set(value) {
+      throw new Error('Do not try to set the `incomeAfterDeduction` value!');
+    },
+  },
+  monthlyIncome: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return this.incomeAfterDeduction / 12;
+    },
+    set(value) {
+      throw new Error('Do not try to set the `monthlyIncome` value!');
+    },
+  },
+  expendibleIncome: {
+    type: Sequelize.VIRTUAL,
+    async get() {
+      const expenses = await MonthlyExpense.findAll({
+        where: {
+          userId: this.id,
+        },
+      });
+      const total = expenses.reduce((val, exp) => val + exp.amount, 0);
+      return this.monthlyIncome - total;
+    },
+  },
+  expendibleAfterFixed: {
+    type: Sequelize.VIRTUAL,
+    async get() {
+      const expenses = await DailyExpense.findAll({
+        where: {
+          userId: this.id,
+          rule: 'FIXED',
+        },
+      });
+      const total = expenses.reduce((val, exp) => val + exp.amount, 0);
+      return this.expendibleIncome - total;
+    },
   },
 });
 
