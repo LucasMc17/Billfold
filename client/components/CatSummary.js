@@ -1,7 +1,9 @@
 import React from 'react';
 import useData from './custom_hooks/useData';
+import useFormatters from './custom_hooks/useFormatters';
 
 export default function CatSummary(props) {
+  const { dollarFormat, fixedDec } = useFormatters();
   const data = useData();
   const { cat } = props;
   const dailies = data.dailies.filter(
@@ -18,15 +20,10 @@ export default function CatSummary(props) {
   return (
     <div>
       <h2>{cat.name}</h2>
-      <h3>
-        BUDGET PER MONTH: 
-        {budget.toLocaleString('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        })}
-      </h3>
+      <h3>BUDGET PER MONTH: {dollarFormat(budget)}</h3>
       <p>
-        AMOUNT SPENT THIS MONTH: ${spent} / {percentSpent}%
+        AMOUNT SPENT THIS MONTH: {dollarFormat(spent)} /{' '}
+        {fixedDec(percentSpent)}%
       </p>
     </div>
   );
