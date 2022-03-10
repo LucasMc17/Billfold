@@ -3,35 +3,35 @@ import axios from 'axios';
 /**
  * ACTION TYPES
  */
-const SET_DEDUCTS = 'SET_DEDUCTS';
+const SET_CATS = 'SET_CATS';
 
 /**
  * ACTION CREATORS
  */
-const setDeducts = (deducts) => ({ type: SET_DEDUCTS, deducts });
+const setCategories = (cats) => ({ type: SET_CATS, cats });
 
 /**
  * THUNK CREATORS
  */
-export const fetchDeducts = () => {
+export const fetchCategories = () => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data } = await axios.get('/api/yearly-deductions', {
+    const { data } = await axios.get('/api/categories', {
       headers: {
         authorization: token,
       },
     });
-    dispatch(setDeducts(data));
+    dispatch(setCategories(data));
   };
 };
 
 /**
  * REDUCER
  */
- export default function yearlyDeductions(state = [], action) {
+ export default function categories(state = [], action) {
   switch (action.type) {
-    case SET_DEDUCTS:
-      return action.deducts;
+    case SET_CATS:
+      return action.cats;
     default:
       return state;
   }
