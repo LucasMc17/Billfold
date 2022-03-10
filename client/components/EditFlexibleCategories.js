@@ -4,10 +4,12 @@ import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { deleteCategory, fetchCategories } from '../store';
 
-export default function EditFixedCategories() {
+export default function EditFlexibleCategories() {
+  const data = useData();
+  const {afterFixedCats} = data;
   const dispatch = useDispatch();
   const categories = useSelector((state) =>
-    state.categories.filter((cat) => cat.rule === 'FIXED')
+    state.categories.filter((cat) => cat.rule === 'PERCENT')
   );
   const { dollarFormat } = useFormatters();
 
@@ -24,8 +26,10 @@ export default function EditFixedCategories() {
         <div key={cat.id}>
           <h3>{cat.name}</h3>
           <p>
-            I want to spend at most {dollarFormat(cat.amount)} a month on this.
+            I aim to spend around {cat.percent * 100}% of my remaining money on
+            this each month.
           </p>
+          <p>That means about {dollarFormat(cat.percent * afterFixedCats)}.</p>
           <button type="button" onClick={() => handleDelete(cat)}>
             X
           </button>
