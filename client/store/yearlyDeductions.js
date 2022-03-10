@@ -27,15 +27,15 @@ export const fetchDeducts = () => {
   };
 };
 
-export const deleteDeduct = (id) => {
+export const deleteDeduct = (de) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    await axios.delete(`/api/yearly-deductions/${id}`, {
+    await axios.delete(`/api/yearly-deductions/${de.id}`, {
       headers: {
         authorization: token,
       },
     });
-    dispatch(delDeduct(id));
+    dispatch(delDeduct(de.id));
   };
 };
 
@@ -46,6 +46,8 @@ export default function yearlyDeductions(state = [], action) {
   switch (action.type) {
     case SET_DEDUCTS:
       return action.deducts;
+    case DEL_DEDUCT:
+      return state.filter((de) => de.id !== action.id);
     default:
       return state;
   }

@@ -6,6 +6,7 @@ import EditBasicInfo from './components/EditBasicInfo';
 import Home from './components/Home';
 import MonthlySummary from './components/MonthlySummary';
 import MyInfo from './components/MyInfo';
+import EditYearlyExpenses from './components/EditYearlyExpenses';
 import {
   fetchDeducts,
   fetchExpenses,
@@ -33,7 +34,10 @@ class Routes extends Component {
             <Route path="/year/:year/month/:month" component={MonthlySummary} />
             <Route path="/myinfo" component={MyInfo} />
             <Route path="/edit/basic-info" component={EditBasicInfo} />
-            <Route path="/edit/yearly-expenses" component={MyInfo} />
+            <Route
+              path="/edit/yearly-expenses"
+              component={EditYearlyExpenses}
+            />
             <Route path="/edit/monthly-expenses" component={MyInfo} />
             <Route path="/edit/fixed-categories" component={MyInfo} />
             <Route path="/edit/flexible-categories" component={MyInfo} />
