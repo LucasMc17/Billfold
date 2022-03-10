@@ -20,6 +20,11 @@ export default function Home() {
       (acc, ex) => acc + (ex.amount || ex.percent * monthlyNet),
       0
     );
+  const categories = useSelector((state) => state.categories);
+  const fixedCats = categories.filter((cat) => cat.rule === 'FIXED');
+  const afterFixedCats =
+    afterExpenses - fixedCats.reduce((acc, cat) => acc + cat.amount, 0);
+  const unfixedCats = categories.filter((cat) => cat.rule === 'PERCENT');
 
   return (
     <div>
@@ -38,6 +43,22 @@ export default function Home() {
         </div>
       ))}
       <div>per month after expenses: {afterExpenses}</div>
+      <div>
+        Your fixed expense categories:{' '}
+        {fixedCats.map((cat) => `${cat.name}: $${cat.amount}`).join(', ')}
+      </div>
+      <div>Your monthly income after fixed expenses: ${afterFixedCats}</div>
+      <div>
+        Your percentage expense categories:{' '}
+        {unfixedCats
+          .map(
+            (cat) =>
+              `${cat.name}: ${cat.percent * 100}% / $${
+                afterFixedCats * cat.percent
+              }`
+          )
+          .join(', ')}
+      </div>
     </div>
   );
 }

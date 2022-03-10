@@ -16,7 +16,6 @@ const setExpenses = (expenses) => ({ type: SET_EXPENSES, expenses });
 export const fetchExpenses = () => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    console.log(token)
     const { data } = await axios.get('/api/monthly-expenses', {
       headers: {
         authorization: token,
