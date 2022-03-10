@@ -5,6 +5,7 @@ import useFormatters from './custom_hooks/useFormatters';
 import { deleteDeduct, fetchDeducts } from '../store';
 
 export default function EditYearlyExpenses() {
+  const income = useSelector(state => state.auth.income)
   const dispatch = useDispatch();
   const deducts = useSelector((state) => state.yearlyDeductions);
   const { dollarFormat } = useFormatters();

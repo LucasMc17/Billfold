@@ -17,3 +17,14 @@ router.get('/', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+router.delete('/:id', requireToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const ex = await MonthlyExpense.findByPk(id);
+    await ex.destroy();
+    res.status(204).send(204);
+  } catch (err) {
+    next(err);
+  }
+});
