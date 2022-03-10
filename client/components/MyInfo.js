@@ -66,7 +66,7 @@ export default function MyInfo() {
           <p>{ex.percent ? `${ex.percent * 100}% of my monthly net` : ''}</p>
           <p>
             {ex.percent
-              ? dollarFormat(ex.percent * income)
+              ? dollarFormat(ex.percent * monthlyNet)
               : dollarFormat(ex.amount)}
           </p>
         </div>
