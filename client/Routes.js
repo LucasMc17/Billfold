@@ -31,6 +31,11 @@ class Routes extends Component {
             <Route exact path="/home" component={Home} />
             <Route path="/year/:year/month/:month" component={MonthlySummary} />
             <Route path="/myinfo" component={MyInfo} />
+            <Route path="/edit/basic-info" component={MyInfo} />
+            <Route path="/edit/yearly-expenses" component={MyInfo} />
+            <Route path="/edit/monthly-expenses" component={MyInfo} />
+            <Route path="/edit/fixed-categories" component={MyInfo} />
+            <Route path="/edit/flexible-categories" component={MyInfo} />
             <Redirect to="/home" />
           </Switch>
         ) : (

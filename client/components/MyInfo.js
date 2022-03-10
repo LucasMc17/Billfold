@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
-import { deleteDeduct } from '../store';
 import { useDispatch } from 'react-redux';
+import {
+  fetchDailies,
+  fetchExpenses,
+  fetchDeducts,
+  fetchCategories,
+  me,
+} from '../store';
+import { Link } from 'react-router-dom';
 
 export default function MyInfo() {
   const dispatch = useDispatch();
   const { dollarFormat } = useFormatters();
+  useEffect(() => {
+    dispatch(me());
+    dispatch(fetchExpenses());
+    dispatch(fetchDeducts());
+    dispatch(fetchCategories());
+    dispatch(fetchDailies());
+  }, []);
   const data = useData();
   const {
     username,
@@ -25,7 +39,9 @@ export default function MyInfo() {
     <div>
       <h1>Hi, my name is {username}</h1>
       <h1>I make {dollarFormat(income)} per year.</h1>
-      <button type="button">Edit My Info</button>
+      <Link to="/edit/basic-info">
+        <button type="button">Edit My Info</button>
+      </Link>
       <h1>These are my yearly expenses:</h1>
       {deducts.map((de) => (
         <div key={de.id}>
@@ -36,17 +52,11 @@ export default function MyInfo() {
               ? dollarFormat(de.percent * income)
               : dollarFormat(de.amount)}
           </p>
-          <button
-            type="button"
-            onClick={() => {
-              dispatch(deleteDeduct(de.id));
-            }}
-          >
-            X
-          </button>
         </div>
       ))}
-      <button type="button">Add a Yearly Expense</button>
+      <Link to="/edit/yearly-expenses">
+        <button type="button">Edit my Yearly Expenses</button>
+      </Link>
       <h1>After expenses, I make {dollarFormat(afterDeducts)} a year.</h1>
       <h1>That's {dollarFormat(monthlyNet)} a month.</h1>
       <h1>These are my monthly expenses:</h1>
@@ -59,10 +69,11 @@ export default function MyInfo() {
               ? dollarFormat(ex.percent * income)
               : dollarFormat(ex.amount)}
           </p>
-          <button type="button">X</button>
         </div>
       ))}
-      <button type="button">Add a Monthly Expense</button>
+      <Link to="/edit/monthly-expenses">
+        <button type="button">Edit my Monthly Expenses</button>
+      </Link>
       <h1>
         After those expenses, I make {dollarFormat(afterExpenses)} a month.
       </h1>
@@ -73,10 +84,11 @@ export default function MyInfo() {
           <p>
             I want to spend at most {dollarFormat(cat.amount)} a month on this.
           </p>
-          <button type="button">X</button>
         </div>
       ))}
-      <button type="button">Add a Fixed Category</button>
+      <Link to="/edit/fixed-categories">
+        <button type="button">Edit my Fixed Categories</button>
+      </Link>
       <h1>
         That leaves me with {dollarFormat(afterFixedCats)} for my flexible
         spending categories:
@@ -89,10 +101,11 @@ export default function MyInfo() {
             this each month.
           </p>
           <p>That means about {dollarFormat(cat.percent * afterFixedCats)}.</p>
-          <button type="button">X</button>
         </div>
       ))}
-      <button type="button">Add a Flexible Category</button>
+      <Link to="/edit/flexible-categories">
+        <button type="button">Edit my Flexible Categories</button>
+      </Link>
     </div>
   );
 }
