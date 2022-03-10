@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useToday from './custom_hooks/useToday';
+import {
+  fetchDeducts,
+  fetchExpenses,
+  fetchCategories,
+  fetchDailies,
+} from '../store';
 
 /**
  * COMPONENT
  */
 export default function Home() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchDeducts());
+    dispatch(fetchExpenses());
+    dispatch(fetchCategories());
+    dispatch(fetchDailies());
+  }, []);
   const {
     username,
     income,
