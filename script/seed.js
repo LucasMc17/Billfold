@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, YearlyDeduction },
+  models: { User, YearlyDeduction, MonthlyExpense, Category },
 } = require('../server/db');
 
 /**
@@ -26,10 +26,26 @@ async function seed() {
     rule: 'PERCENT',
     percent: 0.25,
   });
-  console.log(await Cody.incomeAfterDeduction);
   await expense.setUser(Cody);
   await newExpense.setUser(Cody);
-  console.log(await Cody.incomeAfterDeduction);
+  const rent = await MonthlyExpense.create({
+    name: 'rent',
+    rule: 'FIXED',
+    amount: 900,
+  });
+  await rent.setUser(Cody);
+  const food = await Category.create({
+    name: 'food',
+    rule: 'PERCENT',
+    percent: 0.25,
+  })
+  await food.setUser(Cody)
+  const laundry = await Category.create({
+    name: 'laundry',
+    rule: 'FIXED',
+    amount: 65,
+  })
+  await laundry.setUser(Cody)
   console.log(`seeded successfully`);
 }
 
