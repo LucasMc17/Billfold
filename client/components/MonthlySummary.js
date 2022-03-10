@@ -16,22 +16,30 @@ export default function MonthlySummary() {
   return (
     <div>
       <h1>OVERVIEW</h1>
-      {data.categories.map((cat) => (
-        <div key={cat.id}>
-          <CatSummary cat={cat} month={month} />
-        </div>
-      ))}
+      {data.categories.length ? (
+        data.categories.map((cat) => (
+          <div key={cat.id}>
+            <CatSummary cat={cat} month={month} />
+          </div>
+        ))
+      ) : (
+        <h2>You've got no active expense categories! Go make some!</h2>
+      )}
       <h1>PURCHASES</h1>
-      {dailies.map((daily) => (
-        <div key={daily.id}>
-          <h3>{daily.name}</h3>
-          <p>{daily.category.name}</p>
-          <p>{dollarFormat(daily.amount)}</p>
-          <p>
-            {daily.month}/{daily.day}
-          </p>
-        </div>
-      ))}
+      {dailies.length ? (
+        dailies.map((daily) => (
+          <div key={daily.id}>
+            <h3>{daily.name}</h3>
+            <p>{daily.category.name}</p>
+            <p>{dollarFormat(daily.amount)}</p>
+            <p>
+              {daily.month}/{daily.day}
+            </p>
+          </div>
+        ))
+      ) : (
+        <h2>You have no purchases this month.</h2>
+      )}
     </div>
   );
 }
