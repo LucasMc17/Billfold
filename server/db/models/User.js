@@ -25,58 +25,8 @@ const User = db.define('user', {
     type: Sequelize.INTEGER,
     defaultValue: 40000,
   },
-  incomeAfterDeduction: {
-    type: Sequelize.VIRTUAL,
-    async get() {
-      const expenses = await YearlyDeduction.findAll({
-        where: {
-          userId: this.id,
-        },
-      });
-      const total = expenses.reduce((val, exp) => val + exp.amount, 0);
-      return this.income - total;
-    },
-    set(value) {
-      throw new Error('Do not try to set the `incomeAfterDeduction` value!');
-    },
-  },
-  monthlyIncome: {
-    type: Sequelize.VIRTUAL,
-    get() {
-      return this.incomeAfterDeduction / 12;
-    },
-    set(value) {
-      throw new Error('Do not try to set the `monthlyIncome` value!');
-    },
-  },
-  expendibleIncome: {
-    type: Sequelize.VIRTUAL,
-    async get() {
-      const expenses = await MonthlyExpense.findAll({
-        where: {
-          userId: this.id,
-        },
-      });
-      const total = expenses.reduce((val, exp) => val + exp.amount, 0);
-      return this.monthlyIncome - total;
-    },
-  },
-  expendibleAfterFixed: {
-    type: Sequelize.VIRTUAL,
-    async get() {
-      const expenses = await DailyExpense.findAll({
-        where: {
-          userId: this.id,
-          rule: 'FIXED',
-        },
-      });
-      const total = expenses.reduce((val, exp) => val + exp.amount, 0);
-      return this.expendibleIncome - total;
-    },
-  },
 });
 
-module.exports = User;
 
 /**
  * instanceMethods
@@ -133,3 +83,5 @@ const hashPassword = async (user) => {
 User.beforeCreate(hashPassword);
 User.beforeUpdate(hashPassword);
 User.beforeBulkCreate((users) => Promise.all(users.map(hashPassword)));
+
+module.exports = User;
