@@ -1,33 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import useData from './custom_hooks/useData';
+import useToday from './custom_hooks/useToday';
 
 /**
  * COMPONENT
  */
 export default function Home() {
-  const dispatch = useDispatch();
-  const username = useSelector((state) => state.auth.username);
-  const income = useSelector((state) => state.auth.income);
-  const deducts = useSelector((state) => state.yearlyDeductions);
-  const afterDeducts =
-    income -
-    deducts.reduce((acc, de) => acc + (de.amount || de.percent * income), 0);
-  const monthlyNet = afterDeducts / 12;
-  const expenses = useSelector((state) => state.monthlyExpenses);
-  const afterExpenses =
-    monthlyNet -
-    expenses.reduce(
-      (acc, ex) => acc + (ex.amount || ex.percent * monthlyNet),
-      0
-    );
-  const categories = useSelector((state) => state.categories);
-  const fixedCats = categories.filter((cat) => cat.rule === 'FIXED');
-  const afterFixedCats =
-    afterExpenses - fixedCats.reduce((acc, cat) => acc + cat.amount, 0);
-  const unfixedCats = categories.filter((cat) => cat.rule === 'PERCENT');
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth() + 1;
+  const {
+    username,
+    income,
+    deducts,
+    afterDeducts,
+    monthlyNet,
+    expenses,
+    afterExpenses,
+    categories,
+    fixedCats,
+    unfixedCats,
+    afterFixedCats,
+  } = useData();
+  const { month, year } = useToday();
 
   return (
     <div>
