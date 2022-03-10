@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, YearlyDeduction, MonthlyExpense, Category, DailyExpense  },
+  models: { User, YearlyDeduction, MonthlyExpense, Category, DailyExpense },
 } = require('../server/db');
 
 /**
@@ -33,38 +33,44 @@ async function seed() {
     rule: 'FIXED',
     amount: 900,
   });
+  const fee = await MonthlyExpense.create({
+    name: 'dog fee',
+    rule: 'PERCENT',
+    percent: 0.1,
+  });
   await rent.setUser(Cody);
+  await fee.setUser(Cody);
   const food = await Category.create({
     name: 'food',
     rule: 'PERCENT',
     percent: 0.25,
-  })
-  await food.setUser(Cody)
+  });
+  await food.setUser(Cody);
   const laundry = await Category.create({
     name: 'laundry',
     rule: 'FIXED',
     amount: 65,
-  })
-  await laundry.setUser(Cody)
+  });
+  await laundry.setUser(Cody);
   const shirts = await DailyExpense.create({
     name: 'washed shirts',
     date: new Date(),
     amount: 30.21,
-  })
+  });
   await shirts.setUser(Cody);
   await shirts.setCategory(laundry);
   const pants = await DailyExpense.create({
     name: 'washed pants',
     date: new Date(),
     amount: 20.56,
-  })
+  });
   await pants.setUser(Cody);
   await pants.setCategory(laundry);
   const burger = await DailyExpense.create({
     name: 'ate burger',
     date: new Date(2022, 1, 22),
     amount: 13,
-  })
+  });
   await burger.setUser(Cody);
   await burger.setCategory(food);
   console.log(`seeded successfully`);

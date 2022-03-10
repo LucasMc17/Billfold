@@ -5,7 +5,8 @@ import useFormatters from './custom_hooks/useFormatters';
 import { deleteExpense, fetchExpenses } from '../store';
 
 export default function EditMonthlyExpenses() {
-  const income = useSelector(state => state.auth.income)
+  const data = useData();
+  const { monthlyNet } = data;
   const dispatch = useDispatch();
   const expenses = useSelector((state) => state.monthlyExpenses);
   const { dollarFormat } = useFormatters();
@@ -15,8 +16,8 @@ export default function EditMonthlyExpenses() {
   }, []);
 
   const handleDelete = (ex) => {
-    dispatch(deleteExpense(ex))
-  }
+    dispatch(deleteExpense(ex));
+  };
 
   return (
     <div>
@@ -26,7 +27,7 @@ export default function EditMonthlyExpenses() {
           <p>{ex.percent ? `${ex.percent * 100}% of my monthly net` : ''}</p>
           <p>
             {ex.percent
-              ? dollarFormat(ex.percent * income)
+              ? dollarFormat(ex.percent * monthlyNet)
               : dollarFormat(ex.amount)}
           </p>
           <button type="button" onClick={() => handleDelete(ex)}>
