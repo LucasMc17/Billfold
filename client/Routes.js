@@ -3,7 +3,14 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
-import { fetchDeducts, fetchExpenses, me, fetchCategories, fetchDailies } from './store';
+import MonthlySummary from './components/MonthlySummary';
+import {
+  fetchDeducts,
+  fetchExpenses,
+  me,
+  fetchCategories,
+  fetchDailies,
+} from './store';
 
 /**
  * COMPONENT
@@ -20,7 +27,8 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route path="/home" component={Home} />
+            <Route exact path="/home" component={Home} />
+            <Route path="/year/:year/month/:month" component={MonthlySummary} />
             <Redirect to="/home" />
           </Switch>
         ) : (
@@ -54,7 +62,7 @@ const mapDispatch = (dispatch) => {
       dispatch(fetchDeducts());
       dispatch(fetchExpenses());
       dispatch(fetchCategories());
-      dispatch(fetchDailies())
+      dispatch(fetchDailies());
     },
   };
 };

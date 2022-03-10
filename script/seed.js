@@ -62,7 +62,7 @@ async function seed() {
   await pants.setCategory(laundry);
   const burger = await DailyExpense.create({
     name: 'ate burger',
-    date: new Date(),
+    date: new Date(2022, 1, 22),
     amount: 13,
   })
   await burger.setUser(Cody);
