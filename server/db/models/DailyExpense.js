@@ -1,3 +1,4 @@
+const { INTEGER } = require('sequelize');
 const Sequelize = require('sequelize');
 const db = require('../db');
 
@@ -10,10 +11,31 @@ const DailyExpense = db.define('dailyExpense', {
     type: Sequelize.DATE,
     allowNull: false,
   },
+  month: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    validate: {
+      max: 11,
+      min: 0,
+    },
+  },
+  year: {
+    type: Sequelize.INTEGER,
+    defaultValue: new Date().getFullYear(),
+    validate: {
+      max: new Date().getFullYear(),
+      min: 1900,
+    },
+  },
   amount: {
     type: Sequelize.FLOAT,
     allowNull: false,
   },
+});
+
+DailyExpense.beforeValidate(async (dailyExpense) => {
+  dailyExpense.month = dailyExpense.date.getMonth() + 1;
+  dailyExpense.year = dailyExpense.date.getFullYear();
 });
 
 module.exports = DailyExpense;

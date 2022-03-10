@@ -59,6 +59,7 @@ export default function Home() {
           )
           .join(', ')}
       </div>
+      <p>{new Date().getFullYear()}</p>
     </div>
   );
 }

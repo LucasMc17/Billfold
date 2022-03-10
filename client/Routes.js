@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
-import { fetchDeducts, fetchExpenses, me, fetchCategories } from './store';
+import { fetchDeducts, fetchExpenses, me, fetchCategories, fetchDailies } from './store';
 
 /**
  * COMPONENT
@@ -54,6 +54,7 @@ const mapDispatch = (dispatch) => {
       dispatch(fetchDeducts());
       dispatch(fetchExpenses());
       dispatch(fetchCategories());
+      dispatch(fetchDailies())
     },
   };
 };
