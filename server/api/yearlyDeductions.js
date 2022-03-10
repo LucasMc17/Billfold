@@ -17,3 +17,14 @@ router.get('/', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+router.delete('/:id', requireToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const deduct = await YearlyDeduction.findByPk(id);
+    await deduct.destroy();
+    res.status(204).send(204);
+  } catch (err) {
+    next(err);
+  }
+});

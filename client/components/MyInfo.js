@@ -1,8 +1,11 @@
 import React from 'react';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
+import { deleteDeduct } from '../store';
+import { useDispatch } from 'react-redux';
 
 export default function MyInfo() {
+  const dispatch = useDispatch();
   const { dollarFormat } = useFormatters();
   const data = useData();
   const {
@@ -33,7 +36,14 @@ export default function MyInfo() {
               ? dollarFormat(de.percent * income)
               : dollarFormat(de.amount)}
           </p>
-          <button type="button">X</button>
+          <button
+            type="button"
+            onClick={() => {
+              dispatch(deleteDeduct(de.id));
+            }}
+          >
+            X
+          </button>
         </div>
       ))}
       <button type="button">Add a Yearly Expense</button>
