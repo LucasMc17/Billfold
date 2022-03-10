@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
+import EditBasicInfo from './components/EditBasicInfo';
 import Home from './components/Home';
 import MonthlySummary from './components/MonthlySummary';
 import MyInfo from './components/MyInfo';
@@ -31,7 +32,7 @@ class Routes extends Component {
             <Route exact path="/home" component={Home} />
             <Route path="/year/:year/month/:month" component={MonthlySummary} />
             <Route path="/myinfo" component={MyInfo} />
-            <Route path="/edit/basic-info" component={MyInfo} />
+            <Route path="/edit/basic-info" component={EditBasicInfo} />
             <Route path="/edit/yearly-expenses" component={MyInfo} />
             <Route path="/edit/monthly-expenses" component={MyInfo} />
             <Route path="/edit/fixed-categories" component={MyInfo} />

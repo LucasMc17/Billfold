@@ -3,7 +3,18 @@ const {
   models: { User },
 } = require('../db');
 module.exports = router;
-const {requireToken} = require('./requireToken');
+const { requireToken } = require('./requireToken');
+
+router.put('/', requireToken, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    console.log(user)
+    await user.update({ ...req.body });
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.get('/', async (req, res, next) => {
   try {
@@ -21,8 +32,9 @@ router.get('/', async (req, res, next) => {
 
 router.get('/myincome', requireToken, async (req, res, next) => {
   try {
-    res.json (req.user.income)
+    res.json(req.user.income);
   } catch (err) {
     next(err);
   }
 });
+
