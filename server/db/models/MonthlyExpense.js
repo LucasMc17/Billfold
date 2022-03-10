@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-const MonthlyExpenses = db.define('monthlyExpenses', {
+const MonthlyExpense = db.define('monthlyExpense', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -19,4 +19,4 @@ const MonthlyExpenses = db.define('monthlyExpenses', {
   },
 });
 
-module.exports = YearlyDeduction;
+module.exports = MonthlyExpense;
