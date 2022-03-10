@@ -3,8 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CatSummary from './CatSummary';
 import useData from './custom_hooks/useData';
+import useFormatters from './custom_hooks/useFormatters';
 
 export default function MonthlySummary() {
+  const { dollarFormat } = useFormatters();
   const data = useData();
   const dispatch = useDispatch();
   const { year, month } = useParams();
@@ -24,7 +26,7 @@ export default function MonthlySummary() {
         <div key={daily.id}>
           <h3>{daily.name}</h3>
           <p>{daily.category.name}</p>
-          <p>${daily.amount}</p>
+          <p>{dollarFormat(daily.amount)}</p>
           <p>
             {daily.month}/{daily.day}
           </p>
