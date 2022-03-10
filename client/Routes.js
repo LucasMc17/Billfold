@@ -8,6 +8,7 @@ import MonthlySummary from './components/MonthlySummary';
 import MyInfo from './components/MyInfo';
 import EditYearlyExpenses from './components/EditYearlyExpenses';
 import EditMonthlyExpenses from './components/EditMonthlyExpenses';
+import EditFixedCategories from './components/EditFixedCategories';
 import {
   fetchDeducts,
   fetchExpenses,
@@ -39,8 +40,14 @@ class Routes extends Component {
               path="/edit/yearly-expenses"
               component={EditYearlyExpenses}
             />
-            <Route path="/edit/monthly-expenses" component={EditMonthlyExpenses} />
-            <Route path="/edit/fixed-categories" component={MyInfo} />
+            <Route
+              path="/edit/monthly-expenses"
+              component={EditMonthlyExpenses}
+            />
+            <Route
+              path="/edit/fixed-categories"
+              component={EditFixedCategories}
+            />
             <Route path="/edit/flexible-categories" component={MyInfo} />
             <Redirect to="/home" />
           </Switch>
