@@ -4,6 +4,7 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import MonthlySummary from './components/MonthlySummary';
+import MyInfo from './components/MyInfo';
 import {
   fetchDeducts,
   fetchExpenses,
@@ -29,6 +30,7 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/home" component={Home} />
             <Route path="/year/:year/month/:month" component={MonthlySummary} />
+            <Route path="/myinfo" component={MyInfo} />
             <Redirect to="/home" />
           </Switch>
         ) : (
