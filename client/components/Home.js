@@ -1,26 +1,18 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 /**
  * COMPONENT
  */
-export const Home = props => {
-  const {username} = props
+export default function Home() {
+  const dispatch = useDispatch();
+  const username = useSelector((state) => state.auth.username);
+  const income = useSelector((state) => state.auth.income);
 
   return (
     <div>
       <h3>Welcome, {username}</h3>
+      <h1>YOU MAKE ${income} A YEAR</h1>
     </div>
-  )
+  );
 }
-
-/**
- * CONTAINER
- */
-const mapState = state => {
-  return {
-    username: state.auth.username
-  }
-}
-
-export default connect(mapState)(Home)

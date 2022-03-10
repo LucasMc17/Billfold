@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, YearlyDeduction, MonthlyExpense, Category },
+  models: { User, YearlyDeduction, MonthlyExpense, Category, DailyExpense  },
 } = require('../server/db');
 
 /**
@@ -46,6 +46,27 @@ async function seed() {
     amount: 65,
   })
   await laundry.setUser(Cody)
+  const shirts = await DailyExpense.create({
+    name: 'washed shirts',
+    date: new Date(),
+    amount: 30.21,
+  })
+  await shirts.setUser(Cody);
+  await shirts.setCategory(laundry);
+  const pants = await DailyExpense.create({
+    name: 'washed pants',
+    date: new Date(),
+    amount: 20.56,
+  })
+  await pants.setUser(Cody);
+  await pants.setCategory(laundry);
+  const burger = await DailyExpense.create({
+    name: 'ate burger',
+    date: new Date(),
+    amount: 13,
+  })
+  await burger.setUser(Cody);
+  await burger.setCategory(food);
   console.log(`seeded successfully`);
 }
 
