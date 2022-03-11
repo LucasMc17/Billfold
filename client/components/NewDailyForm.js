@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postDaily } from '../store';
 import useData from './custom_hooks/useData';
 
-export default function NewDailyForm() {
+export default function NewDailyForm(props) {
   const dispatch = useDispatch();
-  const { categories } = useData();
+  const { categories } = props;
   const [daily, setDaily] = useState({
     name: '',
     date: new Date().toISOString().split('T')[0],
@@ -21,6 +21,7 @@ export default function NewDailyForm() {
   };
 
   function handleSubmit(evt) {
+    console.log(daily);
     evt.preventDefault();
     dispatch(postDaily(daily));
   }
