@@ -32,10 +32,21 @@ export default function Home() {
   const { month, year } = useToday();
   let chartData = [];
   for (let i = 0; i < 6; i++) {
+    let searchYear = year;
+    let searchMonth = month;
+    if (month - i < 1) {
+      searchMonth = 12 + month - i;
+      searchYear = year - 1;
+    } else {
+      searchMonth = month - i;
+    }
     chartData.push({
-      month: month - i,
+      year: searchYear,
+      month: searchMonth,
       spent: dailies
-        .filter((daily) => daily.month === month - i && daily.year === year)
+        .filter(
+          (daily) => daily.month === searchMonth && daily.year === searchYear
+        )
         .reduce((acc, daily) => acc + daily.amount, 0),
     });
   }
@@ -92,7 +103,7 @@ export default function Home() {
           ))}
         {categories.length ? <NewDailyForm categories={categories} /> : <div />}
       </div>
-      <div id='chart-container'>
+      <div id="chart-container">
         <div id="home-chart"></div>
       </div>
     </div>

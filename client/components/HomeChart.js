@@ -43,7 +43,14 @@ export function drawChart(height, width, data, budget) {
     .append('g')
     .attr('fill', '#93E9BE')
     .selectAll('rect')
-    .data(data.sort((a, b) => d3.ascending(a.month, b.month)))
+    .data(
+      data.sort((a, b) =>
+        d3.ascending(
+          new Date(a.year, a.month - 1),
+          new Date(b.year, b.month - 1)
+        )
+      )
+    )
     .join('rect')
     .attr('x', (d, i) => x(i))
     .attr('y', (d) => y(d.spent))
