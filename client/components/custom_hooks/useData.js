@@ -1,4 +1,6 @@
 import { useSelector } from 'react-redux';
+import useToday from './useToday';
+const { month } = useToday();
 
 export default function useData() {
   const username = useSelector((state) => state.auth.username);
@@ -21,6 +23,11 @@ export default function useData() {
     afterExpenses - fixedCats.reduce((acc, cat) => acc + cat.amount, 0);
   const unfixedCats = categories.filter((cat) => cat.rule === 'PERCENT');
   const dailies = useSelector((state) => state.dailyExpenses);
+  const budgetGap =
+    afterExpenses -
+    dailies
+      .filter((daily) => daily.month === month)
+      .reduce((acc, daily) => acc + daily.amount, 0);
   return {
     username,
     income,
@@ -34,5 +41,6 @@ export default function useData() {
     afterFixedCats,
     unfixedCats,
     dailies,
+    budgetGap
   };
 }
