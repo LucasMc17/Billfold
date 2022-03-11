@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  margin: 0;
 }
 
 a {
@@ -18,4 +19,42 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+#nav {
+  display: flex;
+  width: 100%;
+  background-color: #93e9be;
+}
+
+#nav path {
+  fill: white;
+}
+
+#nav svg {
+  width: 100px;
+  height: 100px;
+}
+
+#nav #name {
+  color: white;
+}
+
+.daily {
+  display: flex;
+  width: 90%;
+  margin: 10px auto 10px auto;
+  border: 3px solid #93e9be;
+}
+
+#summaries {
+  display: flex;
+  width: 90%;
+  margin: 10px auto 10px auto;
+  border: 3px solid #93e9be;
+}
+
+.summary {
+  flex: 0 0 0.25;
+  border: 3px solid #93e9be;
 }

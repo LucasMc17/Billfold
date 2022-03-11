@@ -32,9 +32,15 @@ router.post('/', requireToken, async (req, res, next) => {
       ...req.body,
       userId: req.user.id,
       categoryId: category.id,
-      category: category,
     });
-    res.json(daily);
+    daily.setCategory(category);
+    res.json(
+      await DailyExpense.findByPk(daily.id, {
+        include: {
+          model: Category,
+        },
+      })
+    );
   } catch (err) {
     next(err);
   }

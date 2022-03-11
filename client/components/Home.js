@@ -5,6 +5,7 @@ import useData from './custom_hooks/useData';
 import useToday from './custom_hooks/useToday';
 import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
+import { drawChart, clearChart } from './HomeChart';
 import {
   fetchDeducts,
   fetchExpenses,
@@ -27,20 +28,19 @@ export default function Home() {
     dispatch(fetchCategories());
     dispatch(fetchDailies());
   }, []);
-  const {
-    username,
-    income,
-    deducts,
-    afterDeducts,
-    monthlyNet,
-    expenses,
-    afterExpenses,
-    fixedCats,
-    unfixedCats,
-    afterFixedCats,
-    budgetGap,
-  } = useData();
+  const { username, budgetGap } = useData();
   const { month, year } = useToday();
+  let chartData = [];
+  for (let i = 0; i < 6; i++) {
+    chartData.push({
+      spent: dailies
+        .filter((daily) => daily.month === month - i)
+        .reduce((acc, daily) => acc + daily.amount, 0),
+    });
+  }
+  clearChart();
+  console.log(chartData);
+  drawChart(300, 1000, chartData);
   let lastMonthYear, lastMonth;
   if (month === 1) {
     lastMonthYear = year - 1;
@@ -80,7 +80,7 @@ export default function Home() {
           })
           .slice(Math.max(dailies.length - 5, 0))
           .map((daily) => (
-            <div key={daily.id}>
+            <div className="daily" key={daily.id}>
               <h3>{daily.name}</h3>
               <p>{daily.category.name}</p>
               <p>{dollarFormat(daily.amount)}</p>
@@ -91,6 +91,7 @@ export default function Home() {
           ))}
         {categories.length ? <NewDailyForm categories={categories} /> : <div />}
       </div>
+      <div id="home-chart"></div>
     </div>
   );
 }
