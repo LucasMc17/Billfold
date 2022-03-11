@@ -28,19 +28,20 @@ export default function Home() {
     dispatch(fetchCategories());
     dispatch(fetchDailies());
   }, []);
-  const { username, budgetGap } = useData();
+  const { username, budgetGap, afterExpenses } = useData();
   const { month, year } = useToday();
   let chartData = [];
   for (let i = 0; i < 6; i++) {
     chartData.push({
+      month: month - i,
       spent: dailies
-        .filter((daily) => daily.month === month - i)
+        .filter((daily) => daily.month === month - i && daily.year === year)
         .reduce((acc, daily) => acc + daily.amount, 0),
     });
   }
   clearChart();
   console.log(chartData);
-  drawChart(300, 1000, chartData);
+  drawChart(300, 1000, chartData, afterExpenses);
   let lastMonthYear, lastMonth;
   if (month === 1) {
     lastMonthYear = year - 1;
@@ -91,7 +92,9 @@ export default function Home() {
           ))}
         {categories.length ? <NewDailyForm categories={categories} /> : <div />}
       </div>
-      <div id="home-chart"></div>
+      <div id='chart-container'>
+        <div id="home-chart"></div>
+      </div>
     </div>
   );
 }
