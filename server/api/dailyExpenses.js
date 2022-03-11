@@ -20,3 +20,22 @@ router.get('/', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+router.post('/', requireToken, async (req, res, next) => {
+  try {
+    const category = await Category.findOne({
+      where: {
+        name: req.body.category,
+      },
+    });
+    const daily = await DailyExpense.create({
+      ...req.body,
+      userId: req.user.id,
+      categoryId: category.id,
+      category: category,
+    });
+    res.json(daily);
+  } catch (err) {
+    next(err);
+  }
+});

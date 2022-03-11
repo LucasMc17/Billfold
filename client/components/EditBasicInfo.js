@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import useData from './custom_hooks/useData';
-import useFormatters from './custom_hooks/useFormatters';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { updateUser, me } from '../store';
+import { updateUser } from '../store';
 
 export default function EditBasicInfo() {
   const dispatch = useDispatch();
