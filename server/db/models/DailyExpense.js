@@ -15,7 +15,7 @@ const DailyExpense = db.define('dailyExpense', {
     type: Sequelize.INTEGER,
     defaultValue: 0,
     validate: {
-      max: 11,
+      max: 12,
       min: 0,
     },
   },
