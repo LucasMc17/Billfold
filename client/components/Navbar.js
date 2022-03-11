@@ -2,10 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
+import Logo from './Logo';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
-  <div>
-    <h1>Billfold</h1>
+  <div id="nav">
+    <Logo />
+    <h1 id="name">illfold</h1>
     <nav>
       {isLoggedIn ? (
         <div>
@@ -15,7 +17,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
             Logout
           </a>
           <Link to="/myinfo">My Info</Link>
-          <Link to='/test/test'>TEST</Link>
+          <Link to="/test/test">TEST</Link>
         </div>
       ) : (
         <div>
@@ -25,7 +27,6 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         </div>
       )}
     </nav>
-    <hr />
   </div>
 );
 

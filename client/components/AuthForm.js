@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { authenticate } from '../store';
 import { Link } from 'react-router-dom';
+import Logo from './Logo';
 
 /**
  * COMPONENT
@@ -11,6 +12,7 @@ const AuthForm = (props) => {
 
   return (
     <div>
+      <Logo />
       {displayName === 'Login' ? (
         <div>
           <h2>Welcome to Billfold! Please log in to continue</h2>
