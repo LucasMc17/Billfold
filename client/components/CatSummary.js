@@ -20,11 +20,13 @@ export default function CatSummary(props) {
   return (
     <div>
       <h2>{cat.name}</h2>
-      <h3>BUDGET PER MONTH: {dollarFormat(budget)}</h3>
-      <p>
-        AMOUNT SPENT THIS MONTH: {dollarFormat(spent)} /{' '}
+      <h3>BUDGET: {dollarFormat(budget)}</h3>
+      <h3 className={percentSpent > 100 ? 'warning' : ''}>
+        SPENT: {dollarFormat(spent)}
+      </h3>
+      <h3 className={percentSpent > 100 ? 'warning' : ''}>
         {fixedDec(percentSpent)}%
-      </p>
+      </h3>
     </div>
   );
 }
