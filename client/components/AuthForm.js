@@ -11,45 +11,52 @@ const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
 
   return (
-    <div>
-      <Logo />
-      {displayName === 'Login' ? (
+    <div id="login">
+      <div id="logo-container">
+        <Logo />
+        <h1>illfold</h1>
+      </div>
+      <div className="form loginForm">
         <div>
-          <h2>Welcome to Billfold! Please log in to continue</h2>
-          <h3>Don't have an account?</h3>
-          <Link to="/signup">
-            <button type="button">SIGN UP</button>
-          </Link>
+          {displayName === 'Login' ? (
+            <div>
+              <h2>Welcome to Billfold! Please log in to continue</h2>
+              <h3>Don't have an account?</h3>
+              <Link to="/signup">
+                <button type="button">Sign Up</button>
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <h2>
+                Welcome to Billfold! choose a username and password to continue
+              </h2>
+              <h3>Already have an account?</h3>
+              <Link to="/login">
+                <button type="button">Log In</button>
+              </Link>
+            </div>
+          )}
         </div>
-      ) : (
-        <div>
-          <h2>
-            Welcome to Billfold! choose a username and password to continue
-          </h2>
-          <h3>Already have an account?</h3>
-          <Link to="/login">
-            <button type="button">LOG IN</button>
-          </Link>
-        </div>
-      )}
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="username">
-            <small>Username</small>
-          </label>
-          <input name="username" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
+        <form onSubmit={handleSubmit} name={name}>
+          <div>
+            <label htmlFor="username">
+              <small>Username</small>
+            </label>
+            <input name="username" type="text" />
+          </div>
+          <div>
+            <label htmlFor="password">
+              <small>Password</small>
+            </label>
+            <input name="password" type="password" />
+          </div>
+          <div>
+            <button type="submit">{displayName}</button>
+          </div>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+      </div>
     </div>
   );
 };

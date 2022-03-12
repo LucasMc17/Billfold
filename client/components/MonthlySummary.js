@@ -39,18 +39,21 @@ export default function MonthlySummary() {
   );
   const totalSpent = dailies.reduce((acc, daily) => acc + daily.amount, 0);
   const categories = useSelector((state) => state.categories);
-  let chartData = categories.map((cat) => {
-    const total = cat.amount ? cat.amount : cat.percent * data.afterFixedCats;
-    return {
-      name: cat.name,
-      spent:
-        (dailies
-          .filter((daily) => daily.categoryId === cat.id)
-          .reduce((acc, daily) => acc + daily.amount, 0) /
-          total) *
-        100,
-    };
-  });
+  let chartData = [
+    ...categories.map((cat) => {
+      const total = cat.amount ? cat.amount : cat.percent * data.afterFixedCats;
+      return {
+        name: cat.name,
+        spent:
+          (dailies
+            .filter((daily) => daily.categoryId === cat.id)
+            .reduce((acc, daily) => acc + daily.amount, 0) /
+            total) *
+          100,
+      };
+    }),
+    { name: 'Total', spent: (totalSpent / data.afterExpenses) * 100 },
+  ];
   clearChart();
   console.log(chartData);
   drawChart(300, 1000, chartData);
@@ -79,6 +82,7 @@ export default function MonthlySummary() {
           <h2>You've got no active expense categories! Go make some!</h2>
         )}
       </div>
+      <div id="month-chart" />
       <h1>PURCHASES</h1>
       {dailies.length ? (
         dailies
@@ -97,7 +101,6 @@ export default function MonthlySummary() {
         <h2>You have no purchases this month.</h2>
       )}
       <NewDailyForm categories={data.categories} />
-      <div id="month-chart" />
     </div>
   );
 }
