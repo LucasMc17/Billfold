@@ -5,12 +5,14 @@ import axios from 'axios';
  */
 const SET_DEDUCTS = 'SET_DEDUCTS';
 const DEL_DEDUCT = 'DEL_DEDUCT';
+const UPDATE_DEDUCT = 'UPDATE_DEDUCT';
 
 /**
  * ACTION CREATORS
  */
 const setDeducts = (deducts) => ({ type: SET_DEDUCTS, deducts });
 const delDeduct = (id) => ({ type: DEL_DEDUCT, id });
+const updateDeduct = (deduct) => ({ type: UPDATE_DEDUCT, deduct });
 
 /**
  * THUNK CREATORS
@@ -39,6 +41,16 @@ export const deleteDeduct = (de) => {
   };
 };
 
+export const patchDeduct = (de) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(`/api/yearly-deductions/${de.id}`, de, {
+      headers: { authorization: token },
+    });
+    dispatch(updateDeduct(data));
+  };
+};
+
 /**
  * REDUCER
  */
@@ -48,6 +60,14 @@ export default function yearlyDeductions(state = [], action) {
       return action.deducts;
     case DEL_DEDUCT:
       return state.filter((de) => de.id !== action.id);
+    case UPDATE_DEDUCT:
+      return state.map((de) => {
+        if (de.id === action.deduct.id) {
+          return action.deduct;
+        } else {
+          return de;
+        }
+      });
     default:
       return state;
   }

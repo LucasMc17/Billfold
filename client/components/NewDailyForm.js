@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { postDaily } from '../store';
-import useData from './custom_hooks/useData';
 
 export default function NewDailyForm(props) {
   const dispatch = useDispatch();
@@ -21,7 +20,6 @@ export default function NewDailyForm(props) {
   };
 
   function handleSubmit(evt) {
-    console.log(daily);
     evt.preventDefault();
     dispatch(postDaily(daily));
   }

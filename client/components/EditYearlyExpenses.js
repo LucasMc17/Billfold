@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { deleteDeduct, fetchDeducts } from '../store';
+import { Link } from 'react-router-dom';
 
 export default function EditYearlyExpenses() {
-  const income = useSelector(state => state.auth.income)
+  const income = useSelector((state) => state.auth.income);
   const dispatch = useDispatch();
   const deducts = useSelector((state) => state.yearlyDeductions);
   const { dollarFormat } = useFormatters();
@@ -29,6 +30,9 @@ export default function EditYearlyExpenses() {
               ? dollarFormat(de.percent * income)
               : dollarFormat(de.amount)}
           </p>
+          <Link to={`/edit/yearly-expenses/${de.id}`}>
+            <button type="button">Edit</button>
+          </Link>
           <button type="button" onClick={() => handleDelete(de)}>
             X
           </button>

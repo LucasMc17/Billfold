@@ -19,4 +19,12 @@ const YearlyDeduction = db.define('yearlyDeduction', {
   },
 });
 
+YearlyDeduction.beforeSave(async (yearlyDeduction) => {
+  if (yearlyDeduction.rule === 'FIXED') {
+    yearlyDeduction.percent = null;
+  } else {
+    yearlyDeduction.amount = null;
+  }
+});
+
 module.exports = YearlyDeduction;
