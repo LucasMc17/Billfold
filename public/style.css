@@ -31,6 +31,7 @@ form div {
   display: flex;
   width: 100%;
   background-color: #93e9be;
+  z-index: 1;
 }
 
 #nav path {
@@ -67,7 +68,8 @@ form div {
   width: 20%;
 }
 
-.dailyAmount, .dailyDate {
+.dailyAmount,
+.dailyDate {
   width: 10%;
 }
 

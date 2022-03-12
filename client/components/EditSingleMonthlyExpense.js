@@ -36,7 +36,13 @@ export default function EditSingleMonthlyExpense() {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    dispatch(patchExpense({ ...ex, percent: ex.percent / 100 }));
+    dispatch(
+      patchExpense({
+        ...ex,
+        percent: Number(ex.percent) / 100,
+        amount: Number(ex.amount),
+      })
+    );
     history.push('/edit/monthly-expenses');
   }
 
@@ -63,7 +69,7 @@ export default function EditSingleMonthlyExpense() {
               name="amount"
               onChange={handleChange}
               type="number"
-              value={ex.amount}
+              value={`${ex.amount}`}
             />
           </div>
         ) : (
@@ -75,7 +81,7 @@ export default function EditSingleMonthlyExpense() {
               min="1"
               onChange={handleChange}
               type="number"
-              value={ex.percent}
+              value={`${ex.percent}`}
             />
           </div>
         )}

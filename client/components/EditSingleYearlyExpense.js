@@ -36,7 +36,13 @@ export default function EditSingleYearlyExpense() {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    dispatch(patchDeduct({ ...de, percent: de.percent / 100 }));
+    dispatch(
+      patchDeduct({
+        ...de,
+        percent: Number(de.percent) / 100,
+        amount: Number(de.amount),
+      })
+    );
     history.push('/edit/yearly-expenses');
   }
 
@@ -63,7 +69,7 @@ export default function EditSingleYearlyExpense() {
               name="amount"
               onChange={handleChange}
               type="number"
-              value={de.amount}
+              value={`${de.amount}`}
             />
           </div>
         ) : (
@@ -75,7 +81,7 @@ export default function EditSingleYearlyExpense() {
               min="1"
               onChange={handleChange}
               type="number"
-              value={de.percent}
+              value={`${de.percent}`}
             />
           </div>
         )}
