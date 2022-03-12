@@ -89,12 +89,14 @@ export default function MonthlySummary() {
           .sort((a, b) => new Date(b.date) - new Date(a.date))
           .map((daily) => (
             <div className="daily" key={daily.id}>
-              <h3>{daily.name}</h3>
-              <p>{daily.category.name}</p>
-              <p>{dollarFormat(daily.amount)}</p>
-              <p>
-                {daily.month}/{daily.day}
-              </p>
+              <h3 className="dailyCat">{daily.category.name}</h3>
+              <div className="dailyContents">
+                <h3 className="dailyName">{daily.name}</h3>
+                <p className="dailyAmount">{dollarFormat(daily.amount)}</p>
+                <p className="dailyDate">
+                  {daily.month}/{daily.day}
+                </p>
+              </div>
             </div>
           ))
       ) : (
