@@ -10,7 +10,7 @@ import EditYearlyExpenses from './components/EditYearlyExpenses';
 import EditMonthlyExpenses from './components/EditMonthlyExpenses';
 import EditFixedCategories from './components/EditFixedCategories';
 import EditFlexibleCategories from './components/EditFlexibleCategories';
-import NewDailyForm from './components/NewDailyForm';
+import EditSingleYearlyExpense from './components/EditSingleYearlyExpense';
 import {
   fetchDeducts,
   fetchExpenses,
@@ -34,14 +34,19 @@ class Routes extends Component {
       <div id="page">
         {isLoggedIn ? (
           <Switch>
-            <Route path="/test/test" component={Home} />
+            <Route path="/test/test" component={EditSingleYearlyExpense} />
             <Route exact path="/home" component={Home} />
             <Route path="/year/:year/month/:month" component={MonthlySummary} />
             <Route path="/myinfo" component={MyInfo} />
             <Route path="/edit/basic-info" component={EditBasicInfo} />
             <Route
+              exact
               path="/edit/yearly-expenses"
               component={EditYearlyExpenses}
+            />
+            <Route
+              path="/edit/yearly-expenses/:id"
+              component={EditSingleYearlyExpense}
             />
             <Route
               path="/edit/monthly-expenses"
