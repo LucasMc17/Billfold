@@ -20,7 +20,7 @@ router.get('/', requireToken, async (req, res, next) => {
 
 router.get('/:id', requireToken, async (req, res, next) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
     const deduct = await YearlyDeduction.findByPk(id);
     res.json(deduct);
   } catch (err) {
@@ -44,6 +44,18 @@ router.put('/:id', requireToken, async (req, res, next) => {
     const { id } = req.params;
     const deduct = await YearlyDeduction.findByPk(id);
     await deduct.update(req.body);
+    res.json(deduct);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/', requireToken, async (req, res, next) => {
+  try {
+    const deduct = await YearlyDeduction.create({
+      ...req.body,
+      userId: req.user.id,
+    });
     res.json(deduct);
   } catch (err) {
     next(err);

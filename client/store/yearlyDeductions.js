@@ -6,6 +6,7 @@ import axios from 'axios';
 const SET_DEDUCTS = 'SET_DEDUCTS';
 const DEL_DEDUCT = 'DEL_DEDUCT';
 const UPDATE_DEDUCT = 'UPDATE_DEDUCT';
+const ADD_DEDUCT = 'ADD_DEDUCT';
 
 /**
  * ACTION CREATORS
@@ -13,6 +14,7 @@ const UPDATE_DEDUCT = 'UPDATE_DEDUCT';
 const setDeducts = (deducts) => ({ type: SET_DEDUCTS, deducts });
 const delDeduct = (id) => ({ type: DEL_DEDUCT, id });
 const updateDeduct = (deduct) => ({ type: UPDATE_DEDUCT, deduct });
+const addDeduct = (deduct) => ({ type: ADD_DEDUCT, deduct });
 
 /**
  * THUNK CREATORS
@@ -51,6 +53,16 @@ export const patchDeduct = (de) => {
   };
 };
 
+export const postDeduct = (de) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.post('/api/yearly-deductions', de, {
+      headers: { authorization: token },
+    });
+    dispatch(addDeduct(data));
+  };
+};
+
 /**
  * REDUCER
  */
@@ -68,6 +80,8 @@ export default function yearlyDeductions(state = [], action) {
           return de;
         }
       });
+    case ADD_DEDUCT:
+      return [...state, action.deduct];
     default:
       return state;
   }
