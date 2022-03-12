@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { postDeduct } from '../store';
+import { postExpense } from '../store';
 
-export default function NewYearlyForm(props) {
+export default function NewMonthlyForm(props) {
   const dispatch = useDispatch();
-  // const { categories } = props;
-  const [deduct, setDeduct] = useState({
+  const [expense, setExpense] = useState({
     name: '',
     rule: 'FIXED',
     amount: null,
@@ -13,8 +12,8 @@ export default function NewYearlyForm(props) {
   });
 
   const handleChange = (evt) => {
-    setDeduct({
-      ...deduct,
+    setExpense({
+      ...expense,
       [evt.target.name]: evt.target.value,
     });
   };
@@ -22,38 +21,38 @@ export default function NewYearlyForm(props) {
   function handleSubmit(evt) {
     evt.preventDefault();
     dispatch(
-      postDeduct({
-        ...deduct,
-        percent: Number(deduct.percent) / 100,
-        amount: Number(deduct.amount),
+      postExpense({
+        ...expense,
+        percent: Number(expense.percent) / 100,
+        amount: Number(expense.amount),
       })
     );
   }
 
   return (
-    <div className="form add-yearly-form">
-      <h1>Add a New Yearly Expense</h1>
+    <div className="form add-monthly-form">
+      <h1>Add a New Monthly Expense</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Description: </label>
         <input
           name="name"
           onChange={handleChange}
           type="text"
-          value={deduct.name}
+          value={expense.name}
         />
         <label htmlFor="rule">Dollar Amount or Percentage: </label>
-        <select name="rule" onChange={handleChange} value={deduct.rule}>
+        <select name="rule" onChange={handleChange} value={expense.rule}>
           <option value="FIXED">Dollar Amount</option>
           <option value="PERCENT">Percentage</option>
         </select>
-        {deduct.rule === 'FIXED' ? (
+        {expense.rule === 'FIXED' ? (
           <div>
             <label htmlFor="amount">Amount: </label>
             <input
               name="amount"
               onChange={handleChange}
               type="number"
-              value={`${deduct.amount}`}
+              value={`${expense.amount}`}
             />
           </div>
         ) : (
@@ -65,7 +64,7 @@ export default function NewYearlyForm(props) {
               min="1"
               onChange={handleChange}
               type="number"
-              value={`${deduct.percent}`}
+              value={`${expense.percent}`}
             />
           </div>
         )}
