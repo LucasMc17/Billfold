@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { deleteCategory, fetchCategories } from '../store';
+import { Link } from 'react-router-dom';
 
 export default function EditFixedCategories() {
   const dispatch = useDispatch();
@@ -26,6 +27,9 @@ export default function EditFixedCategories() {
           <p>
             I want to spend at most {dollarFormat(cat.amount)} a month on this.
           </p>
+          <Link to={`/edit/categories/${cat.id}`}>
+            <button type="button">Edit</button>
+          </Link>
           <button type="button" onClick={() => handleDelete(cat)}>
             X
           </button>

@@ -62,6 +62,14 @@ export default function monthlyExpenses(state = [], action) {
       return action.expenses;
     case DEL_EXPENSE:
       return state.filter((ex) => ex.id !== action.id);
+    case UPDATE_EXPENSE:
+      return state.map((ex) => {
+        if (ex.id === action.expense.id) {
+          return action.expense;
+        } else {
+          return ex;
+        }
+      });
     default:
       return state;
   }
