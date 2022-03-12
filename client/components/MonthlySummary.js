@@ -65,13 +65,15 @@ export default function MonthlySummary() {
       </h1>
       <h1>OVERVIEW</h1>
       <div id="summaries">
-        <div className="summary">
+        <div className="summary total">
           <h2>Total</h2>
-          <h3>BUDGET PER MONTH: {dollarFormat(data.afterExpenses)}</h3>
-          <p>
-            AMOUNT SPENT THIS MONTH: {dollarFormat(totalSpent)} /{' '}
+          <h3>BUDGET: {dollarFormat(data.afterExpenses)}</h3>
+          <h3 className={totalSpent > data.afterExpenses ? 'warning' : ''}>
+            SPENT: {dollarFormat(totalSpent)}
+          </h3>
+          <h3 className={totalSpent > data.afterExpenses ? 'warning' : ''}>
             {fixedDec((totalSpent / data.afterExpenses) * 100)}%
-          </p>
+          </h3>
         </div>
         {data.categories.length ? (
           data.categories.map((cat) => (
@@ -83,14 +85,14 @@ export default function MonthlySummary() {
           <h2>You've got no active expense categories! Go make some!</h2>
         )}
       </div>
-      <div id="month-chart" />
+      <div className='chart-container'>
+      <div className='chart' id="month-chart" />
+      </div>
       <h1>PURCHASES</h1>
       {dailies.length ? (
         dailies
           .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .map((daily) => (
-            <DailyExpense key={daily.id} daily={daily} />
-          ))
+          .map((daily) => <DailyExpense key={daily.id} daily={daily} />)
       ) : (
         <h2>You have no purchases this month.</h2>
       )}

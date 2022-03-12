@@ -99,8 +99,8 @@ export default function Home() {
           ))}
         {categories.length ? <NewDailyForm categories={categories} /> : <div />}
       </div>
-      <div id="chart-container">
-        <div id="home-chart"></div>
+      <div className="chart-container">
+        <div id="home-chart" className="chart"></div>
       </div>
     </div>
   );
