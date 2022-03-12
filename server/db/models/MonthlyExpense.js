@@ -19,4 +19,12 @@ const MonthlyExpense = db.define('monthlyExpense', {
   },
 });
 
+MonthlyExpense.beforeSave(async (monthlyExpense) => {
+  if (monthlyExpense.rule === 'FIXED') {
+    monthlyExpense.percent = null;
+  } else {
+    monthlyExpense.amount = null;
+  }
+});
+
 module.exports = MonthlyExpense;

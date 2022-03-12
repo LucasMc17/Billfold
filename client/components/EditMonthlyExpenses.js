@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { deleteExpense, fetchExpenses } from '../store';
+import { Link } from 'react-router-dom';
 
 export default function EditMonthlyExpenses() {
   const data = useData();
@@ -30,6 +31,9 @@ export default function EditMonthlyExpenses() {
               ? dollarFormat(ex.percent * monthlyNet)
               : dollarFormat(ex.amount)}
           </p>
+          <Link to={`/edit/monthly-expenses/${ex.id}`}>
+            <button type="button">Edit</button>
+          </Link>
           <button type="button" onClick={() => handleDelete(ex)}>
             X
           </button>

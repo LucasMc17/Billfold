@@ -5,12 +5,14 @@ import axios from 'axios';
  */
 const SET_EXPENSES = 'SET_EXPENSES';
 const DEL_EXPENSE = 'DEL_EXPENSE';
+const UPDATE_EXPENSE = 'UPDATE_EXPENSE';
 
 /**
  * ACTION CREATORS
  */
 const setExpenses = (expenses) => ({ type: SET_EXPENSES, expenses });
 const delExpense = (id) => ({ type: DEL_EXPENSE, id });
+const updateExpense = (expense) => ({ type: UPDATE_EXPENSE, expense });
 
 /**
  * THUNK CREATORS
@@ -36,6 +38,18 @@ export const deleteExpense = (ex) => {
       },
     });
     dispatch(delExpense(ex.id));
+  };
+};
+
+export const patchExpense = (ex) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(`/api/monthly-expenses/${ex.id}`, ex, {
+      headers: {
+        authorization: token,
+      },
+    });
+    dispatch(updateExpense(data));
   };
 };
 

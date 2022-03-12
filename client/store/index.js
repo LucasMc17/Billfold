@@ -8,6 +8,7 @@ import monthlyExpenses from './monthlyExpenses';
 import categories from './categories';
 import dailyExpenses from './DailyExpenses';
 import singleYearlyDeduction from './singleYearlyDeduction';
+import singleMonthlyExpense from './singleMonthlyExpense';
 
 const reducer = combineReducers({
   auth,
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   categories,
   dailyExpenses,
   singleYearlyDeduction,
+  singleMonthlyExpense,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
@@ -29,3 +31,4 @@ export * from './monthlyExpenses';
 export * from './categories';
 export * from './DailyExpenses';
 export * from './singleYearlyDeduction';
+export * from './singleMonthlyExpense';
