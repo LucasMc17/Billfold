@@ -49,3 +49,15 @@ router.put('/:id', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+router.post('/', requireToken, async (req, res, next) => {
+  try {
+    const expense = await MonthlyExpense.create({
+      ...req.body,
+      userId: req.user.id,
+    });
+    res.json(expense);
+  } catch (err) {
+    next(err);
+  }
+});

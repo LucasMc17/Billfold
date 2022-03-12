@@ -4,6 +4,7 @@ import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { deleteExpense, fetchExpenses } from '../store';
 import { Link } from 'react-router-dom';
+import NewMonthlyForm from './NewMonthlyForm';
 
 export default function EditMonthlyExpenses() {
   const data = useData();
@@ -39,6 +40,7 @@ export default function EditMonthlyExpenses() {
           </button>
         </div>
       ))}
+      <NewMonthlyForm />
     </div>
   );
 }
