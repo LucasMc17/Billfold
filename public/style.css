@@ -181,6 +181,20 @@ form div {
   padding: 20px;
   margin-top: 20px;
 }
+.form.add-daily-form {
+  width: 80%;
+  margin: auto;
+  display: flex;
+}
+
+.add-daily-form h1 {
+  margin: auto;
+  width: 35%;
+}
+.add-daily-form form {
+  margin: auto;
+  width: 50%;
+}
 
 .form.loginForm {
   animation: 3s ease-out 0s 1 fadeInAndRiseDelay;
