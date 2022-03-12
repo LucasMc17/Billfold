@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { deleteCategory, fetchCategories } from '../store';
+import { Link } from 'react-router-dom';
 
 export default function EditFlexibleCategories() {
   const data = useData();
-  const {afterFixedCats} = data;
+  const { afterFixedCats } = data;
   const dispatch = useDispatch();
   const categories = useSelector((state) =>
     state.categories.filter((cat) => cat.rule === 'PERCENT')
@@ -30,6 +31,9 @@ export default function EditFlexibleCategories() {
             this each month.
           </p>
           <p>That means about {dollarFormat(cat.percent * afterFixedCats)}.</p>
+          <Link to={`/edit/categories/${cat.id}`}>
+            <button type="button">Edit</button>
+          </Link>
           <button type="button" onClick={() => handleDelete(cat)}>
             X
           </button>

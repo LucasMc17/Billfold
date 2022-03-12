@@ -18,12 +18,33 @@ router.get('/', requireToken, async (req, res, next) => {
   }
 });
 
-router.delete('/:id', requireToken, async (req, res, next) => {
-  const { id } = req.params;
+router.get('/:id', requireToken, async (req, res, next) => {
   try {
+    const { id } = req.params;
+    const category = await Category.findByPk(id);
+    res.json(category);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/:id', requireToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
     const cat = await Category.findByPk(id);
     await cat.destroy();
     res.status(204).send(204);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/:id', requireToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const cat = await Category.findByPk(id);
+    await cat.update(req.body);
+    res.json(cat);
   } catch (err) {
     next(err);
   }
