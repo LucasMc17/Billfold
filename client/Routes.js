@@ -13,6 +13,7 @@ import EditFlexibleCategories from './components/EditFlexibleCategories';
 import EditSingleYearlyExpense from './components/EditSingleYearlyExpense';
 import EditSingleMonthlyExpense from './components/EditSingleMonthlyExpense';
 import EditSingleCategory from './components/EditSingleCategory';
+import AllMonths from './components/AllMonths';
 import {
   fetchDeducts,
   fetchExpenses,
@@ -37,6 +38,7 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/test/test" component={EditSingleYearlyExpense} />
+            <Route path="/all-months" component={AllMonths} />
             <Route exact path="/home" component={Home} />
             <Route path="/year/:year/month/:month" component={MonthlySummary} />
             <Route path="/myinfo" component={MyInfo} />

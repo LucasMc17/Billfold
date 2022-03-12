@@ -25,7 +25,7 @@ export default function NewDailyForm(props) {
   }
 
   return (
-    <div>
+    <div className="form add-daily-form">
       <h1>Log a New Purchase</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Description: </label>

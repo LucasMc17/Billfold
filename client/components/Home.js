@@ -82,6 +82,9 @@ export default function Home() {
       <Link to={`/year/${lastMonthYear}/month/${lastMonth}`}>
         <button type="button">Show Me Last Month</button>
       </Link>
+      <Link to={'/all-months'}>
+        <button type="button">Show Me All Months</button>
+      </Link>
       <div>
         <h2>{warning}</h2>
       </div>
