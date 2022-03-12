@@ -10,6 +10,8 @@ import {
   me,
 } from '../store';
 import { Link } from 'react-router-dom';
+import { drawChart, clearChart } from './PieChart';
+import { pie } from 'd3';
 
 export default function MyInfo() {
   const dispatch = useDispatch();
@@ -34,6 +36,22 @@ export default function MyInfo() {
     afterFixedCats,
     unfixedCats,
   } = data;
+
+  const pieSlices = {};
+  deducts.forEach((de) =>
+    de.amount
+      ? (pieSlices[de.name] = de.amount)
+      : (pieSlices[de.name] = de.percent * income)
+  );
+  expenses.forEach((ex) =>
+    ex.amount
+      ? (pieSlices[ex.name] = ex.amount * 12)
+      : (pieSlices[ex.name] = ex.percent * monthlyNet * 12)
+  );
+  fixedCats.forEach((cat) => (pieSlices[cat.name] = cat.amount * 12));
+  unfixedCats.forEach((cat) => (pieSlices[cat.name] = cat.percent * 100 * 12));
+  clearChart();
+  drawChart(pieSlices);
 
   return (
     <div>
@@ -106,6 +124,8 @@ export default function MyInfo() {
       <Link to="/edit/flexible-categories">
         <button type="button">Edit my Flexible Categories</button>
       </Link>
+      <h1>My spending:</h1>
+      <div id="pie-chart" />
     </div>
   );
 }
