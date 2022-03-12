@@ -12,6 +12,7 @@ import {
   fetchCategories,
   fetchDailies,
 } from '../store';
+import DailyExpense from './DailyExpense';
 
 const { dollarFormat } = useFormatters();
 
@@ -87,18 +88,11 @@ export default function Home() {
       <div>
         <h2>Recent purchases</h2>
         {dailies
-        .slice()
+          .slice()
           .sort((a, b) => b.date.split('T')[0] - a.date.split('T')[0])
           .slice(Math.max(dailies.length - 5, 0))
           .map((daily) => (
-            <div className="daily" key={daily.id}>
-              <h3>{daily.name}</h3>
-              <p>{daily.category.name}</p>
-              <p>{dollarFormat(daily.amount)}</p>
-              <p>
-                {daily.month}/{daily.day}
-              </p>
-            </div>
+            <DailyExpense daily={daily} />
           ))}
         {categories.length ? <NewDailyForm categories={categories} /> : <div />}
       </div>

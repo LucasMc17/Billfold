@@ -7,6 +7,7 @@ import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import { drawChart, clearChart } from './MonthChart';
 import { fetchCategories, fetchDailies } from '../store';
+import DailyExpense from './DailyExpense';
 
 const monthTable = {
   1: 'January',
@@ -88,16 +89,7 @@ export default function MonthlySummary() {
         dailies
           .sort((a, b) => new Date(b.date) - new Date(a.date))
           .map((daily) => (
-            <div className="daily" key={daily.id}>
-              <h3 className="dailyCat">{daily.category.name}</h3>
-              <div className="dailyContents">
-                <h3 className="dailyName">{daily.name}</h3>
-                <p className="dailyAmount">{dollarFormat(daily.amount)}</p>
-                <p className="dailyDate">
-                  {daily.month}/{daily.day}
-                </p>
-              </div>
-            </div>
+            <DailyExpense daily={daily} />
           ))
       ) : (
         <h2>You have no purchases this month.</h2>
