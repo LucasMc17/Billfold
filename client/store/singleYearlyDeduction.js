@@ -28,7 +28,7 @@ export const fetchDeduct = (id) => {
 /**
  * REDUCER
  */
-export default function yearlyDeductions(state = {}, action) {
+export default function singleYearlyDeduction(state = {}, action) {
   switch (action.type) {
     case SET_DEDUCT:
       return action.deduct;

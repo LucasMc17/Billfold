@@ -19,4 +19,12 @@ const Category = db.define('category', {
   },
 });
 
+Category.beforeSave(async (category) => {
+  if (category.rule === 'FIXED') {
+    category.percent = null;
+  } else {
+    category.amount = null;
+  }
+});
+
 module.exports = Category;
