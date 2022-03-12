@@ -4,6 +4,7 @@ import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { deleteDeduct, fetchDeducts } from '../store';
 import { Link } from 'react-router-dom';
+import NewYearlyForm from './NewYearlyForm';
 
 export default function EditYearlyExpenses() {
   const income = useSelector((state) => state.auth.income);
@@ -38,6 +39,7 @@ export default function EditYearlyExpenses() {
           </button>
         </div>
       ))}
+      <NewYearlyForm />
     </div>
   );
 }
