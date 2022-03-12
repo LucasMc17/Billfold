@@ -46,9 +46,7 @@ export function drawChart(data) {
     .enter()
     .append('path')
     .attr('d', arcGenerator)
-    // .attr('fill', function (d) {
-    //   return color(d.data.key);
-    // })
+    .attr('fill', '#93e9be')
     .attr('stroke', 'black')
     .style('stroke-width', '2px')
     .style('opacity', 0.7);

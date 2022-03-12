@@ -87,9 +87,8 @@ export default function Home() {
       <div>
         <h2>Recent purchases</h2>
         {dailies
-          .sort(function (a, b) {
-            return new Date(a.date) - new Date(b.date);
-          })
+        .slice()
+          .sort((a, b) => b.date.split('T')[0] - a.date.split('T')[0])
           .slice(Math.max(dailies.length - 5, 0))
           .map((daily) => (
             <div className="daily" key={daily.id}>
