@@ -21,7 +21,13 @@ form div {
   display: inline-block;
 }
 
+#page {
+  margin-top: 100px;
+}
+
 #nav {
+  position: fixed;
+  top: 0;
   display: flex;
   width: 100%;
   background-color: #93e9be;
@@ -70,4 +76,93 @@ form div {
 
 #home-chart svg {
   margin: 10px auto 10px auto;
+}
+
+@keyframes fadeInAndRiseScootLeft {
+  0% {
+    opacity: 0%;
+    transform: translate(80%, 10%);
+  }
+  33% {
+    opacity: 100%;
+    transform: translate(80%, 0%);
+  }
+  66% {
+    transform: translate(80%, 0%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0%;
+  }
+  66% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+
+@keyframes fadeInAndRiseDelay {
+  0% {
+    opacity: 0%;
+    transform: translate(0%, 10%);
+  }
+  66% {
+    opacity: 0%;
+    transform: translate(0%, 10%);
+  }
+  100% {
+    opacity: 100%;
+    transform: translate(0%, 0%);
+  }
+}
+
+#logo-container {
+  margin-top: 30%;
+  display: flex;
+  transition: opacity 500ms;
+}
+
+#logo-container svg {
+  animation: 2s ease-out 0s 1 fadeInAndRiseScootLeft;
+}
+
+#logo-container h1 {
+  display: flex;
+  color: #93e9be;
+  margin: 100px 0px auto -10px;
+  font-size: 60px;
+  animation: 2s ease-out 0s 1 fadeIn;
+}
+
+#login {
+  width: 40%;
+  margin: 25px auto 25px auto;
+}
+
+.form {
+  background-color: #93e9be;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.form.loginForm {
+  animation: 3s ease-out 0s 1 fadeInAndRiseDelay;
+  color: white;
+}
+
+button {
+  background-color: white;
+  border-radius: 10px;
+  transition: 0.4s;
+}
+
+button:hover {
+  box-shadow: 10px 5px 5px gray;
 }

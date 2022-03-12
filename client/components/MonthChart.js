@@ -29,7 +29,7 @@ export function drawChart(height, width, data) {
     .append('g')
     .attr('fill', '#93E9BE')
     .selectAll('rect')
-    .data(data)
+    .data(data.sort((a, b) => d3.ascending(a.spent, b.spent)))
     .join('rect')
     .attr('x', (d, i) => x(i))
     .attr('y', (d) => y(d.spent))

@@ -124,8 +124,14 @@ export default function MyInfo() {
       <Link to="/edit/flexible-categories">
         <button type="button">Edit my Flexible Categories</button>
       </Link>
-      <h1>My spending:</h1>
-      <div id="pie-chart" />
+      {[...Object.keys(pieSlices)].length ? (
+        <div>
+          <h1>My spending:</h1>
+          <div id="pie-chart" />
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 }
