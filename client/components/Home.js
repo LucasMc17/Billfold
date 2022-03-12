@@ -92,7 +92,7 @@ export default function Home() {
           .sort((a, b) => b.date.split('T')[0] - a.date.split('T')[0])
           .slice(Math.max(dailies.length - 5, 0))
           .map((daily) => (
-            <DailyExpense daily={daily} />
+            <DailyExpense key={daily.id} daily={daily} />
           ))}
         {categories.length ? <NewDailyForm categories={categories} /> : <div />}
       </div>

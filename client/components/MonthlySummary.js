@@ -89,7 +89,7 @@ export default function MonthlySummary() {
         dailies
           .sort((a, b) => new Date(b.date) - new Date(a.date))
           .map((daily) => (
-            <DailyExpense daily={daily} />
+            <DailyExpense key={daily.id} daily={daily} />
           ))
       ) : (
         <h2>You have no purchases this month.</h2>

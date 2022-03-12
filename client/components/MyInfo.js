@@ -36,7 +36,6 @@ export default function MyInfo() {
     afterFixedCats,
     unfixedCats,
   } = data;
-
   const pieSlices = {};
   deducts.forEach((de) =>
     de.amount
