@@ -45,3 +45,14 @@ router.post('/', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+router.delete('/:id', requireToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const daily = await DailyExpense.findByPk(id);
+    await daily.destroy();
+    res.status(204).send(204);
+  } catch (err) {
+    next(err);
+  }
+});
