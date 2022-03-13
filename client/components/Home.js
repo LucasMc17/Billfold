@@ -52,7 +52,6 @@ export default function Home() {
     });
   }
   clearChart();
-  console.log(chartData);
   drawChart(300, 1000, chartData, afterExpenses);
   let lastMonthYear, lastMonth;
   if (month === 1) {

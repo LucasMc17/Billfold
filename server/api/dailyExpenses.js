@@ -70,7 +70,6 @@ router.delete('/:id', requireToken, async (req, res, next) => {
 router.put('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const daily = await DailyExpense.findByPk(id);
     const category = await Category.findByPk(req.body.categoryId);
     await daily.update(req.body);

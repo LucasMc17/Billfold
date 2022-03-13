@@ -8,7 +8,6 @@ const { requireToken } = require('./requireToken');
 router.put('/', requireToken, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id);
-    console.log(user)
     await user.update({ ...req.body });
     res.json(user);
   } catch (err) {
