@@ -26,7 +26,7 @@ export default function DailyExpense(props) {
       <button className="del" onClick={() => handleDelete(daily)}>
         X
       </button>
-      <Link to={`/edit/daily-expense/${daily.id}`}>
+      <Link to={`/edit/daily-expenses/${daily.id}`}>
         <button className="edit">Edit</button>
       </Link>
     </div>
