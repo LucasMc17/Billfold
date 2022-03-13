@@ -4,6 +4,7 @@ import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { deleteCategory, fetchCategories } from '../store';
 import { Link } from 'react-router-dom';
+import NewCategoryForm from './NewCategoryForm';
 
 export default function EditFlexibleCategories() {
   const data = useData();
@@ -39,6 +40,7 @@ export default function EditFlexibleCategories() {
           </button>
         </div>
       ))}
+      <NewCategoryForm />
     </div>
   );
 }
