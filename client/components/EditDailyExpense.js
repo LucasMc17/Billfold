@@ -13,7 +13,7 @@ export default function EditDailyExpense() {
   const [daily, setDaily] = useState({
     name: '',
     amount: 0,
-    category: '',
+    categoryId: 0,
   });
 
   useEffect(() => {
@@ -64,17 +64,17 @@ export default function EditDailyExpense() {
           type="text"
           value={daily.amount}
         />
-        <label htmlFor="category">Category: </label>
+        <label htmlFor="categoryId">Category: </label>
         <select
-          defaultValue={daily.category}
-          name="category"
+          defaultValue={daily.categoryId}
+          name="categoryId"
           onChange={handleChange}
         >
           {categories.map((cat) => (
             <option
-              selected={daily.category === cat.name ? 'selected' : ''}
+              selected={daily.categoryId === cat.id ? 'selected' : ''}
               key={cat.id}
-              value={cat.name}
+              value={cat.id}
             >
               {cat.name}
             </option>
