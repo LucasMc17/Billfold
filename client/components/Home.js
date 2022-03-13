@@ -37,17 +37,9 @@ export default function Home() {
     setView(Number(evt.target.value));
   }
 
-  function getChartData(num) {
+  function getChartData(num, searchYear, searchMonth) {
     let result = [];
     for (let i = 0; i < num; i++) {
-      let searchYear = year;
-      let searchMonth = month;
-      if (month - i < 1) {
-        searchMonth = 12 + month - i;
-        searchYear = year - 1;
-      } else {
-        searchMonth = month - i;
-      }
       result.push({
         year: searchYear,
         month: searchMonth,
@@ -57,12 +49,17 @@ export default function Home() {
           )
           .reduce((acc, daily) => acc + daily.amount, 0),
       });
+      searchMonth--;
+      if (searchMonth === 0) {
+        searchMonth = 12;
+        searchYear--;
+      }
     }
     return result;
   }
 
   clearChart();
-  drawChart(300, 1000, getChartData(view), afterExpenses);
+  drawChart(300, 1000, getChartData(view, year, month), afterExpenses);
   let lastMonthYear, lastMonth;
   if (month === 1) {
     lastMonthYear = year - 1;
