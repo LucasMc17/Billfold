@@ -14,6 +14,7 @@ import EditSingleYearlyExpense from './components/EditSingleYearlyExpense';
 import EditSingleMonthlyExpense from './components/EditSingleMonthlyExpense';
 import EditSingleCategory from './components/EditSingleCategory';
 import AllMonths from './components/AllMonths';
+import EditDailyExpense from './components/EditDailyExpense';
 import {
   fetchDeducts,
   fetchExpenses,
@@ -70,6 +71,7 @@ class Routes extends Component {
               component={EditFlexibleCategories}
             />
             <Route path="/edit/categories/:id" component={EditSingleCategory} />
+            <Route path="/edit/daily-expenses/:id" component={EditDailyExpense} />
             <Redirect to="/home" />
           </Switch>
         ) : (

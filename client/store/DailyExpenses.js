@@ -6,6 +6,7 @@ import axios from 'axios';
 const SET_DAILIES = 'SET_DAILIES';
 const ADD_DAILY = 'ADD_DAILY';
 const DEL_DAILY = 'DEL_DAILY';
+const UPDATE_DAILY = 'UPDATE_DAILY';
 
 /**
  * ACTION CREATORS
@@ -13,6 +14,7 @@ const DEL_DAILY = 'DEL_DAILY';
 const setDailies = (dailies) => ({ type: SET_DAILIES, dailies });
 const addDaily = (daily) => ({ type: ADD_DAILY, daily });
 const delDaily = (daily) => ({ type: DEL_DAILY, daily });
+const updateDaily = (daily) => ({ type: UPDATE_DAILY, daily });
 
 /**
  * THUNK CREATORS
@@ -53,6 +55,18 @@ export const deleteDaily = (daily) => {
   };
 };
 
+export const patchDaily = (daily) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(`/api/daily-expenses/${daily.id}`, daily, {
+      headers: {
+        authorization: token,
+      },
+    });
+    dispatch(updateDaily(data));
+  };
+};
+
 /**
  * REDUCER
  */
@@ -64,6 +78,14 @@ export default function dailyExpenses(state = [], action) {
       return [...state, action.daily];
     case DEL_DAILY:
       return state.filter((daily) => daily.id !== action.daily.id);
+    case UPDATE_DAILY:
+      return state.map((daily) => {
+        if (daily.id === action.daily.id) {
+          return action.daily;
+        } else {
+          return daily;
+        }
+      });
     default:
       return state;
   }
