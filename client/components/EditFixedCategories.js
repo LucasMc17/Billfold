@@ -36,7 +36,7 @@ export default function EditFixedCategories() {
           </button>
         </div>
       ))}
-      <NewCategoryForm />
+      <NewCategoryForm rule="FIXED" />
     </div>
   );
 }

@@ -92,7 +92,7 @@ export default function Home() {
         <h2>Recent purchases</h2>
         {dailies
           .slice()
-          .sort((a, b) => b.date.split('T')[0] - a.date.split('T')[0])
+          .sort((a, b) => new Date(a.date) - new Date(b.date))
           .slice(Math.max(dailies.length - 5, 0))
           .map((daily) => (
             <DailyExpense key={daily.id} daily={daily} />

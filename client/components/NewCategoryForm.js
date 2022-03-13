@@ -6,7 +6,7 @@ export default function NewCategoryForm(props) {
   const dispatch = useDispatch();
   const [category, setCategory] = useState({
     name: '',
-    rule: 'FIXED',
+    rule: props.rule,
     amount: null,
     percent: null,
   });
@@ -40,12 +40,7 @@ export default function NewCategoryForm(props) {
           type="text"
           value={category.name}
         />
-        <label htmlFor="rule">Dollar Amount or Percentage: </label>
-        <select name="rule" onChange={handleChange} value={category.rule}>
-          <option value="FIXED">Dollar Amount</option>
-          <option value="PERCENT">Percentage</option>
-        </select>
-        {category.rule === 'FIXED' ? (
+        {props.rule === 'FIXED' ? (
           <div>
             <label htmlFor="amount">Amount: </label>
             <input

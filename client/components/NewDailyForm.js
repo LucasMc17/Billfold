@@ -9,7 +9,7 @@ export default function NewDailyForm(props) {
     name: '',
     date: new Date().toISOString().split('T')[0],
     amount: 0,
-    category: categories[0].name,
+    category: categories.length ? categories[0].name : '',
   });
 
   const handleChange = (evt) => {
