@@ -48,8 +48,6 @@ export default function MyInfo() {
       : (pieSlices[ex.name] = ex.percent * monthlyNet * 12)
   );
   fixedCats.forEach((cat) => (pieSlices[cat.name] = cat.amount * 12));
-  console.log(fixedCats);
-  console.log(unfixedCats);
   unfixedCats.forEach((cat) => (pieSlices[cat.name] = cat.percent * afterFixedCats * 12));
   clearChart();
   drawChart(pieSlices);
