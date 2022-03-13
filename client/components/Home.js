@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import useData from './custom_hooks/useData';
@@ -23,6 +23,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories);
   const dailies = useSelector((state) => state.dailyExpenses);
+  const [view, setView] = useState(6);
   useEffect(() => {
     dispatch(fetchDeducts());
     dispatch(fetchExpenses());
@@ -31,28 +32,37 @@ export default function Home() {
   }, []);
   const { username, budgetGap, afterExpenses } = useData();
   const { month, year } = useToday();
-  let chartData = [];
-  for (let i = 0; i < 6; i++) {
-    let searchYear = year;
-    let searchMonth = month;
-    if (month - i < 1) {
-      searchMonth = 12 + month - i;
-      searchYear = year - 1;
-    } else {
-      searchMonth = month - i;
-    }
-    chartData.push({
-      year: searchYear,
-      month: searchMonth,
-      spent: dailies
-        .filter(
-          (daily) => daily.month === searchMonth && daily.year === searchYear
-        )
-        .reduce((acc, daily) => acc + daily.amount, 0),
-    });
+
+  function handleViewChange(evt) {
+    setView(Number(evt.target.value));
   }
+
+  function getChartData(num) {
+    let result = [];
+    for (let i = 0; i < num; i++) {
+      let searchYear = year;
+      let searchMonth = month;
+      if (month - i < 1) {
+        searchMonth = 12 + month - i;
+        searchYear = year - 1;
+      } else {
+        searchMonth = month - i;
+      }
+      result.push({
+        year: searchYear,
+        month: searchMonth,
+        spent: dailies
+          .filter(
+            (daily) => daily.month === searchMonth && daily.year === searchYear
+          )
+          .reduce((acc, daily) => acc + daily.amount, 0),
+      });
+    }
+    return result;
+  }
+
   clearChart();
-  drawChart(300, 1000, chartData, afterExpenses);
+  drawChart(300, 1000, getChartData(view), afterExpenses);
   let lastMonthYear, lastMonth;
   if (month === 1) {
     lastMonthYear = year - 1;
@@ -100,6 +110,13 @@ export default function Home() {
       </div>
       <div className="chart-container">
         <div id="home-chart" className="chart"></div>
+        <h3>Change chart range</h3>
+        <select defaultValue={'6'} onChange={handleViewChange}>
+          <option value="3">3</option>
+          <option value="6">6</option>
+          <option value="12">12</option>
+          <option value="18">18</option>
+        </select>
       </div>
     </div>
   );
