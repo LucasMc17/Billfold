@@ -49,3 +49,15 @@ router.put('/:id', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+router.post('/', requireToken, async (req, res, next) => {
+  try {
+    const category = await Category.create({
+      ...req.body,
+      userId: req.user.id,
+    });
+    res.json(category);
+  } catch (err) {
+    next(err);
+  }
+});

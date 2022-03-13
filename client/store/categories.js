@@ -6,6 +6,7 @@ import axios from 'axios';
 const SET_CATS = 'SET_CATS';
 const DEL_CAT = 'DEL_CAT';
 const UPDATE_CAT = 'UPDATE_CAT';
+const ADD_CAT = 'ADD_CAT';
 
 /**
  * ACTION CREATORS
@@ -13,6 +14,7 @@ const UPDATE_CAT = 'UPDATE_CAT';
 const setCategories = (cats) => ({ type: SET_CATS, cats });
 const delCategory = (id) => ({ type: DEL_CAT, id });
 const updateCategory = (category) => ({ type: UPDATE_CAT, category });
+const addCategory = (category) => ({ type: ADD_CAT, category });
 
 /**
  * THUNK CREATORS
@@ -51,6 +53,16 @@ export const patchCategory = (cat) => {
   };
 };
 
+export const postCategory = (cat) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.post('/api/categories', cat, {
+      headers: { authorization: token },
+    });
+    dispatch(addCategory(data));
+  };
+};
+
 /**
  * REDUCER
  */
@@ -68,6 +80,8 @@ export default function categories(state = [], action) {
           return cat;
         }
       });
+    case ADD_CAT:
+      return [...state, action.category];
     default:
       return state;
   }
