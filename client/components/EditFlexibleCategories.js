@@ -40,7 +40,7 @@ export default function EditFlexibleCategories() {
           </button>
         </div>
       ))}
-      <NewCategoryForm />
+      <NewCategoryForm rule="PERCENT" />
     </div>
   );
 }

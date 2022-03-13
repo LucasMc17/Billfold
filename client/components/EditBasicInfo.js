@@ -21,7 +21,7 @@ export default function EditBasicInfo() {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    dispatch(updateUser({ username, income }));
+    dispatch(updateUser({ username, income: Number(income) }));
     history.push('/myinfo');
   }
 

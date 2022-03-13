@@ -5,6 +5,16 @@ const {
   models: { User, YearlyDeduction, MonthlyExpense, Category, DailyExpense },
 } = require('../server/db');
 
+async function createExpense(user, category, name, amount, year, month, day) {
+  const thing = await DailyExpense.create({
+    name,
+    amount,
+    date: new Date(year, month, day),
+  });
+  await thing.setUser(user);
+  await thing.setCategory(category);
+}
+
 /**
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
@@ -45,6 +55,12 @@ async function seed() {
     rule: 'PERCENT',
     percent: 0.25,
   });
+  const fun = await Category.create({
+    name: 'fun',
+    rule: 'PERCENT',
+    percent: 0.75,
+  });
+  await fun.setUser(Cody);
   await food.setUser(Cody);
   const laundry = await Category.create({
     name: 'laundry',
@@ -73,6 +89,17 @@ async function seed() {
   });
   await burger.setUser(Cody);
   await burger.setCategory(food);
+  for (let i = 0; i < 100; i++) {
+    await createExpense(
+      Cody,
+      [food, fun, laundry][Math.floor(Math.random() * 3)],
+      i,
+      Math.random() * 100,
+      2021,
+      Math.floor(Math.random() * 12),
+      Math.floor(Math.random() * 28)
+    );
+  }
   console.log(`seeded successfully`);
 }
 

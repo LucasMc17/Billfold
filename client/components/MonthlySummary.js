@@ -56,7 +56,6 @@ export default function MonthlySummary() {
     { name: 'Total', spent: (totalSpent / data.afterExpenses) * 100 },
   ];
   clearChart();
-  console.log(chartData);
   drawChart(300, 1000, chartData);
   return (
     <div>
@@ -85,13 +84,16 @@ export default function MonthlySummary() {
           <h2>You've got no active expense categories! Go make some!</h2>
         )}
       </div>
-      <div className='chart-container'>
-      <div className='chart' id="month-chart" />
+      <div className="chart-container">
+        <div className="chart" id="month-chart" />
+      </div>
+      <div>
+        <div id="line-chart" />
       </div>
       <h1>PURCHASES</h1>
       {dailies.length ? (
         dailies
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .sort((a, b) => new Date(a.date) - new Date(b.date))
           .map((daily) => <DailyExpense key={daily.id} daily={daily} />)
       ) : (
         <h2>You have no purchases this month.</h2>
