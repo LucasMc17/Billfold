@@ -35,11 +35,14 @@ export default function AllMonths() {
     return result;
   }
   function createObjectFormat(dates) {
-    return dates.map((date) => ({
-      date: date,
-      month: Number(date.split('/')[0]),
-      year: Number(date.split('/')[1]),
-    }));
+    return dates
+      .map((date) => ({
+        date: date,
+        month: Number(date.split('/')[0]),
+        year: Number(date.split('/')[1]),
+      }))
+      .sort((a, b) => b.month - a.month)
+      .sort((a, b) => b.year - a.year);
   }
   const dateList = createObjectFormat(getUniqueMonths(dailies));
   return (

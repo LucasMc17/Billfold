@@ -95,18 +95,31 @@ form div {
   margin: 0px;
 }
 
+.daily button.del {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.daily button.edit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 #summaries {
   display: flex;
   width: 90%;
   margin: 10px auto 10px auto;
   border: 5px solid #93e9be;
   padding: 10px;
-  gap: 5px;
+  gap: 2%;
   border-radius: 15px;
+  flex-wrap: wrap;
 }
 
 .summary {
-  flex: 1 1 25%;
+  flex: 0 0 22%;
   background-image: linear-gradient(to bottom, white, rgb(214, 214, 214));
   border-radius: 15px;
   border: 5px solid #93e9be;
@@ -135,6 +148,10 @@ form div {
 
 .chart svg {
   margin: 10px auto 10px auto;
+}
+
+.chart svg rect:hover {
+  color: #73b694;
 }
 
 @keyframes fadeInAndRiseScootLeft {
