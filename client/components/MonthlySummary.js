@@ -40,23 +40,36 @@ export default function MonthlySummary() {
   );
   const totalSpent = dailies.reduce((acc, daily) => acc + daily.amount, 0);
   const categories = useSelector((state) => state.categories);
-  let chartData = [
-    ...categories.map((cat) => {
-      const total = cat.amount ? cat.amount : cat.percent * data.afterFixedCats;
-      return {
-        name: cat.name,
-        spent:
-          (dailies
-            .filter((daily) => daily.categoryId === cat.id)
-            .reduce((acc, daily) => acc + daily.amount, 0) /
-            total) *
-          100,
-      };
-    }),
-    { name: 'Total', spent: (totalSpent / data.afterExpenses) * 100 },
-  ];
+
+  function getChartData() {
+    const result = [
+      ...categories.map((cat) => {
+        const total = cat.amount
+          ? cat.amount
+          : cat.percent * data.afterFixedCats;
+        return {
+          name: cat.name,
+          spent:
+            (dailies
+              .filter((daily) => daily.categoryId === cat.id)
+              .reduce((acc, daily) => acc + daily.amount, 0) /
+              total) *
+            100,
+        };
+      }),
+      { name: 'Total', spent: (totalSpent / data.afterExpenses) * 100 },
+    ];
+    const highestPoint = result.reduce((curr, item) => {
+      return curr > item.spent ? curr : item.spent;
+    }, 0);
+    return [result, highestPoint];
+  }
+
+  const chartData = getChartData();
+
   clearChart();
-  drawChart(300, 1000, chartData);
+  console.log(chartData[0]);
+  drawChart(300, 1000, chartData[0], Math.max(chartData[1] * 1.1, 110));
   return (
     <div>
       <h1>

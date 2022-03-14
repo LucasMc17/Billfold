@@ -4,7 +4,7 @@ export function clearChart() {
   const chart = d3.select('#month-chart > *').remove();
 }
 
-export function drawChart(height, width, data) {
+export function drawChart(height, width, data, highestPoint) {
   const margin = { top: 50, bottom: 50, left: 50, right: 50 };
   const chart = d3
     .select('#month-chart')
@@ -23,7 +23,7 @@ export function drawChart(height, width, data) {
 
   const y = d3
     .scaleLinear()
-    .domain([0, 200])
+    .domain([0, highestPoint])
     .range([height - margin.bottom, margin.top]);
   chart
     .append('g')
@@ -46,8 +46,6 @@ export function drawChart(height, width, data) {
       .call(d3.axisLeft(y).ticks(null, data.format))
       .attr('font-size', '20px');
   }
-
-  var lineEnd = 270;
 
   var line = chart
     .append('line')
