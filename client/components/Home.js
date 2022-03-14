@@ -55,11 +55,23 @@ export default function Home() {
         searchYear--;
       }
     }
-    return result;
+    const highestPoint = result.reduce(
+      (curr, item) => (curr > item.spent ? curr : item.spent),
+      0
+    );
+    return [result, highestPoint];
   }
 
+  const chartData = getChartData(view, year, month);
+
   clearChart();
-  drawChart(300, 1000, getChartData(view, year, month), afterExpenses);
+  drawChart(
+    300,
+    1000,
+    chartData[0],
+    Math.max(chartData[1] * 1.1, afterExpenses * 1.1),
+    afterExpenses
+  );
   let lastMonthYear, lastMonth;
   if (month === 1) {
     lastMonthYear = year - 1;

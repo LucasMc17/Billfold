@@ -18,7 +18,7 @@ const monthTable = {
   12: 'Dec',
 };
 
-export function drawChart(height, width, data, budget) {
+export function drawChart(height, width, data, highestPoint, budget) {
   const margin = { top: 50, bottom: 50, left: 50, right: 50 };
   const chart = d3
     .select('#home-chart')
@@ -37,7 +37,7 @@ export function drawChart(height, width, data, budget) {
 
   const y = d3
     .scaleLinear()
-    .domain([0, budget * 2])
+    .domain([0, highestPoint])
     .range([height - margin.bottom, margin.top]);
   chart
     .append('g')
