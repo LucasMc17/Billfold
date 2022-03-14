@@ -125,8 +125,8 @@ form div {
   margin-top: 10px;
 }
 
-rect:hover,
-path:hover {
+.chart rect:hover,
+.chart path:hover {
   fill: aqua;
 }
 
