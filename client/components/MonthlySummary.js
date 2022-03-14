@@ -68,7 +68,6 @@ export default function MonthlySummary() {
   const chartData = getChartData();
 
   clearChart();
-  console.log(chartData[0]);
   drawChart(300, 1000, chartData[0], Math.max(chartData[1] * 1.1, 110));
   return (
     <div>

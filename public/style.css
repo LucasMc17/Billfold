@@ -107,6 +107,29 @@ form div {
   right: 0;
 }
 
+.user-story {
+  background-color: #93e9be;
+}
+
+.user-items {
+  display: flex;
+  gap: 10px;
+}
+
+.user-items div {
+  flex: 0 0 20%;
+  background-color: #93e9be;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+rect:hover,
+path:hover {
+  fill: aqua;
+}
+
 #summaries {
   display: flex;
   width: 90%;

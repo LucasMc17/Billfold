@@ -22,23 +22,25 @@ export default function EditYearlyExpenses() {
 
   return (
     <div>
-      {deducts.map((de) => (
-        <div key={de.id}>
-          <h3>{de.name}</h3>
-          <p>{de.percent ? `${de.percent * 100}% of my earnings` : ''}</p>
-          <p>
-            {de.percent
-              ? dollarFormat(de.percent * income)
-              : dollarFormat(de.amount)}
-          </p>
-          <Link to={`/edit/yearly-expenses/${de.id}`}>
-            <button type="button">Edit</button>
-          </Link>
-          <button type="button" onClick={() => handleDelete(de)}>
-            X
-          </button>
-        </div>
-      ))}
+      <div className="user-items">
+        {deducts.map((de) => (
+          <div key={de.id}>
+            <h3>{de.name}</h3>
+            <p>{de.percent ? `${de.percent * 100}% of my earnings` : ''}</p>
+            <p>
+              {de.percent
+                ? dollarFormat(de.percent * income)
+                : dollarFormat(de.amount)}
+            </p>
+            <Link to={`/edit/yearly-expenses/${de.id}`}>
+              <button type="button">Edit</button>
+            </Link>
+            <button type="button" onClick={() => handleDelete(de)}>
+              X
+            </button>
+          </div>
+        ))}
+      </div>
       <NewYearlyForm />
     </div>
   );

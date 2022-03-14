@@ -24,22 +24,26 @@ export default function EditFlexibleCategories() {
   };
   return (
     <div>
-      {categories.map((cat) => (
-        <div key={cat.id}>
-          <h3>{cat.name}</h3>
-          <p>
-            I aim to spend around {cat.percent * 100}% of my remaining money on
-            this each month.
-          </p>
-          <p>That means about {dollarFormat(cat.percent * afterFixedCats)}.</p>
-          <Link to={`/edit/categories/${cat.id}`}>
-            <button type="button">Edit</button>
-          </Link>
-          <button type="button" onClick={() => handleDelete(cat)}>
-            X
-          </button>
-        </div>
-      ))}
+      <div className="user-items">
+        {categories.map((cat) => (
+          <div key={cat.id}>
+            <h3>{cat.name}</h3>
+            <p>
+              I aim to spend around {cat.percent * 100}% of my remaining money
+              on this each month.
+            </p>
+            <p>
+              That means about {dollarFormat(cat.percent * afterFixedCats)}.
+            </p>
+            <Link to={`/edit/categories/${cat.id}`}>
+              <button type="button">Edit</button>
+            </Link>
+            <button type="button" onClick={() => handleDelete(cat)}>
+              X
+            </button>
+          </div>
+        ))}
+      </div>
       <NewCategoryForm rule="PERCENT" />
     </div>
   );
