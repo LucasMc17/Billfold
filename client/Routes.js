@@ -38,7 +38,6 @@ class Routes extends Component {
       <div id="page">
         {isLoggedIn ? (
           <Switch>
-            <Route path="/test/test" component={EditSingleYearlyExpense} />
             <Route path="/all-months" component={AllMonths} />
             <Route exact path="/home" component={Home} />
             <Route path="/year/:year/month/:month" component={MonthlySummary} />

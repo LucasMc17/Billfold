@@ -22,20 +22,23 @@ export default function EditFixedCategories() {
   };
   return (
     <div>
-      {categories.map((cat) => (
-        <div key={cat.id}>
-          <h3>{cat.name}</h3>
-          <p>
-            I want to spend at most {dollarFormat(cat.amount)} a month on this.
-          </p>
-          <Link to={`/edit/categories/${cat.id}`}>
-            <button type="button">Edit</button>
-          </Link>
-          <button type="button" onClick={() => handleDelete(cat)}>
-            X
-          </button>
-        </div>
-      ))}
+      <div className="user-items">
+        {categories.map((cat) => (
+          <div key={cat.id}>
+            <h3>{cat.name}</h3>
+            <p>
+              I want to spend at most {dollarFormat(cat.amount)} a month on
+              this.
+            </p>
+            <Link to={`/edit/categories/${cat.id}`}>
+              <button type="button">Edit</button>
+            </Link>
+            <button type="button" onClick={() => handleDelete(cat)}>
+              X
+            </button>
+          </div>
+        ))}
+      </div>
       <NewCategoryForm rule="FIXED" />
     </div>
   );
