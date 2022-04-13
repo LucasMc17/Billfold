@@ -89,7 +89,7 @@ export default function MonthlySummary() {
         {data.categories.length ? (
           data.categories.map((cat) => (
             <div className="summary" key={cat.id}>
-              <CatSummary cat={cat} month={month} />
+              <CatSummary cat={cat} month={month} year={year}/>
             </div>
           ))
         ) : (

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import useData from './custom_hooks/useData';
-import useToday from './custom_hooks/useToday';
 import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import { drawChart, clearChart } from './HomeChart';
@@ -31,7 +30,9 @@ export default function Home() {
     dispatch(fetchDailies());
   }, []);
   const { username, budgetGap, afterExpenses } = useData();
-  const { month, year } = useToday();
+  const today = new Date();
+  const month = today.getMonth() + 1;
+  const year = today.getFullYear();
 
   function handleViewChange(evt) {
     setView(Number(evt.target.value));
