@@ -8,7 +8,9 @@ export default function CatSummary(props) {
   const { cat } = props;
   const dailies = data.dailies.filter(
     (daily) =>
-      daily.category.name === cat.name && daily.month === Number(props.month)
+      daily.category.name === cat.name &&
+      daily.month === Number(props.month) &&
+      daily.year === Number(props.year)
   );
 
   const budget = cat.amount ? cat.amount : cat.percent * data.afterFixedCats;
