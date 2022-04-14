@@ -18,7 +18,6 @@ export default function EditDailyExpense() {
 
   useEffect(() => {
     dispatch(fetchDaily(id));
-    dispatch(fetchCategories());
   }, []);
 
   useEffect(() => {

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
-import { deleteExpense, fetchExpenses } from '../store';
+import { deleteExpense } from '../store';
 import { Link } from 'react-router-dom';
 import NewMonthlyForm from './NewMonthlyForm';
 
@@ -12,10 +12,6 @@ export default function EditMonthlyExpenses() {
   const dispatch = useDispatch();
   const expenses = useSelector((state) => state.monthlyExpenses);
   const { dollarFormat } = useFormatters();
-
-  useEffect(() => {
-    dispatch(fetchExpenses());
-  }, []);
 
   const handleDelete = (ex) => {
     dispatch(deleteExpense(ex));

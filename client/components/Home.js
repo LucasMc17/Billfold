@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import { drawChart, clearChart } from './HomeChart';
-import {
-  fetchDeducts,
-  fetchExpenses,
-  fetchCategories,
-  fetchDailies,
-} from '../store';
 import DailyExpense from './DailyExpense';
 
 const { dollarFormat } = useFormatters();
@@ -19,16 +13,9 @@ const { dollarFormat } = useFormatters();
  * COMPONENT
  */
 export default function Home() {
-  const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories);
   const dailies = useSelector((state) => state.dailyExpenses);
   const [view, setView] = useState(6);
-  useEffect(() => {
-    dispatch(fetchDeducts());
-    dispatch(fetchExpenses());
-    dispatch(fetchCategories());
-    dispatch(fetchDailies());
-  }, []);
   const { username, budgetGap, afterExpenses } = useData();
   const today = new Date();
   const month = today.getMonth() + 1;
@@ -63,16 +50,19 @@ export default function Home() {
     return [result, highestPoint];
   }
 
-  const chartData = getChartData(view, year, month);
+  useEffect(() => {
+    const chartData = getChartData(view, year, month);
 
-  clearChart();
-  drawChart(
-    300,
-    1000,
-    chartData[0],
-    Math.max(chartData[1] * 1.1, afterExpenses * 1.1),
-    afterExpenses
-  );
+    clearChart();
+    drawChart(
+      300,
+      1000,
+      chartData[0],
+      Math.max(chartData[1] * 1.1, afterExpenses * 1.1),
+      afterExpenses
+    );
+  }, [categories, dailies]);
+
   let lastMonthYear, lastMonth;
   if (month === 1) {
     lastMonthYear = year - 1;

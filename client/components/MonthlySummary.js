@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CatSummary from './CatSummary';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import { drawChart, clearChart } from './MonthChart';
-import { fetchCategories, fetchDailies } from '../store';
 import DailyExpense from './DailyExpense';
 
 const monthTable = {
@@ -25,13 +24,8 @@ const monthTable = {
 };
 
 export default function MonthlySummary() {
-  useEffect(() => {
-    dispatch(fetchCategories());
-    dispatch(fetchDailies());
-  }, []);
   const { dollarFormat, fixedDec } = useFormatters();
   const data = useData();
-  const dispatch = useDispatch();
   const { year, month } = useParams();
   const dailies = useSelector((state) =>
     state.dailyExpenses.filter(
@@ -64,11 +58,12 @@ export default function MonthlySummary() {
     }, 0);
     return [result, highestPoint];
   }
+  useEffect(() => {
+    const chartData = getChartData();
+    clearChart();
+    drawChart(300, 1000, chartData[0], Math.max(chartData[1] * 1.1, 110));
+  }, [categories, dailies]);
 
-  const chartData = getChartData();
-
-  clearChart();
-  drawChart(300, 1000, chartData[0], Math.max(chartData[1] * 1.1, 110));
   return (
     <div>
       <h1>
@@ -89,7 +84,7 @@ export default function MonthlySummary() {
         {data.categories.length ? (
           data.categories.map((cat) => (
             <div className="summary" key={cat.id}>
-              <CatSummary cat={cat} month={month} year={year}/>
+              <CatSummary cat={cat} month={month} year={year} />
             </div>
           ))
         ) : (
