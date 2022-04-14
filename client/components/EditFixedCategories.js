@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
-import { deleteCategory, fetchCategories } from '../store';
+import { deleteCategory } from '../store';
 import { Link } from 'react-router-dom';
 import NewCategoryForm from './NewCategoryForm';
 
@@ -12,10 +11,6 @@ export default function EditFixedCategories() {
     state.categories.filter((cat) => cat.rule === 'FIXED')
   );
   const { dollarFormat } = useFormatters();
-
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, []);
 
   const handleDelete = (cat) => {
     dispatch(deleteCategory(cat));

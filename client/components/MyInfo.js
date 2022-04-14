@@ -1,27 +1,11 @@
 import React, { useEffect } from 'react';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
-import { useDispatch } from 'react-redux';
-import {
-  fetchDailies,
-  fetchExpenses,
-  fetchDeducts,
-  fetchCategories,
-  me,
-} from '../store';
 import { Link } from 'react-router-dom';
 import { drawChart, clearChart } from './PieChart';
 
 export default function MyInfo() {
-  const dispatch = useDispatch();
   const { dollarFormat } = useFormatters();
-  useEffect(() => {
-    dispatch(me());
-    dispatch(fetchExpenses());
-    dispatch(fetchDeducts());
-    dispatch(fetchCategories());
-    dispatch(fetchDailies());
-  }, []);
   const data = useData();
   const {
     username,
@@ -35,23 +19,26 @@ export default function MyInfo() {
     afterFixedCats,
     unfixedCats,
   } = data;
+
   const pieSlices = {};
-  deducts.forEach((de) =>
-    de.amount
-      ? (pieSlices[de.name] = de.amount)
-      : (pieSlices[de.name] = de.percent * income)
-  );
-  expenses.forEach((ex) =>
-    ex.amount
-      ? (pieSlices[ex.name] = ex.amount * 12)
-      : (pieSlices[ex.name] = ex.percent * monthlyNet * 12)
-  );
-  fixedCats.forEach((cat) => (pieSlices[cat.name] = cat.amount * 12));
-  unfixedCats.forEach(
-    (cat) => (pieSlices[cat.name] = cat.percent * afterFixedCats * 12)
-  );
-  clearChart();
-  drawChart(pieSlices);
+  useEffect(() => {
+    deducts.forEach((de) =>
+      de.amount
+        ? (pieSlices[de.name] = de.amount)
+        : (pieSlices[de.name] = de.percent * income)
+    );
+    expenses.forEach((ex) =>
+      ex.amount
+        ? (pieSlices[ex.name] = ex.amount * 12)
+        : (pieSlices[ex.name] = ex.percent * monthlyNet * 12)
+    );
+    fixedCats.forEach((cat) => (pieSlices[cat.name] = cat.amount * 12));
+    unfixedCats.forEach(
+      (cat) => (pieSlices[cat.name] = cat.percent * afterFixedCats * 12)
+    );
+    clearChart();
+    drawChart(pieSlices);
+  }, []);
 
   return (
     <div>
@@ -161,14 +148,10 @@ export default function MyInfo() {
       <Link to="/edit/flexible-categories">
         <button type="button">Edit my Flexible Categories</button>
       </Link>
-      {[...Object.keys(pieSlices)].length ? (
-        <div className="chart-container">
-          <h1>My spending:</h1>
-          <div id="pie-chart" className="chart" />
-        </div>
-      ) : (
-        ''
-      )}
+      <div className="chart-container">
+        <h1>My spending:</h1>
+        <div id="pie-chart" className="chart" />
+      </div>
     </div>
   );
 }

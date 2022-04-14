@@ -12,10 +12,6 @@ export default function EditYearlyExpenses() {
   const deducts = useSelector((state) => state.yearlyDeductions);
   const { dollarFormat } = useFormatters();
 
-  useEffect(() => {
-    dispatch(fetchDeducts());
-  }, []);
-
   const handleDelete = (de) => {
     dispatch(deleteDeduct(de));
   };

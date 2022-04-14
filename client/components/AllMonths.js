@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchDailies } from '../store';
 
 const monthTable = {
   1: 'January',
@@ -19,10 +18,6 @@ const monthTable = {
 };
 
 export default function AllMonths() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchDailies());
-  }, []);
   const dailies = useSelector((state) => state.dailyExpenses);
   function getUniqueMonths(exps) {
     const result = [];
