@@ -61,7 +61,7 @@ export default function Home() {
       Math.max(chartData[1] * 1.1, afterExpenses * 1.1),
       afterExpenses
     );
-  }, [categories, dailies]);
+  }, [categories, dailies, view]);
 
   let lastMonthYear, lastMonth;
   if (month === 1) {
