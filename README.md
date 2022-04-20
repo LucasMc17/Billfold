@@ -1,14 +1,16 @@
 # Billfold
 
+## NOTE: to quickly see what a prepopulated Billfold account looks like, log in as user: 'cody' password: '123'
+
 ## Headacheless budgeting
 
 Billfold is a budgeting app for setting goals and tracking expenses over months at a time.
 
 ## Creating expenses
 
-With Billfold, set up is easy. Create an account, set your yearly income and then start addig in your expenses.
+With Billfold, set up is easy. Create an account, set your yearly income and then start adding in your expenses.
 
-Expenses are devided into two categories: yearly expenses, like taxes and savings accounts, and monthly expenses, like rent and utilities. All of these expenses can be added as dollar values or percentages of your total income.
+Expenses are divided into two categories: yearly expenses, like taxes and savings accounts, and monthly expenses, like rent and utilities. All of these expenses can be added as dollar values or percentages of your total income.
 
 With these deductions accounted for, you can begin defining expense categories. Billfold lets you define fixed expense categories and flexible expense categories. Fixed categories are items you aim to spend a certain amount of money on per month, like, say $65 on laundry. You assign a certain percentage of your remaining money to each flexible category, like, say 25% on food.
 

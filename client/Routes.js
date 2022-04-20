@@ -101,10 +101,6 @@ const mapDispatch = (dispatch) => {
   return {
     loadInitialData() {
       dispatch(me());
-      dispatch(fetchDeducts());
-      dispatch(fetchExpenses());
-      dispatch(fetchCategories());
-      dispatch(fetchDailies());
     },
   };
 };
