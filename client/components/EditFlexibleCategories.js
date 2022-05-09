@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
-import { deleteCategory } from '../store';
+import { deleteCategory, deleteDaily } from '../store';
 import { Link } from 'react-router-dom';
 import NewCategoryForm from './NewCategoryForm';
 
@@ -13,9 +13,15 @@ export default function EditFlexibleCategories() {
   const categories = useSelector((state) =>
     state.categories.filter((cat) => cat.rule === 'PERCENT')
   );
+  const dailies = useSelector((state) => state.dailyExpenses);
   const { dollarFormat } = useFormatters();
 
   const handleDelete = (cat) => {
+    dailies.forEach((daily) => {
+      if (daily.category.name === cat.name) {
+        dispatch(deleteDaily(daily));
+      }
+    });
     dispatch(deleteCategory(cat));
   };
   return (
