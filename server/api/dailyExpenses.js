@@ -13,6 +13,7 @@ router.get('/', requireToken, async (req, res, next) => {
       },
       include: {
         model: Category,
+        required: false,
       },
     });
     res.json(dailies);
