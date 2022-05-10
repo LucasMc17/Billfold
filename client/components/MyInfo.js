@@ -159,7 +159,7 @@ export default function MyInfo() {
             </p>
             <p>{`You have ${dollarFormat(unassigned)} (${
               fixedDec(unassigned / afterFixedCats) * 100
-            }% of your remaining income) to assign.`}</p>
+            }% of your remaining income after fixed categories) to assign.`}</p>
           </div>
         ) : (
           ''
