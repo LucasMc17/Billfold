@@ -15,6 +15,7 @@ import EditSingleMonthlyExpense from './components/EditSingleMonthlyExpense';
 import EditSingleCategory from './components/EditSingleCategory';
 import AllMonths from './components/AllMonths';
 import EditDailyExpense from './components/EditDailyExpense';
+import BulkUpload from './components/BulkUpload';
 import {
   fetchDeducts,
   fetchExpenses,
@@ -42,6 +43,7 @@ class Routes extends Component {
             <Route exact path="/home" component={Home} />
             <Route path="/year/:year/month/:month" component={MonthlySummary} />
             <Route path="/myinfo" component={MyInfo} />
+            <Route path="/bulk-upload" component={BulkUpload} />
             <Route path="/edit/basic-info" component={EditBasicInfo} />
             <Route
               exact
