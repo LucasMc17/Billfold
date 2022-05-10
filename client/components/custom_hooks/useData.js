@@ -28,6 +28,14 @@ export default function useData() {
     dailies
       .filter((daily) => daily.month === month && daily.year === year)
       .reduce((acc, daily) => acc + daily.amount, 0);
+  const unassigned =
+    afterFixedCats -
+    unfixedCats.reduce((acc, cat) => acc + cat.percent * afterFixedCats, 0);
+  console.log('HELLO', afterFixedCats);
+  console.log(
+    'MINUS',
+    unfixedCats.reduce((acc, cat) => acc + cat.percent * afterFixedCats, 0)
+  );
   return {
     username,
     income,
@@ -42,5 +50,6 @@ export default function useData() {
     unfixedCats,
     dailies,
     budgetGap,
+    unassigned,
   };
 }

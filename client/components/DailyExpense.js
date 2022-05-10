@@ -15,7 +15,9 @@ export default function DailyExpense(props) {
 
   return (
     <div className="daily" key={daily.id}>
-      <h3 className="dailyCat">{daily.category.name}</h3>
+      <h3 className="dailyCat">
+        {daily.category ? daily.category.name : 'Unassigned'}
+      </h3>
       <div className="dailyContents">
         <h3 className="dailyName">{daily.name}</h3>
         <p className="dailyAmount">{dollarFormat(daily.amount)}</p>
