@@ -11,6 +11,10 @@ label {
   display: block;
 }
 
+#unassigned-cat {
+  background-color: #bcffdd;
+}
+
 nav a {
   display: inline-block;
   margin: 1em;
