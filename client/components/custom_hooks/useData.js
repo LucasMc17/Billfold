@@ -31,11 +31,6 @@ export default function useData() {
   const unassigned =
     afterFixedCats -
     unfixedCats.reduce((acc, cat) => acc + cat.percent * afterFixedCats, 0);
-  console.log('HELLO', afterFixedCats);
-  console.log(
-    'MINUS',
-    unfixedCats.reduce((acc, cat) => acc + cat.percent * afterFixedCats, 0)
-  );
   return {
     username,
     income,
