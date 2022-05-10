@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { Link } from 'react-router-dom';
 import { drawChart, clearChart } from './PieChart';
+import { updateUnassigned } from '../store';
 
 export default function MyInfo() {
-  const { dollarFormat } = useFormatters();
+  const dispatch = useDispatch();
+  const { dollarFormat, fixedDec } = useFormatters();
   const data = useData();
   const {
     username,
@@ -18,7 +21,10 @@ export default function MyInfo() {
     fixedCats,
     afterFixedCats,
     unfixedCats,
+    unassigned,
   } = data;
+
+  dispatch(updateUnassigned(unassigned));
 
   const pieSlices = {};
   useEffect(() => {
@@ -143,6 +149,20 @@ export default function MyInfo() {
           ))
         ) : (
           <h2>You don't have any flexible spending categories yet!</h2>
+        )}
+        {unassigned ? (
+          <div id="unassigned-cat">
+            <h3>Unassigned</h3>
+            <p>
+              This is an automatic category for all the money you haven't yet
+              assigned.
+            </p>
+            <p>{`You have ${dollarFormat(unassigned)} (${
+              fixedDec(unassigned / afterFixedCats) * 100
+            }% of your remaining income after fixed categories) to assign.`}</p>
+          </div>
+        ) : (
+          ''
         )}
       </div>
       <Link to="/edit/flexible-categories">

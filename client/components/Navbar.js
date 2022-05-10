@@ -18,6 +18,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
               Logout
             </a>
             <Link to="/myinfo">My Info</Link>
+            <Link to="/bulk-upload">Bulk Upload</Link>
           </div>
         </nav>
       </div>
