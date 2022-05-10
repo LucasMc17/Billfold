@@ -24,7 +24,6 @@ export default function Home() {
   const dailies = useSelector((state) => state.dailyExpenses);
   const [view, setView] = useState(6);
   const { username, budgetGap, afterExpenses, unassigned } = useData();
-  console.log(unassigned)
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
