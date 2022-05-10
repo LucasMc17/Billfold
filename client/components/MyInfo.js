@@ -150,16 +150,20 @@ export default function MyInfo() {
         ) : (
           <h2>You don't have any flexible spending categories yet!</h2>
         )}
-        <div id="unassigned-cat">
-          <h3>Unassigned</h3>
-          <p>
-            This is an automatic category for all the money you haven't yet
-            assigned
-          </p>
-          <p>{`You have ${dollarFormat(unassigned)} (${
-            fixedDec(unassigned / afterFixedCats) * 100
-          }% of your remaining income) to assign`}</p>
-        </div>
+        {unassigned ? (
+          <div id="unassigned-cat">
+            <h3>Unassigned</h3>
+            <p>
+              This is an automatic category for all the money you haven't yet
+              assigned.
+            </p>
+            <p>{`You have ${dollarFormat(unassigned)} (${
+              fixedDec(unassigned / afterFixedCats) * 100
+            }% of your remaining income) to assign.`}</p>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
       <Link to="/edit/flexible-categories">
         <button type="button">Edit my Flexible Categories</button>
