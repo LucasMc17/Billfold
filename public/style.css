@@ -118,10 +118,11 @@ form div {
 .user-items {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .user-items div {
-  flex: 0 0 20%;
+  flex: 1 0 20%;
   background-color: #93e9be;
   border-radius: 15px;
   padding: 10px;
@@ -146,10 +147,11 @@ form div {
 }
 
 .summary {
-  flex: 0 0 22%;
+  flex: 1 0 22%;
   background-image: linear-gradient(to bottom, white, rgb(214, 214, 214));
   border-radius: 15px;
   border: 5px solid #93e9be;
+  margin-bottom: 10px;
 }
 
 .summary.total {
