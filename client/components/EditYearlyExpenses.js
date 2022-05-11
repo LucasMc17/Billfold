@@ -22,10 +22,9 @@ export default function EditYearlyExpenses() {
         {deducts.map((de) => (
           <div key={de.id}>
             <h3>{de.name}</h3>
-            <p>{de.percent ? `${de.percent * 100}% of my earnings` : ''}</p>
             <p>
               {de.percent
-                ? dollarFormat(de.percent * income)
+                ? `${de.percent * 100}% of my earnings`
                 : dollarFormat(de.amount)}
             </p>
             <Link to={`/edit/yearly-expenses/${de.id}`}>

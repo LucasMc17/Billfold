@@ -55,16 +55,20 @@ export default function MyInfo() {
           <button type="button">Edit My Info</button>
         </Link>
         <h1>These are my yearly expenses:</h1>
+        <p>
+          NOTE: these expenses are calculated in order, meaning a 10% deduction
+          isn't ten percent of your total income, but of your income minus all
+          prior expenses
+        </p>
       </div>
       <div className="user-items">
         {deducts.length ? (
           deducts.map((de) => (
             <div key={de.id}>
               <h3>{de.name}</h3>
-              <p>{de.percent ? `${de.percent * 100}% of my earnings` : ''}</p>
               <p>
                 {de.percent
-                  ? dollarFormat(de.percent * income)
+                  ? `${de.percent * 100}% of my earnings`
                   : dollarFormat(de.amount)}
               </p>
             </div>
@@ -80,6 +84,11 @@ export default function MyInfo() {
         <h1>After expenses, I make {dollarFormat(afterDeducts)} a year.</h1>
         <h1>That's {dollarFormat(monthlyNet)} a month.</h1>
         <h1>These are my monthly expenses:</h1>
+        <p>
+          NOTE: these expenses are calculated in order, meaning a 10% deduction
+          isn't ten percent of your total monthly net, but of your monthly net
+          minus all prior expenses
+        </p>
       </div>
       <div className="user-items">
         {expenses.length ? (
@@ -87,11 +96,8 @@ export default function MyInfo() {
             <div key={ex.id}>
               <h3>{ex.name}</h3>
               <p>
-                {ex.percent ? `${ex.percent * 100}% of my monthly net` : ''}
-              </p>
-              <p>
                 {ex.percent
-                  ? dollarFormat(ex.percent * monthlyNet)
+                  ? `${ex.percent * 100}% of my monthly net`
                   : dollarFormat(ex.amount)}
               </p>
             </div>

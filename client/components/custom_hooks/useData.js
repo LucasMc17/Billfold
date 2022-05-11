@@ -6,16 +6,16 @@ export default function useData() {
   const username = useSelector((state) => state.auth.username);
   const income = useSelector((state) => state.auth.income);
   const deducts = useSelector((state) => state.yearlyDeductions);
-  const afterDeducts =
-    income -
-    deducts.reduce((acc, de) => acc + (de.amount || de.percent * income), 0);
+  const afterDeducts = deducts.reduce(
+    (acc, de) => acc - (de.amount || de.percent * acc),
+    income
+  );
   const monthlyNet = afterDeducts / 12;
   const expenses = useSelector((state) => state.monthlyExpenses);
   const afterExpenses =
-    monthlyNet -
     expenses.reduce(
-      (acc, ex) => acc + (ex.amount || ex.percent * monthlyNet),
-      0
+      (acc, ex) => acc - (ex.amount || ex.percent * acc),
+      monthlyNet
     );
   const categories = useSelector((state) => state.categories);
   const fixedCats = categories.filter((cat) => cat.rule === 'FIXED');
