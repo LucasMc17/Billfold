@@ -6,33 +6,57 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function BulkUpload() {
   let r = 0;
   let u = 0;
+  let toUpload = [];
   const dispatch = useDispatch();
   const categories = useSelector((state) =>
     state.categories.map((cat) => cat.name)
   );
-  const [error, setError] = useState('');
+  const [state, setState] = useState({ result: '', toUpload: [] });
 
   function handleUpload() {
+    state.toUpload.forEach(purchase => {
+      dispatch(postDaily(purchase))
+    })
+    setState({result: '', toUpload: []})
+  }
+
+  function readFile() {
     const excelUpload = document.querySelector('#excel-upload');
     if (!excelUpload.files.length) {
-      setError('No file chosen');
+      setState({ ...state, result: 'No file chosen' });
     } else if (excelUpload.files[0].name.endsWith('.xls')) {
-      setError('Please make sure your file is a .xlsx');
+      setState({ ...state, result: 'Please make sure your file is a .xlsx' });
     } else {
       r = 0;
+      toUpload = [];
       readXlsxFile(excelUpload.files[0]).then((rows) => {
         u = rows.length - 1;
+
         rows.slice(1).forEach((row) => {
           const [category, name, amount, date] = row;
-          if (categories.includes(category)) {
-            dispatch(postDaily({ category, name, amount, date }));
+          console.log([category, name, amount, date]);
+          if (
+            categories.includes(category) &&
+            name !== null &&
+            amount !== null &&
+            date !== null
+          ) {
+            toUpload.push({ category, name, amount, date });
+            // dispatch(postDaily({ category, name, amount, date }));
           } else {
             r++;
           }
-          setError(`${u - r} purchases uploaded. ${r} purchases rejected.`);
+          console.log(toUpload);
+          setState({
+            result: `${u - r} purchases uploaded. ${r} purchases rejected.`,
+            toUpload: toUpload,
+          });
         });
       });
     }
+    setTimeout(() => {
+      console.log(state);
+    }, 1000);
   }
 
   return (
@@ -83,8 +107,9 @@ export default function BulkUpload() {
         purchases!
       </p>
       <input type="file" id="excel-upload" />
-      <input type="submit" onClick={handleUpload} />
-      <h2>{error}</h2>
+      <input type="submit" onClick={readFile} />
+      <h2>{state.result}</h2>
+      {state.toUpload.length ? <button onClick={handleUpload}>Upload</button> : ''}
     </div>
   );
 }
