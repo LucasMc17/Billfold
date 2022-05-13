@@ -17,3 +17,22 @@ router.get('/', requireToken, async (req, res, next) => {
     next(error)
   }
 })
+
+router.post('/', requireToken, async (req, res, next) => {
+  try {
+    const today = new Date();
+    const [budget, created] = await Budget.findOrCreate({
+      where: {
+        userId: req.user.id,
+        month: today.getMonth() + 1,
+        year: today.getFullYear()
+      }
+    })
+    await budget.update({
+      ...req.body,
+    })
+    res.json(budget)
+  } catch (error) {
+    next(error)
+  }
+})
