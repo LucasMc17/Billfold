@@ -5,22 +5,17 @@ const Budget = db.define('budget', {
   yearlies: {
     type: Sequelize.TEXT,
     allowNull: false,
-    defaultValue: '{}',
+    defaultValue: '[]',
   },
   monthlies: {
     type: Sequelize.TEXT,
     allowNull: false,
-    defaultValue: '{}',
+    defaultValue: '[]',
   },
-  fixedCats: {
+  categories: {
     type: Sequelize.TEXT,
     allowNull: false,
-    defaultValue: '{}',
-  },
-  unfixedCats: {
-    type: Sequelize.TEXT,
-    allowNull: false,
-    defaultValue: '{}',
+    defaultValue: '[]',
   },
   income: {
     type: Sequelize.INTEGER,

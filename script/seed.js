@@ -2,7 +2,14 @@
 
 const {
   db,
-  models: { User, YearlyDeduction, MonthlyExpense, Category, DailyExpense, Budget },
+  models: {
+    User,
+    YearlyDeduction,
+    MonthlyExpense,
+    Category,
+    DailyExpense,
+    Budget,
+  },
 } = require('../server/db');
 
 async function createExpense(user, category, name, amount, year, month, day) {
@@ -25,8 +32,52 @@ async function seed() {
 
   // Creating Users
   const Cody = await User.create({ username: 'cody', password: '123' });
-  const codyBudget = await Budget.create({ year: 1978, month: 10})
-  await codyBudget.setUser(Cody)
+  const codyBudget = await Budget.create({
+    yearlies: JSON.stringify([
+      {
+        name: 'stuff',
+        rule: 'FIXED',
+        amount: 10000,
+      },
+      {
+        name: 'stuff',
+        rule: 'PERCENT',
+        percent: 0.25,
+      },
+    ]),
+    monthlies: JSON.stringify([
+      {
+        name: 'rent',
+        rule: 'FIXED',
+        amount: 900,
+      },
+      {
+        name: 'dog fee',
+        rule: 'PERCENT',
+        percent: 0.1,
+      },
+    ]),
+    categories: JSON.stringify([
+      {
+        name: 'food',
+        rule: 'PERCENT',
+        percent: 0.25,
+      },
+      {
+        name: 'fun',
+        rule: 'PERCENT',
+        percent: 0.75,
+      },
+      {
+        name: 'laundry',
+        rule: 'FIXED',
+        amount: 65,
+      },
+    ]),
+    year: 1978,
+    month: 10,
+  });
+  await codyBudget.setUser(Cody);
   await User.create({ username: 'murphy', password: '123' });
   const expense = await YearlyDeduction.create({
     name: 'stuff',
