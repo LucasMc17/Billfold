@@ -7,6 +7,7 @@ import NewDailyForm from './NewDailyForm';
 import { drawChart, clearChart } from './HomeChart';
 import DailyExpense from './DailyExpense';
 import {
+  fetchBudgets,
   fetchCategories,
   fetchDailies,
   fetchExpenses,
@@ -58,6 +59,7 @@ export default function Home() {
   }
 
   useEffect(() => {
+    dispatch(fetchBudgets())
     dispatch(fetchDeducts());
     dispatch(fetchExpenses());
     dispatch(fetchCategories());

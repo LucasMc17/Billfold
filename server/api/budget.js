@@ -7,7 +7,7 @@ const { requireToken } = require('./requireToken');
 
 router.get('/', requireToken, async (req, res, next) => {
   try {
-    const budgets = Budget.findAll({
+    const budgets = await Budget.findAll({
       where: {
         userId: req.user.id
       }
