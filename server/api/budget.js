@@ -31,7 +31,7 @@ router.post('/', requireToken, async (req, res, next) => {
     await budget.update({
       ...req.body,
     })
-    res.json(budget)
+    res.json([budget, created])
   } catch (error) {
     next(error)
   }
