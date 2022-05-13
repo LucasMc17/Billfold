@@ -19,8 +19,9 @@ export default function EditYearlyExpenses() {
   return (
     <div>
       <div className="user-items">
-        {deducts.map((de) => (
+        {deducts.map((de, i) => (
           <div key={de.id}>
+            <h1>{i + 1}</h1>
             <h3>{de.name}</h3>
             <p>
               {de.percent
