@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { postDeduct } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { postDeduct, postBudget } from '../store';
 
 export default function NewYearlyForm(props) {
+  const yearlies = useSelector((state) =>
+    JSON.parse(state.currentBudget.yearlies)
+  );
   const dispatch = useDispatch();
   // const { categories } = props;
   const [deduct, setDeduct] = useState({
@@ -21,6 +24,12 @@ export default function NewYearlyForm(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    yearlies.push({
+      ...deduct,
+      percent: Number(deduct.percent) / 100,
+      amount: Number(deduct.amount),
+    });
+    dispatch(postBudget({ yearlies: JSON.stringify(yearlies) }));
     dispatch(
       postDeduct({
         ...deduct,
