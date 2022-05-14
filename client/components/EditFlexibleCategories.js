@@ -2,11 +2,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
-import { deleteCategory } from '../store';
+import { deleteCategory, postBudget } from '../store';
 import { Link } from 'react-router-dom';
 import NewCategoryForm from './NewCategoryForm';
 
 export default function EditFlexibleCategories() {
+  const newCategories = useSelector(state => JSON.parse(state.currentBudget.categories))
   const data = useData();
   const { afterFixedCats } = data;
   const dispatch = useDispatch();
@@ -16,6 +17,20 @@ export default function EditFlexibleCategories() {
   const { dollarFormat } = useFormatters();
 
   const handleDelete = (cat) => {
+    const vettedCategories = newCategories.filter((category) => {
+      if (
+        category.name === cat.name &&
+        category.rule === cat.rule &&
+        category.amount
+          ? category.amount === cat.amount
+          : category.percent === cat.percent
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    dispatch(postBudget({ categories: JSON.stringify(vettedCategories) }));
     dispatch(deleteCategory(cat));
   };
   return (

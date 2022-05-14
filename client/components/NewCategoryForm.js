@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { postCategory } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { postCategory, postBudget } from '../store';
 
 export default function NewCategoryForm(props) {
+  const categories = useSelector((state) =>
+    JSON.parse(state.currentBudget.categories)
+  );
   const dispatch = useDispatch();
   const [category, setCategory] = useState({
     name: '',
@@ -20,6 +23,8 @@ export default function NewCategoryForm(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    categories.push(category);
+    dispatch(postBudget({ categories: JSON.stringify(categories) }));
     dispatch(
       postCategory({
         ...category,

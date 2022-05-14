@@ -1,11 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useFormatters from './custom_hooks/useFormatters';
-import { deleteCategory } from '../store';
+import { deleteCategory, postBudget } from '../store';
 import { Link } from 'react-router-dom';
 import NewCategoryForm from './NewCategoryForm';
 
 export default function EditFixedCategories() {
+  const newCategories = useSelector((state) =>
+    JSON.parse(state.currentBudget.categories)
+  );
   const dispatch = useDispatch();
   const categories = useSelector((state) =>
     state.categories.filter((cat) => cat.rule === 'FIXED')
@@ -13,6 +16,20 @@ export default function EditFixedCategories() {
   const { dollarFormat } = useFormatters();
 
   const handleDelete = (cat) => {
+    const vettedCategories = newCategories.filter((category) => {
+      if (
+        category.name === cat.name &&
+        category.rule === cat.rule &&
+        category.amount
+          ? category.amount === cat.amount
+          : category.percent === cat.percent
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    dispatch(postBudget({ categories: JSON.stringify(vettedCategories) }));
     dispatch(deleteCategory(cat));
   };
   return (
