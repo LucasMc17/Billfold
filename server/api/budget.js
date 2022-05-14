@@ -32,7 +32,7 @@ router.get('/:year/:month', requireToken, async (req, res, next) => {
         userId: req.user.id,
       },
     });
-    res.json(budget)
+    res.json(budget);
   } catch (error) {
     next(error);
   }
@@ -41,17 +41,45 @@ router.get('/:year/:month', requireToken, async (req, res, next) => {
 router.post('/', requireToken, async (req, res, next) => {
   try {
     const today = new Date();
-    const [budget, created] = await Budget.findOrCreate({
+    const budget = await Budget.findOne({
+      order: [['date', 'DESC']],
       where: {
+        date: {
+          [Op.lt]: today,
+        },
         userId: req.user.id,
-        month: today.getMonth() + 1,
-        year: today.getFullYear(),
       },
     });
-    await budget.update({
-      ...req.body,
-    });
-    res.json([budget, created]);
+    console.log(budget);
+    if (
+      budget.month === today.getMonth() + 1 &&
+      budget.year === today.getFullYear()
+    ) {
+      await budget.update({ ...req.body });
+      res.json([budget, false]);
+    } else {
+      delete budget.dataValues.id;
+      const newBudget = await Budget.create({
+        ...budget.dataValues,
+        ...req.body,
+        date: today,
+        month: today.getMonth() + 1,
+        year: today.getFullYear(),
+        userId: req.user.id,
+      });
+      res.json([newBudget, true]);
+    }
+    // const [budget, created] = await Budget.findOrCreate({
+    //   where: {
+    //     userId: req.user.id,
+    //     month: today.getMonth() + 1,
+    //     year: today.getFullYear(),
+    //   },
+    // });
+    // await budget.update({
+    //   ...req.body,
+    // });
+    // res.json([budget, created]);
   } catch (error) {
     next(error);
   }

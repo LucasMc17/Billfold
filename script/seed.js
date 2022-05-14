@@ -79,9 +79,9 @@ async function seed() {
         amount: 65,
       },
     ]),
-    year: 2022,
+    year: 2021,
     month: 5,
-    date: new Date('5/1/2022'),
+    date: new Date('5/1/2021'),
   });
   await codyBudgetOne.setUser(Cody);
   await codyBudgetTwo.setUser(Cody);
