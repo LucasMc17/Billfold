@@ -20,7 +20,7 @@ const Budget = db.define('budget', {
   income: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    defaultValue: 40000
+    defaultValue: 40000,
   },
   month: {
     type: Sequelize.INTEGER,
@@ -29,7 +29,12 @@ const Budget = db.define('budget', {
   year: {
     type: Sequelize.INTEGER,
     allowNull: false,
-  }
-})
+  },
+  date: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: new Date(),
+  },
+});
 
-module.exports = Budget
+module.exports = Budget;

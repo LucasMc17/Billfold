@@ -76,6 +76,7 @@ async function seed() {
     ]),
     year: 1978,
     month: 10,
+    date: new Date('10/1/1978'),
   });
   await codyBudget.setUser(Cody);
   await User.create({ username: 'murphy', password: '123' });

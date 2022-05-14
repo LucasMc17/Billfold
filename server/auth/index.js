@@ -18,7 +18,8 @@ router.post('/signup', async (req, res, next) => {
       res.status(401).send('Please fill out both fields!');
     } else {
       const user = await User.create(req.body);
-      const defaultBudget = await Budget.create({month: new Date().getMonth() + 1, year: new Date().getFullYear()})
+      const today = new Date()
+      const defaultBudget = await Budget.create({date: today, month: today.getMonth() + 1, year: today.getFullYear()})
       await defaultBudget.setUser(user)
       res.send({ token: await user.generateToken() });
     }
