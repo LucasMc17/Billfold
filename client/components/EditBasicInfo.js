@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { updateUser } from '../store';
+import { updateUser, postBudget } from '../store';
 
 export default function EditBasicInfo() {
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ export default function EditBasicInfo() {
   function handleSubmit(evt) {
     evt.preventDefault();
     dispatch(updateUser({ username, income: Number(income) }));
+    dispatch(postBudget({ income: Number(income) }));
     history.push('/myinfo');
   }
 
