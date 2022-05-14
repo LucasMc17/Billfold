@@ -12,6 +12,7 @@ import {
   fetchDailies,
   fetchExpenses,
   fetchDeducts,
+  fetchCurrentBudget,
 } from '../store';
 
 const { dollarFormat } = useFormatters();
@@ -59,11 +60,12 @@ export default function Home() {
   }
 
   useEffect(() => {
-    dispatch(fetchBudgets())
+    dispatch(fetchBudgets());
     dispatch(fetchDeducts());
     dispatch(fetchExpenses());
     dispatch(fetchCategories());
     dispatch(fetchDailies());
+    dispatch(fetchCurrentBudget(year, month));
   }, []);
 
   useEffect(() => {
