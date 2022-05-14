@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { postExpense } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { postExpense, postBudget } from '../store';
 
 export default function NewMonthlyForm(props) {
+  const expenses = useSelector((state) =>
+    JSON.parse(state.currentBudget.monthlies)
+  );
   const dispatch = useDispatch();
   const [expense, setExpense] = useState({
     name: '',
@@ -20,6 +23,12 @@ export default function NewMonthlyForm(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    expenses.push({
+      ...expense,
+      percent: Number(expense.percent) / 100,
+      amount: Number(expense.amount),
+    });
+    dispatch(postBudget({ monthlies: JSON.stringify(expenses) }));
     dispatch(
       postExpense({
         ...expense,
