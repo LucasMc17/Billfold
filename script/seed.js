@@ -32,7 +32,12 @@ async function seed() {
 
   // Creating Users
   const Cody = await User.create({ username: 'cody', password: '123' });
-  const codyBudget = await Budget.create({
+  const codyBudgetOne = await Budget.create({
+    year: 1978,
+    month: 10,
+    date: new Date('10/1/1978'),
+  });
+  const codyBudgetTwo = await Budget.create({
     yearlies: JSON.stringify([
       {
         name: 'stuff',
@@ -74,11 +79,12 @@ async function seed() {
         amount: 65,
       },
     ]),
-    year: 1978,
-    month: 10,
-    date: new Date('10/1/1978'),
+    year: 2022,
+    month: 5,
+    date: new Date('5/1/2022'),
   });
-  await codyBudget.setUser(Cody);
+  await codyBudgetOne.setUser(Cody);
+  await codyBudgetTwo.setUser(Cody);
   await User.create({ username: 'murphy', password: '123' });
   const expense = await YearlyDeduction.create({
     name: 'stuff',
