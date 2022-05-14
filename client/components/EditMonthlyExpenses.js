@@ -2,11 +2,16 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
-import { deleteExpense } from '../store';
+import { deleteExpense, postBudget } from '../store';
 import { Link } from 'react-router-dom';
 import NewMonthlyForm from './NewMonthlyForm';
 
 export default function EditMonthlyExpenses() {
+  //this is the refactor
+  const newExpenses = useSelector((state) =>
+    JSON.parse(state.currentBudget.monthlies)
+  );
+  console.log(newExpenses);
   const data = useData();
   const { monthlyNet } = data;
   const dispatch = useDispatch();
@@ -14,6 +19,19 @@ export default function EditMonthlyExpenses() {
   const { dollarFormat } = useFormatters();
 
   const handleDelete = (ex) => {
+    // we will need to make this better later on. Maybe use npm install uid to give each object a unique identifier?
+    const vettedExpenses = newExpenses.filter((expense) => {
+      if (
+        expense.name === ex.name && expense.rule === ex.rule && expense.amount
+          ? expense.amount === ex.amount
+          : expense.percent === ex.percent
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    dispatch(postBudget({ monthlies: JSON.stringify(vettedExpenses) }));
     dispatch(deleteExpense(ex));
   };
 
