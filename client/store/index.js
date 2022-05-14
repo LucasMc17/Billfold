@@ -12,8 +12,9 @@ import singleMonthlyExpense from './singleMonthlyExpense';
 import singleCategory from './singleCategory';
 import singleDailyExpense from './SingleDailyExpense';
 import unassigned from './unassigned';
-import budgets from './budget'
+import budgets from './budget';
 import currentBudget from './currentBudget';
+import activeBudget from './activeBudget';
 
 const reducer = combineReducers({
   auth,
@@ -27,7 +28,8 @@ const reducer = combineReducers({
   singleDailyExpense,
   unassigned,
   budgets,
-  currentBudget
+  currentBudget,
+  activeBudget,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
@@ -45,5 +47,6 @@ export * from './singleMonthlyExpense';
 export * from './singleCategory';
 export * from './SingleDailyExpense';
 export * from './unassigned';
-export * from './budget'
-export * from './currentBudget'
+export * from './budget';
+export * from './currentBudget';
+export * from './activeBudget';

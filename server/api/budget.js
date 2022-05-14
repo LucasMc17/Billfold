@@ -19,6 +19,20 @@ router.get('/', requireToken, async (req, res, next) => {
   }
 });
 
+router.get('/current', requireToken, async (req, res, next) => {
+  try {
+    const budget = await Budget.findOne({
+      order: [['date', 'DESC']],
+      where: {
+        userId: req.user.id,
+      },
+    });
+    res.json(budget);
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/:year/:month', requireToken, async (req, res, next) => {
   try {
     const { year, month } = req.params;

@@ -14,10 +14,10 @@ const setCurrentBudget = (budget) => ({ type: SET_CURRENT_BUDGET, budget });
 /**
  * THUNK CREATORS
  */
-export const fetchCurrentBudget = (year, month) => {
+export const fetchCurrentBudget = () => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data } = await axios.get(`/api/budgets/${year}/${month}`, {
+    const { data } = await axios.get(`/api/budgets/current`, {
       headers: {
         authorization: token,
       },

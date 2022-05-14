@@ -65,7 +65,7 @@ export default function Home() {
     dispatch(fetchExpenses());
     dispatch(fetchCategories());
     dispatch(fetchDailies());
-    dispatch(fetchCurrentBudget(year, month));
+    dispatch(fetchCurrentBudget());
   }, []);
 
   useEffect(() => {
