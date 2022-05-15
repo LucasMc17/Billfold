@@ -6,17 +6,17 @@ import { Link } from 'react-router-dom';
 import NewCategoryForm from './NewCategoryForm';
 
 export default function EditFixedCategories() {
-  const newCategories = useSelector((state) =>
+  const categories = useSelector((state) =>
     JSON.parse(state.currentBudget.categories)
   );
   const dispatch = useDispatch();
-  const categories = useSelector((state) =>
+  const oldCategories = useSelector((state) =>
     state.categories.filter((cat) => cat.rule === 'FIXED')
   );
   const { dollarFormat } = useFormatters();
 
   const handleDelete = (cat) => {
-    const vettedCategories = newCategories.filter((category) => {
+    const vettedCategories = categories.filter((category) => {
       if (
         category.name === cat.name &&
         category.rule === cat.rule &&
@@ -35,21 +35,23 @@ export default function EditFixedCategories() {
   return (
     <div>
       <div className="user-items">
-        {categories.map((cat) => (
-          <div key={cat.id}>
-            <h3>{cat.name}</h3>
-            <p>
-              I want to spend at most {dollarFormat(cat.amount)} a month on
-              this.
-            </p>
-            <Link to={`/edit/categories/${cat.id}`}>
-              <button type="button">Edit</button>
-            </Link>
-            <button type="button" onClick={() => handleDelete(cat)}>
-              X
-            </button>
-          </div>
-        ))}
+        {categories
+          .filter((cat) => cat.rule === 'FIXED')
+          .map((cat) => (
+            <div key={cat.id}>
+              <h3>{cat.name}</h3>
+              <p>
+                I want to spend at most {dollarFormat(cat.amount)} a month on
+                this.
+              </p>
+              <Link to={`/edit/categories/${cat.id}`}>
+                <button type="button">Edit</button>
+              </Link>
+              <button type="button" onClick={() => handleDelete(cat)}>
+                X
+              </button>
+            </div>
+          ))}
       </div>
       <NewCategoryForm rule="FIXED" />
     </div>

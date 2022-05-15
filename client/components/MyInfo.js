@@ -9,7 +9,7 @@ import { updateUnassigned } from '../store';
 export default function MyInfo() {
   const dispatch = useDispatch();
   const { dollarFormat, fixedDec } = useFormatters();
-  const data = useData();
+  const data = useData(false);
   const {
     username,
     income,

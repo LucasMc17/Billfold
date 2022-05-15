@@ -2,22 +2,27 @@ import { useSelector } from 'react-redux';
 const month = new Date().getMonth() + 1;
 const year = new Date().getFullYear();
 
-export default function useData() {
+export default function useData(historical = false) {
+  let budget;
+  if (historical) {
+    budget = useSelector((state) => state.activeBudget);
+  } else {
+    budget = useSelector((state) => state.currentBudget);
+  }
   const username = useSelector((state) => state.auth.username);
-  const income = useSelector((state) => state.auth.income);
-  const deducts = useSelector((state) => state.yearlyDeductions);
+  const income = budget.income || 0;
+  const deducts = budget.yearlies ? JSON.parse(budget.yearlies) : [];
   const afterDeducts = deducts.reduce(
-    (acc, de) => acc - (de.amount || de.percent * acc),
+    (acc, de) => acc - (de.rule === 'FIXED' ? de.amount : de.percent * acc),
     income
   );
   const monthlyNet = afterDeducts / 12;
-  const expenses = useSelector((state) => state.monthlyExpenses);
-  const afterExpenses =
-    expenses.reduce(
-      (acc, ex) => acc - (ex.amount || ex.percent * acc),
-      monthlyNet
-    );
-  const categories = useSelector((state) => state.categories);
+  const expenses = budget.monthlies ? JSON.parse(budget.monthlies) : [];
+  const afterExpenses = expenses.reduce(
+    (acc, ex) => acc - (ex.rule === 'FIXED' ? ex.amount : ex.percent * acc),
+    monthlyNet
+  );
+  const categories = budget.categories ? JSON.parse(budget.categories) : [];
   const fixedCats = categories.filter((cat) => cat.rule === 'FIXED');
   const afterFixedCats =
     afterExpenses - fixedCats.reduce((acc, cat) => acc + cat.amount, 0);

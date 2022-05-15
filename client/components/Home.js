@@ -22,10 +22,15 @@ const { dollarFormat } = useFormatters();
  */
 export default function Home() {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories);
-  const dailies = useSelector((state) => state.dailyExpenses);
   const [view, setView] = useState(6);
-  const { username, budgetGap, afterExpenses, unassigned } = useData();
+  const {
+    categories,
+    username,
+    budgetGap,
+    afterExpenses,
+    dailies,
+    unassigned,
+  } = useData(false);
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();

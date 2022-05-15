@@ -7,17 +7,17 @@ import { Link } from 'react-router-dom';
 import NewCategoryForm from './NewCategoryForm';
 
 export default function EditFlexibleCategories() {
-  const newCategories = useSelector(state => JSON.parse(state.currentBudget.categories))
+  // const categories = useSelector(state => JSON.parse(state.currentBudget.categories))
   const data = useData();
-  const { afterFixedCats } = data;
+  const { afterFixedCats, unfixedCats, categories } = data;
   const dispatch = useDispatch();
-  const categories = useSelector((state) =>
-    state.categories.filter((cat) => cat.rule === 'PERCENT')
-  );
+  // const oldCategories = useSelector((state) =>
+  //   state.categories.filter((cat) => cat.rule === 'PERCENT')
+  // );
   const { dollarFormat } = useFormatters();
 
   const handleDelete = (cat) => {
-    const vettedCategories = newCategories.filter((category) => {
+    const vettedCategories = categories.filter((category) => {
       if (
         category.name === cat.name &&
         category.rule === cat.rule &&
@@ -36,7 +36,7 @@ export default function EditFlexibleCategories() {
   return (
     <div>
       <div className="user-items">
-        {categories.map((cat) => (
+        {unfixedCats.map((cat) => (
           <div key={cat.id}>
             <h3>{cat.name}</h3>
             <p>
