@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import { postDaily } from '../store';
 import readXlsxFile from 'read-excel-file';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import useData from './custom_hooks/useData';
 
 export default function BulkUpload() {
   let r = 0;
   let u = 0;
   let toUpload = [];
   const dispatch = useDispatch();
-  const categories = useSelector((state) =>
-    state.categories.map((cat) => cat.name)
-  );
-  const [state, setState] = useState({ result: 'Waiting for file...', toUpload: [] });
+  const categories = useData().categories.map((cat) => cat.name);
+  const [state, setState] = useState({
+    result: 'Waiting for file...',
+    toUpload: [],
+  });
 
   function handleUpload() {
-    state.toUpload.forEach(purchase => {
-      dispatch(postDaily(purchase))
-    })
-    setState({result: 'Purchases uploaded!', toUpload: []})
+    state.toUpload.forEach((purchase) => {
+      dispatch(postDaily(purchase));
+    });
+    setState({ result: 'Purchases uploaded!', toUpload: [] });
   }
 
   function readFile() {
@@ -93,16 +95,25 @@ export default function BulkUpload() {
         above.
       </p>
       <p>
-        After you select a file, a message will be displayed informing you how many
-        of the purchases can be succesfully uploaded and how many will be rejected. You can then click the 'Upload' button to finalize the upload. If you want to make sure all of your purchases get uploaded, you can either edit your sheet to a usable state before confirming the upload, or finish the upload and then create a second upload for just those purchases which were rejected the first time. Take a second look at the
+        After you select a file, a message will be displayed informing you how
+        many of the purchases can be succesfully uploaded and how many will be
+        rejected. You can then click the 'Upload' button to finalize the upload.
+        If you want to make sure all of your purchases get uploaded, you can
+        either edit your sheet to a usable state before confirming the upload,
+        or finish the upload and then create a second upload for just those
+        purchases which were rejected the first time. Take a second look at the
         category column, and double check for any missing information, before
         again trying to upload JUST those purchases that did not go through the
         first time. Uploading the whole sheet again may result in duplicate
         purchases!
       </p>
-      <input type="file" id="excel-upload" onChange={readFile}/>
+      <input type="file" id="excel-upload" onChange={readFile} />
       <h2>{state.result}</h2>
-      {state.toUpload.length ? <button onClick={handleUpload}>Upload</button> : ''}
+      {state.toUpload.length ? (
+        <button onClick={handleUpload}>Upload</button>
+      ) : (
+        ''
+      )}
     </div>
   );
 }

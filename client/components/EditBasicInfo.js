@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { updateUser, postBudget } from '../store';
+import useData from './custom_hooks/useData';
 
 export default function EditBasicInfo() {
   const dispatch = useDispatch();
-  const starterUsername = useSelector((state) => state.auth.username);
-  const starterIncome = useSelector((state) => state.auth.income);
-  const [username, setUsername] = useState(starterUsername);
-  const [income, setIncome] = useState(starterIncome);
+  const data = useData();
+  const [username, setUsername] = useState(data.username);
+  const [income, setIncome] = useState(data.income);
   let history = useHistory();
 
   const handleNameChange = (evt) => {

@@ -27,13 +27,12 @@ export default function MonthlySummary() {
   const { dollarFormat, fixedDec } = useFormatters();
   const data = useData();
   const { year, month } = useParams();
-  const dailies = useSelector((state) =>
-    state.dailyExpenses.filter(
-      (ex) => ex.month === Number(month) && ex.year === Number(year)
-    )
+
+  const dailies = data.dailies.filter(
+    (ex) => ex.month === Number(month) && ex.year === Number(year)
   );
   const totalSpent = dailies.reduce((acc, daily) => acc + daily.amount, 0);
-  const categories = useSelector((state) => state.categories);
+  const categories = data.categories
 
   function getChartData() {
     const result = [

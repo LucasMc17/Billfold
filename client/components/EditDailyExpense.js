@@ -8,7 +8,7 @@ export default function EditDailyExpense() {
   const history = useHistory();
   const { id } = useParams();
   const dailyExpense = useSelector((state) => state.singleDailyExpense);
-  const categories = useSelector((state) => state.categories);
+  const categories = useSelector((state) => JSON.parse(state.currentBudget.categories));
 
   const [daily, setDaily] = useState({
     name: '',

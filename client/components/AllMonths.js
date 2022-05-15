@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import useData from './custom_hooks/useData';
 import { Link } from 'react-router-dom';
 
 const monthTable = {
@@ -18,7 +18,7 @@ const monthTable = {
 };
 
 export default function AllMonths() {
-  const dailies = useSelector((state) => state.dailyExpenses);
+  const { dailies } = useData();
   function getUniqueMonths(exps) {
     const result = [];
     exps.forEach((daily) => {
