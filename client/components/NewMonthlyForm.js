@@ -27,15 +27,16 @@ export default function NewMonthlyForm(props) {
       ...expense,
       percent: Number(expense.percent) / 100,
       amount: Number(expense.amount),
+      id: expenses.length,
     });
     dispatch(postBudget({ monthlies: JSON.stringify(expenses) }));
-    dispatch(
-      postExpense({
-        ...expense,
-        percent: Number(expense.percent) / 100,
-        amount: Number(expense.amount),
-      })
-    );
+    // dispatch(
+    //   postExpense({
+    //     ...expense,
+    //     percent: Number(expense.percent) / 100,
+    //     amount: Number(expense.amount),
+    //   })
+    // );
   }
 
   return (

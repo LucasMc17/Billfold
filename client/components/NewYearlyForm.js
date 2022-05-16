@@ -28,15 +28,17 @@ export default function NewYearlyForm(props) {
       ...deduct,
       percent: Number(deduct.percent) / 100,
       amount: Number(deduct.amount),
+      id: yearlies.length,
     });
+    console.log(yearlies)
     dispatch(postBudget({ yearlies: JSON.stringify(yearlies) }));
-    dispatch(
-      postDeduct({
-        ...deduct,
-        percent: Number(deduct.percent) / 100,
-        amount: Number(deduct.amount),
-      })
-    );
+    // dispatch(
+    //   postDeduct({
+    //     ...deduct,
+    //     percent: Number(deduct.percent) / 100,
+    //     amount: Number(deduct.amount),
+    //   })
+    // );
   }
 
   return (

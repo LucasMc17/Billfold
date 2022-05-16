@@ -28,7 +28,7 @@ export default function EditYearlyExpenses() {
       }
     });
     dispatch(postBudget({ yearlies: JSON.stringify(vettedDeductions) }));
-    dispatch(deleteDeduct(de));
+    // dispatch(deleteDeduct(de));
   };
 
   return (

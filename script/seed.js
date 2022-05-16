@@ -43,11 +43,13 @@ async function seed() {
         name: 'stuff',
         rule: 'FIXED',
         amount: 10000,
+        id: 0,
       },
       {
         name: 'stuff',
         rule: 'PERCENT',
         percent: 0.25,
+        id: 1,
       },
     ]),
     monthlies: JSON.stringify([
@@ -55,11 +57,13 @@ async function seed() {
         name: 'rent',
         rule: 'FIXED',
         amount: 900,
+        id: 0,
       },
       {
         name: 'dog fee',
         rule: 'PERCENT',
         percent: 0.1,
+        id: 1,
       },
     ]),
     categories: JSON.stringify([
@@ -67,16 +71,19 @@ async function seed() {
         name: 'food',
         rule: 'PERCENT',
         percent: 0.25,
+        id: 0,
       },
       {
         name: 'fun',
         rule: 'PERCENT',
         percent: 0.75,
+        id: 1,
       },
       {
         name: 'laundry',
         rule: 'FIXED',
         amount: 65,
+        id: 2,
       },
     ]),
     year: 2021,
