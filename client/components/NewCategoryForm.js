@@ -23,7 +23,12 @@ export default function NewCategoryForm(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    categories.push({ ...category, id: categories.length });
+    categories.push({
+      ...category,
+      percent: Number(category.percent) / 100,
+      id: categories.length,
+      amount: Number(category.amount),
+    });
     dispatch(postBudget({ categories: JSON.stringify(categories) }));
     console.log(categories);
     // dispatch(

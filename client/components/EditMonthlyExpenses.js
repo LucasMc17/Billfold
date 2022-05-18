@@ -14,17 +14,15 @@ export default function EditMonthlyExpenses() {
 
   const handleDelete = (ex) => {
     // we will need to make this better later on. Maybe use npm install uid to give each object a unique identifier?
-    const vettedExpenses = expenses.filter((expense) => {
-      if (
-        expense.name === ex.name && expense.rule === ex.rule && expense.amount
-          ? expense.amount === ex.amount
-          : expense.percent === ex.percent
-      ) {
-        return false;
-      } else {
-        return true;
-      }
-    });
+    const vettedExpenses = expenses
+      .filter((expense) => {
+        if (expense.id === ex.id) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .map((expense, i) => ({ ...expense, id: i }));
     dispatch(postBudget({ monthlies: JSON.stringify(vettedExpenses) }));
     // dispatch(deleteExpense(ex));
   };

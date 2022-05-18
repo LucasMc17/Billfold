@@ -7,26 +7,20 @@ import { Link } from 'react-router-dom';
 import NewYearlyForm from './NewYearlyForm';
 
 export default function EditYearlyExpenses() {
-  const yearlies = useSelector((state) =>
-    JSON.parse(state.currentBudget.yearlies)
-  );
-  const income = useSelector((state) => state.auth.income);
+  const { income, deducts } = useData();
   const dispatch = useDispatch();
-  const deducts = useSelector((state) => state.yearlyDeductions);
   const { dollarFormat } = useFormatters();
 
   const handleDelete = (de) => {
-    const vettedDeductions = yearlies.filter((deduct) => {
-      if (
-        deduct.name === de.name && deduct.rule === de.rule && deduct.amount
-          ? deduct.amount === de.amount
-          : deduct.percent === de.percent
-      ) {
-        return false;
-      } else {
-        return true;
-      }
-    });
+    const vettedDeductions = deducts
+      .filter((deduct) => {
+        if (deduct.id === de.id) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .map((deduct, i) => ({ ...deduct, id: i }));
     dispatch(postBudget({ yearlies: JSON.stringify(vettedDeductions) }));
     // dispatch(deleteDeduct(de));
   };

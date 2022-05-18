@@ -17,21 +17,17 @@ export default function EditFlexibleCategories() {
   const { dollarFormat } = useFormatters();
 
   const handleDelete = (cat) => {
-    const vettedCategories = categories.filter((category) => {
-      if (
-        category.name === cat.name &&
-        category.rule === cat.rule &&
-        category.amount
-          ? category.amount === cat.amount
-          : category.percent === cat.percent
-      ) {
-        return false;
-      } else {
-        return true;
-      }
-    });
+    const vettedCategories = categories
+      .filter((category) => {
+        if (category.id === cat.id) {
+          return false;
+        } else {
+          return true;
+        }
+      })
+      .map((category, i) => ({ ...category, id: i }));
     dispatch(postBudget({ categories: JSON.stringify(vettedCategories) }));
-    dispatch(deleteCategory(cat));
+    // dispatch(deleteCategory(cat));
   };
   return (
     <div>
