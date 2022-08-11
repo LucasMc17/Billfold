@@ -37,6 +37,7 @@ router.post('/', requireToken, async (req, res, next) => {
     const category = await Category.findOne({
       where: {
         name: req.body.category,
+        userId: req.user.id,
       },
     });
     const daily = await DailyExpense.create({
