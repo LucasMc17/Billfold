@@ -315,3 +315,16 @@ button {
 button:hover {
   box-shadow: 10px 5px 5px gray;
 }
+
+#month-chart {
+  padding: 3vh 5vw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6% 6%;
+}
+
+.month {
+  flex: 0 0 calc(47% - 8px);
+  border: 4px solid #93e9be;
+  margin-bottom: 3vh;
+}

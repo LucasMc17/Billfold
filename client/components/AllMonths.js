@@ -41,9 +41,9 @@ export default function AllMonths() {
   }
   const dateList = createObjectFormat(getUniqueMonths(dailies));
   return (
-    <div>
+    <div id="month-chart">
       {dateList.map((month) => (
-        <div key={month.date}>
+        <div class="month" key={month.date}>
           <Link to={`/year/${month.year}/month/${month.month}`}>
             <h1>{`${monthTable[month.month]}, ${month.year}`}</h1>
           </Link>
