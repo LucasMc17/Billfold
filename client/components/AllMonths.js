@@ -45,15 +45,6 @@ export default function AllMonths() {
     return result;
   }
   console.log(getUniqueMonths(dailies));
-  // function createObjectFormat(dates) {
-  //   Object.keys(dates).forEach(year => {
-  //     dates[year].map(month => {
-  //       return {
-  //         month:
-  //       }
-  //     })
-  //   })
-  // }
   const dateList = getUniqueMonths(dailies);
   return (
     <div id="year-list">
