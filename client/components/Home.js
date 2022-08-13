@@ -13,7 +13,7 @@ import {
   fetchDeducts,
 } from '../store';
 
-import { Bar } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 import 'chart.js/auto';
 
 const { dollarFormat } = useFormatters();
@@ -26,16 +26,26 @@ export default function Home() {
   const categories = useSelector((state) => state.categories);
   const dailies = useSelector((state) => state.dailyExpenses);
   const [view, setView] = useState(6);
-  const [data, setData] = useState({
-    labels: [],
-    datasets: [
-      {
-        label: 'Dollars Spent',
-        data: [],
-        backgroundColor: [],
-      },
-    ],
-  });
+  const [data, setData] = useState([
+    {
+      labels: [],
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Dollars Spent',
+          data: [],
+          backgroundColor: [],
+        },
+        {
+          type: 'line',
+          label: 'Budget',
+          data: [],
+          borderColor: 'red',
+        },
+      ],
+    },
+    100,
+  ]);
   const { username, budgetGap, afterExpenses, unassigned } = useData();
   const today = new Date();
   const month = today.getMonth() + 1;
@@ -81,9 +91,16 @@ export default function Home() {
       labels: [],
       datasets: [
         {
+          type: 'bar',
           label: 'Dollars Spent',
           data: [],
           backgroundColor: [],
+        },
+        {
+          type: 'line',
+          label: 'Budget',
+          data: [],
+          borderColor: 'red',
         },
       ],
     };
@@ -97,6 +114,7 @@ export default function Home() {
           )
           .reduce((acc, daily) => acc + daily.amount, 0)
       );
+      result.datasets[1].data.unshift(afterExpenses);
       result.labels.unshift(months[searchMonth - 1]);
       searchMonth--;
       if (searchMonth === 0) {
@@ -104,7 +122,13 @@ export default function Home() {
         searchYear--;
       }
     }
-    return result;
+
+    const reactHighestPoint = result.datasets[0].data.reduce(
+      (curr, item) => (curr > item ? curr : item),
+      afterExpenses
+    );
+    console.log(reactHighestPoint);
+    return [result, reactHighestPoint];
   }
 
   function getChartData(num, searchYear, searchMonth) {
@@ -202,7 +226,18 @@ export default function Home() {
       </div>
       <div className="chart-container">
         <div id="home-chart" className="chart"></div>
-        <Bar data={data} />
+        <Chart
+          type="bar"
+          data={data[0]}
+          options={{
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: data[1] * 1.1,
+              },
+            },
+          }}
+        />
         <h3>Change chart range</h3>
         <select defaultValue={'6'} onChange={handleViewChange}>
           <option value="3">3</option>
