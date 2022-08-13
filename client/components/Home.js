@@ -14,7 +14,21 @@ import {
 } from '../store';
 
 import { Chart } from 'react-chartjs-2';
-import 'chart.js/auto';
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  LinearScale,
+  LineElement,
+  PointElement,
+} from 'chart.js';
+ChartJS.register(
+  LinearScale,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+);
 
 const { dollarFormat } = useFormatters();
 
@@ -106,7 +120,6 @@ export default function Home() {
     };
     for (let i = 0; i < num; i++) {
       result.datasets[0].backgroundColor.push('#93e9be');
-      console.log(searchYear, searchMonth);
       result.datasets[0].data.unshift(
         dailies
           .filter(
@@ -127,7 +140,6 @@ export default function Home() {
       (curr, item) => (curr > item ? curr : item),
       afterExpenses
     );
-    console.log(reactHighestPoint);
     return [result, reactHighestPoint];
   }
 
@@ -167,7 +179,6 @@ export default function Home() {
     const chartData = getChartData(view, year, month);
     const reactChartData = getReactChartData(view, year, month);
     setData(reactChartData);
-    console.log(reactChartData);
 
     clearChart();
     drawChart(
