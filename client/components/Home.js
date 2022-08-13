@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
-import { drawChart, clearChart } from './HomeChart';
 import DailyExpense from './DailyExpense';
 import {
   fetchCategories,
@@ -27,7 +26,7 @@ ChartJS.register(
   CategoryScale,
   BarElement,
   PointElement,
-  LineElement,
+  LineElement
 );
 
 const { dollarFormat } = useFormatters();
@@ -143,31 +142,6 @@ export default function Home() {
     return [result, reactHighestPoint];
   }
 
-  function getChartData(num, searchYear, searchMonth) {
-    let result = [];
-    for (let i = 0; i < num; i++) {
-      result.push({
-        year: searchYear,
-        month: searchMonth,
-        spent: dailies
-          .filter(
-            (daily) => daily.month === searchMonth && daily.year === searchYear
-          )
-          .reduce((acc, daily) => acc + daily.amount, 0),
-      });
-      searchMonth--;
-      if (searchMonth === 0) {
-        searchMonth = 12;
-        searchYear--;
-      }
-    }
-    const highestPoint = result.reduce(
-      (curr, item) => (curr > item.spent ? curr : item.spent),
-      0
-    );
-    return [result, highestPoint];
-  }
-
   useEffect(() => {
     dispatch(fetchDeducts());
     dispatch(fetchExpenses());
@@ -176,18 +150,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const chartData = getChartData(view, year, month);
     const reactChartData = getReactChartData(view, year, month);
     setData(reactChartData);
-
-    clearChart();
-    drawChart(
-      300,
-      1000,
-      chartData[0],
-      Math.max(chartData[1] * 1.1, afterExpenses * 1.1),
-      afterExpenses
-    );
   }, [categories, dailies, view]);
 
   let lastMonthYear, lastMonth;
@@ -236,7 +200,14 @@ export default function Home() {
         {categories.length ? <NewDailyForm categories={categories} /> : <div />}
       </div>
       <div className="chart-container">
-        <div id="home-chart" className="chart"></div>
+        <h2>Your spending - visualized</h2>
+        <h3>Change chart range</h3>
+        <select defaultValue={'6'} onChange={handleViewChange}>
+          <option value="3">3</option>
+          <option value="6">6</option>
+          <option value="12">12</option>
+          <option value="18">18</option>
+        </select>
         <Chart
           type="bar"
           data={data[0]}
@@ -249,13 +220,6 @@ export default function Home() {
             },
           }}
         />
-        <h3>Change chart range</h3>
-        <select defaultValue={'6'} onChange={handleViewChange}>
-          <option value="3">3</option>
-          <option value="6">6</option>
-          <option value="12">12</option>
-          <option value="18">18</option>
-        </select>
       </div>
     </div>
   );
