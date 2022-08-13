@@ -57,26 +57,44 @@ export default function AllMonths() {
   const dateList = getUniqueMonths(dailies);
   return (
     <div id="year-list">
-      {Object.keys(dateList).reverse().map((year) => (
-        <div className="year" key={year}>
-          <h1>{year}</h1>
-          <div className="month-chart">
-            {dateList[year].map((month, i) => {
-              return month ? (
-                <div className="month">
-                  <Link to={`/year/${year}/month/${i + 1}`}>
+      {Object.keys(dateList)
+        .reverse()
+        .map((year) => (
+          <div className="year" key={year}>
+            <h1>{year}</h1>
+            <div className="month-chart">
+              {dateList[year].map((month, i) => {
+                return month ? (
+                  <div className="month">
+                    <Link to={`/year/${year}/month/${i + 1}`}>
+                      <h1>{`${monthTable[i + 1]}`}</h1>
+                      <div className="calendar">
+                        <div className="square" />
+                        <div className="square" />
+                        <div className="square end" />
+                        <div className="square" />
+                        <div className="square" />
+                        <div className="square end" />
+                      </div>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="month no-dailies">
                     <h1>{`${monthTable[i + 1]}`}</h1>
-                  </Link>
-                </div>
-              ) : (
-                <div className="month no-dailies">
-                  <h1>{`${monthTable[i + 1]}`}</h1>
-                </div>
-              );
-            })}
+                    <div className="calendar">
+                      <div className="square" />
+                      <div className="square" />
+                      <div className="square end" />
+                      <div className="square" />
+                      <div className="square" />
+                      <div className="square end" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }
