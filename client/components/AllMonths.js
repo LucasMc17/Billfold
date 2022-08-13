@@ -20,35 +20,81 @@ const monthTable = {
 export default function AllMonths() {
   const dailies = useSelector((state) => state.dailyExpenses);
   function getUniqueMonths(exps) {
-    const result = [];
+    const result = {};
     exps.forEach((daily) => {
-      const date = `${daily.month}/${daily.year}`;
-      if (!result.includes(date)) {
-        result.push(date);
+      if (!result[daily.year]) {
+        result[daily.year] = [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+        ];
+      }
+      if (!result[daily.year][daily.month - 1]) {
+        result[daily.year][daily.month - 1] = true;
       }
     });
     return result;
   }
-  function createObjectFormat(dates) {
-    return dates
-      .map((date) => ({
-        date: date,
-        month: Number(date.split('/')[0]),
-        year: Number(date.split('/')[1]),
-      }))
-      .sort((a, b) => b.month - a.month)
-      .sort((a, b) => b.year - a.year);
-  }
-  const dateList = createObjectFormat(getUniqueMonths(dailies));
+  console.log(getUniqueMonths(dailies));
+  // function createObjectFormat(dates) {
+  //   Object.keys(dates).forEach(year => {
+  //     dates[year].map(month => {
+  //       return {
+  //         month:
+  //       }
+  //     })
+  //   })
+  // }
+  const dateList = getUniqueMonths(dailies);
   return (
-    <div id="month-chart">
-      {dateList.map((month) => (
-        <div class="month" key={month.date}>
-          <Link to={`/year/${month.year}/month/${month.month}`}>
-            <h1>{`${monthTable[month.month]}, ${month.year}`}</h1>
-          </Link>
-        </div>
-      ))}
+    <div id="year-list">
+      {Object.keys(dateList)
+        .reverse()
+        .map((year) => (
+          <div className="year" key={year}>
+            <h1>{year}</h1>
+            <div className="month-chart">
+              {dateList[year].map((month, i) => {
+                return month ? (
+                  <div className="month">
+                    <Link to={`/year/${year}/month/${i + 1}`}>
+                      <h1>{`${monthTable[i + 1]}`}</h1>
+                      <div className="calendar">
+                        <div className="square" />
+                        <div className="square" />
+                        <div className="square end" />
+                        <div className="square" />
+                        <div className="square" />
+                        <div className="square end" />
+                      </div>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="month no-dailies">
+                    <h1>{`${monthTable[i + 1]}`}</h1>
+                    <div className="calendar">
+                      <div className="square" />
+                      <div className="square" />
+                      <div className="square end" />
+                      <div className="square" />
+                      <div className="square" />
+                      <div className="square end" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
     </div>
   );
 }
