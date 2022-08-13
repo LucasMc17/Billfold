@@ -13,6 +13,9 @@ import {
   fetchDeducts,
 } from '../store';
 
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
+
 const { dollarFormat } = useFormatters();
 
 /**
@@ -23,13 +26,85 @@ export default function Home() {
   const categories = useSelector((state) => state.categories);
   const dailies = useSelector((state) => state.dailyExpenses);
   const [view, setView] = useState(6);
+  const [data, setData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: 'Dollars Spent',
+        data: [],
+        backgroundColor: [],
+      },
+    ],
+  });
   const { username, budgetGap, afterExpenses, unassigned } = useData();
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
+  const testData = {
+    labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+    datasets: [
+      {
+        label: 'Dollars Spent',
+        data: [200, 190, 1000, 20, 250, 300],
+        backgroundColor: [
+          '#93e9be',
+          '#93e9be',
+          '#93e9be',
+          '#93e9be',
+          '#93e9be',
+          '#93e9be',
+        ],
+      },
+    ],
+  };
 
   function handleViewChange(evt) {
     setView(Number(evt.target.value));
+  }
+
+  function getReactChartData(num, searchYear, searchMonth) {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    let result = {
+      labels: [],
+      datasets: [
+        {
+          label: 'Dollars Spent',
+          data: [],
+          backgroundColor: [],
+        },
+      ],
+    };
+    for (let i = 0; i < num; i++) {
+      result.datasets[0].backgroundColor.push('#93e9be');
+      console.log(searchYear, searchMonth);
+      result.datasets[0].data.unshift(
+        dailies
+          .filter(
+            (daily) => daily.month === searchMonth && daily.year === searchYear
+          )
+          .reduce((acc, daily) => acc + daily.amount, 0)
+      );
+      result.labels.unshift(months[searchMonth - 1]);
+      searchMonth--;
+      if (searchMonth === 0) {
+        searchMonth = 12;
+        searchYear--;
+      }
+    }
+    return result;
   }
 
   function getChartData(num, searchYear, searchMonth) {
@@ -66,6 +141,9 @@ export default function Home() {
 
   useEffect(() => {
     const chartData = getChartData(view, year, month);
+    const reactChartData = getReactChartData(view, year, month);
+    setData(reactChartData);
+    console.log(reactChartData);
 
     clearChart();
     drawChart(
@@ -124,6 +202,7 @@ export default function Home() {
       </div>
       <div className="chart-container">
         <div id="home-chart" className="chart"></div>
+        <Bar data={data} />
         <h3>Change chart range</h3>
         <select defaultValue={'6'} onChange={handleViewChange}>
           <option value="3">3</option>
