@@ -5,7 +5,6 @@ import CatSummary from './CatSummary';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
-import { drawChart, clearChart } from './MonthChart';
 import DailyExpense from './DailyExpense';
 
 import { Chart } from 'react-chartjs-2';
