@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CatSummary from './CatSummary';
@@ -7,6 +7,23 @@ import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import { drawChart, clearChart } from './MonthChart';
 import DailyExpense from './DailyExpense';
+
+import { Chart } from 'react-chartjs-2';
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  LinearScale,
+  LineElement,
+  PointElement,
+} from 'chart.js';
+ChartJS.register(
+  LinearScale,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement
+);
 
 const monthTable = {
   1: 'January',
@@ -24,45 +41,110 @@ const monthTable = {
 };
 
 export default function MonthlySummary() {
+  const [reactChartData, setReactChartData] = useState([
+    {
+      labels: ['Total'],
+      datasets: [
+        {
+          type: 'line',
+          label: 'Budget',
+          data: [],
+          borderColor: 'red',
+        },
+        {
+          type: 'bar',
+          label: 'Percent Spent',
+          data: [],
+          backgroundColor: '#93e9be',
+        },
+      ],
+    },
+    100,
+  ]);
   const { dollarFormat, fixedDec } = useFormatters();
   const data = useData();
   const { year, month } = useParams();
-  const dailies = useSelector((state) =>
-    state.dailyExpenses.filter(
-      (ex) => ex.month === Number(month) && ex.year === Number(year)
-    )
+  const dailyExpenses = useSelector((state) => state.dailyExpenses);
+  const dailies = dailyExpenses.filter(
+    (ex) => ex.month === Number(month) && ex.year === Number(year)
   );
   const totalSpent = dailies.reduce((acc, daily) => acc + daily.amount, 0);
   const categories = useSelector((state) => state.categories);
 
-  function getChartData() {
-    const result = [
-      ...categories.map((cat) => {
-        const total = cat.amount
-          ? cat.amount
-          : cat.percent * data.afterFixedCats;
-        return {
-          name: cat.name,
-          spent:
-            (dailies
-              .filter((daily) => daily.categoryId === cat.id)
-              .reduce((acc, daily) => acc + daily.amount, 0) /
-              total) *
-            100,
-        };
-      }),
-      { name: 'Total', spent: (totalSpent / data.afterExpenses) * 100 },
-    ];
-    const highestPoint = result.reduce((curr, item) => {
-      return curr > item.spent ? curr : item.spent;
-    }, 0);
-    return [result, highestPoint];
+  function reactGetChartData() {
+    const result = {
+      labels: [...categories.map((cat) => cat.name), 'Total'],
+      datasets: [
+        {
+          type: 'line',
+          label: 'Budget',
+          data: Array(categories.length + 1).fill(100),
+          borderColor: 'red',
+        },
+        {
+          type: 'bar',
+          label: 'Percent Spent',
+          data: [],
+          backgroundColor: '#93e9be',
+        },
+      ],
+    };
+    result.labels.forEach((label, i) => {
+      if (i === result.labels.length - 1) {
+        result.datasets[1].data.push((totalSpent / data.afterExpenses) * 100);
+      } else {
+        const catBudget =
+          categories[i].amount || categories[i].percent * data.afterFixedCats;
+        const catTotal =
+          (dailies
+            .filter((daily) => daily.category.name === label)
+            .reduce((a, b) => a + b.amount, 0) /
+            catBudget) *
+          100;
+        console.log(catBudget);
+        result.datasets[1].data.push(catTotal);
+      }
+    });
+    const heighestPoint = result.datasets[1].data.reduce(
+      (datum, highest) => (datum > highest ? datum : highest),
+      100
+    );
+    // console.log(result, heighestPoint);
+    return [result, heighestPoint];
   }
+
+  // function getChartData() {
+  //   const result = [
+  //     ...categories.map((cat) => {
+  //       const total = cat.amount
+  //         ? cat.amount
+  //         : cat.percent * data.afterFixedCats;
+  //       return {
+  //         name: cat.name,
+  //         spent:
+  //           (dailies
+  //             .filter((daily) => daily.categoryId === cat.id)
+  //             .reduce((acc, daily) => acc + daily.amount, 0) /
+  //             total) *
+  //           100,
+  //       };
+  //     }),
+  //     { name: 'Total', spent: (totalSpent / data.afterExpenses) * 100 },
+  //   ];
+  //   const highestPoint = result.reduce((curr, item) => {
+  //     return curr > item.spent ? curr : item.spent;
+  //   }, 0);
+  //   return [result, highestPoint];
+  // }
   useEffect(() => {
-    const chartData = getChartData();
-    clearChart();
-    drawChart(300, 1000, chartData[0], Math.max(chartData[1] * 1.1, 110));
-  }, [categories, dailies]);
+    const reactData = reactGetChartData();
+    console.log(reactData);
+    setReactChartData(reactData);
+    // setReactChartData(reactGetChartData());
+    // const chartData = getChartData();
+    // clearChart();
+    // drawChart(300, 1000, chartData[0], Math.max(chartData[1] * 1.1, 110));
+  }, [dailyExpenses]);
 
   return (
     <div>
@@ -96,6 +178,18 @@ export default function MonthlySummary() {
       </div>
       <div>
         <div id="line-chart" />
+        <Chart
+          type="bar"
+          data={reactChartData[0]}
+          options={{
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: reactChartData[1] * 1.1,
+              },
+            },
+          }}
+        />
       </div>
       <h1>PURCHASES</h1>
       {dailies.length ? (
