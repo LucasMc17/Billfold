@@ -101,7 +101,6 @@ export default function MonthlySummary() {
             .reduce((a, b) => a + b.amount, 0) /
             catBudget) *
           100;
-        console.log(catBudget);
         result.datasets[1].data.push(catTotal);
       }
     });
@@ -109,41 +108,12 @@ export default function MonthlySummary() {
       (datum, highest) => (datum > highest ? datum : highest),
       100
     );
-    // console.log(result, heighestPoint);
     return [result, heighestPoint];
   }
 
-  // function getChartData() {
-  //   const result = [
-  //     ...categories.map((cat) => {
-  //       const total = cat.amount
-  //         ? cat.amount
-  //         : cat.percent * data.afterFixedCats;
-  //       return {
-  //         name: cat.name,
-  //         spent:
-  //           (dailies
-  //             .filter((daily) => daily.categoryId === cat.id)
-  //             .reduce((acc, daily) => acc + daily.amount, 0) /
-  //             total) *
-  //           100,
-  //       };
-  //     }),
-  //     { name: 'Total', spent: (totalSpent / data.afterExpenses) * 100 },
-  //   ];
-  //   const highestPoint = result.reduce((curr, item) => {
-  //     return curr > item.spent ? curr : item.spent;
-  //   }, 0);
-  //   return [result, highestPoint];
-  // }
   useEffect(() => {
     const reactData = reactGetChartData();
-    console.log(reactData);
     setReactChartData(reactData);
-    // setReactChartData(reactGetChartData());
-    // const chartData = getChartData();
-    // clearChart();
-    // drawChart(300, 1000, chartData[0], Math.max(chartData[1] * 1.1, 110));
   }, [dailyExpenses]);
 
   return (
@@ -177,7 +147,6 @@ export default function MonthlySummary() {
         <div className="chart" id="month-chart" />
       </div>
       <div>
-        <div id="line-chart" />
         <Chart
           type="bar"
           data={reactChartData[0]}
