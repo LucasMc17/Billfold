@@ -29,8 +29,6 @@ ChartJS.register(
   LineElement
 );
 
-const { dollarFormat } = useFormatters();
-
 /**
  * COMPONENT
  */
@@ -44,16 +42,16 @@ export default function Home() {
       labels: [],
       datasets: [
         {
-          type: 'bar',
-          label: 'Dollars Spent',
-          data: [],
-          backgroundColor: [],
-        },
-        {
           type: 'line',
           label: 'Budget',
           data: [],
           borderColor: 'red',
+        },
+        {
+          type: 'bar',
+          label: 'Dollars Spent',
+          data: [],
+          backgroundColor: [],
         },
       ],
     },
@@ -63,23 +61,6 @@ export default function Home() {
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
-  const testData = {
-    labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-    datasets: [
-      {
-        label: 'Dollars Spent',
-        data: [200, 190, 1000, 20, 250, 300],
-        backgroundColor: [
-          '#93e9be',
-          '#93e9be',
-          '#93e9be',
-          '#93e9be',
-          '#93e9be',
-          '#93e9be',
-        ],
-      },
-    ],
-  };
 
   function handleViewChange(evt) {
     setView(Number(evt.target.value));
@@ -104,29 +85,29 @@ export default function Home() {
       labels: [],
       datasets: [
         {
-          type: 'bar',
-          label: 'Dollars Spent',
-          data: [],
-          backgroundColor: [],
-        },
-        {
           type: 'line',
           label: 'Budget',
           data: [],
           borderColor: 'red',
         },
+        {
+          type: 'bar',
+          label: 'Dollars Spent',
+          data: [],
+          backgroundColor: [],
+        },
       ],
     };
     for (let i = 0; i < num; i++) {
-      result.datasets[0].backgroundColor.push('#93e9be');
-      result.datasets[0].data.unshift(
+      result.datasets[1].backgroundColor.push('#93e9be');
+      result.datasets[1].data.unshift(
         dailies
           .filter(
             (daily) => daily.month === searchMonth && daily.year === searchYear
           )
           .reduce((acc, daily) => acc + daily.amount, 0)
       );
-      result.datasets[1].data.unshift(afterExpenses);
+      result.datasets[0].data.unshift(afterExpenses);
       result.labels.unshift(months[searchMonth - 1]);
       searchMonth--;
       if (searchMonth === 0) {
@@ -135,7 +116,7 @@ export default function Home() {
       }
     }
 
-    const reactHighestPoint = result.datasets[0].data.reduce(
+    const reactHighestPoint = result.datasets[1].data.reduce(
       (curr, item) => (curr > item ? curr : item),
       afterExpenses
     );
