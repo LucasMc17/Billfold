@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { Link } from 'react-router-dom';
-import { drawChart, clearChart } from './PieChart';
 import { updateUnassigned } from '../store';
+import { Chart } from 'react-chartjs-2';
+import { ArcElement, Chart as ChartJS, Tooltip } from 'chart.js';
+ChartJS.register(ArcElement, Tooltip);
 
 export default function MyInfo() {
   const dispatch = useDispatch();
@@ -25,26 +27,6 @@ export default function MyInfo() {
   } = data;
 
   dispatch(updateUnassigned(unassigned));
-
-  const pieSlices = {};
-  useEffect(() => {
-    deducts.forEach((de) =>
-      de.amount
-        ? (pieSlices[de.name] = de.amount)
-        : (pieSlices[de.name] = de.percent * income)
-    );
-    expenses.forEach((ex) =>
-      ex.amount
-        ? (pieSlices[ex.name] = ex.amount * 12)
-        : (pieSlices[ex.name] = ex.percent * monthlyNet * 12)
-    );
-    fixedCats.forEach((cat) => (pieSlices[cat.name] = cat.amount * 12));
-    unfixedCats.forEach(
-      (cat) => (pieSlices[cat.name] = cat.percent * afterFixedCats * 12)
-    );
-    clearChart();
-    drawChart(pieSlices);
-  }, []);
 
   return (
     <div>
@@ -176,7 +158,44 @@ export default function MyInfo() {
       </Link>
       <div className="chart-container">
         <h1>My spending:</h1>
-        <div id="pie-chart" className="chart" />
+        <Chart
+          type="pie"
+          data={{
+            labels: [
+              ...deducts.map((de) => de.name),
+              ...expenses.map((ex) => ex.name),
+              ...fixedCats.map((cat) => cat.name),
+              ...unfixedCats.map((cat) => cat.name),
+            ],
+            datasets: [
+              {
+                label: 'Dollars spent each year: ',
+                data: [
+                  ...deducts.map((de) => de.amount || de.percent * income),
+                  ...expenses.map(
+                    (ex) => (ex.amount || ex.percent * monthlyNet) * 12
+                  ),
+                  ...fixedCats.map((cat) => cat.amount * 12),
+                  ...unfixedCats.map(
+                    (cat) => cat.percent * afterFixedCats * 12
+                  ),
+                ],
+                backgroundColor: Array(10)
+                  .fill('')
+                  .map(
+                    () =>
+                      `#${Math.round(Math.random() * 30 + 132).toString(
+                        16
+                      )}${Math.round(Math.random() * 30 + 218).toString(
+                        16
+                      )}${Math.round(Math.random() * 30 + 175).toString(16)}`
+                  ),
+                borderColor: 'black',
+                borderWidth: 3,
+              },
+            ],
+          }}
+        />
       </div>
     </div>
   );
