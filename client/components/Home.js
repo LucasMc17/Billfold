@@ -21,6 +21,7 @@ import {
   LineElement,
   PointElement,
   LineController,
+  BarController,
 } from 'chart.js';
 ChartJS.register(
   LinearScale,
@@ -28,7 +29,8 @@ ChartJS.register(
   BarElement,
   PointElement,
   LineElement,
-  LineController
+  LineController,
+  BarController
 );
 
 /**
