@@ -5,8 +5,8 @@ import useFormatters from './custom_hooks/useFormatters';
 import { Link } from 'react-router-dom';
 import { updateUnassigned } from '../store';
 import { Chart } from 'react-chartjs-2';
-import { ArcElement, Chart as ChartJS, Tooltip } from 'chart.js';
-ChartJS.register(ArcElement, Tooltip);
+import { ArcElement, Chart as ChartJS, Tooltip, PieController } from 'chart.js';
+ChartJS.register(ArcElement, Tooltip, PieController);
 
 export default function MyInfo() {
   const dispatch = useDispatch();
