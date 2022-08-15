@@ -15,13 +15,17 @@ import {
   LinearScale,
   LineElement,
   PointElement,
+  LineController,
+  BarController,
 } from 'chart.js';
 ChartJS.register(
   LinearScale,
   CategoryScale,
   BarElement,
   PointElement,
-  LineElement
+  LineElement,
+  LineController,
+  BarController
 );
 
 const monthTable = {
