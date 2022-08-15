@@ -20,13 +20,15 @@ import {
   LinearScale,
   LineElement,
   PointElement,
+  LineController,
 } from 'chart.js';
 ChartJS.register(
   LinearScale,
   CategoryScale,
   BarElement,
   PointElement,
-  LineElement
+  LineElement,
+  LineController
 );
 
 /**
