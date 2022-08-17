@@ -162,7 +162,8 @@ export default function Home() {
     <div>
       <div id="welcome">
         <h1>Welcome back to Billfold, {username}.</h1>
-        <div>
+        <div id="status">
+          <div id="exc">!</div>
           <h2>{warning}</h2>
         </div>
         <Link to={`/year/${year}/month/${month}`}>
