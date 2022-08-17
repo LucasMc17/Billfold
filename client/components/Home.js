@@ -160,20 +160,22 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Welcome back to Billfold, {username}.</h1>
-      <Link to={`/year/${year}/month/${month}`}>
-        <button type="button">Show Me This Month</button>
-      </Link>
-      <Link to={`/year/${lastMonthYear}/month/${lastMonth}`}>
-        <button type="button">Show Me Last Month</button>
-      </Link>
-      <Link to={'/all-months'}>
-        <button type="button">Show Me All Months</button>
-      </Link>
-      <div>
-        <h2>{warning}</h2>
+      <div id="welcome">
+        <h1>Welcome back to Billfold, {username}.</h1>
+        <div>
+          <h2>{warning}</h2>
+        </div>
+        <Link to={`/year/${year}/month/${month}`}>
+          <button type="button">Show Me This Month</button>
+        </Link>
+        <Link to={`/year/${lastMonthYear}/month/${lastMonth}`}>
+          <button type="button">Show Me Last Month</button>
+        </Link>
+        <Link to={'/all-months'}>
+          <button type="button">Show Me All Months</button>
+        </Link>
       </div>
-      <div>
+      <div id="recent-purchases">
         <h2>Recent purchases</h2>
         {dailies
           .slice()
@@ -185,15 +187,18 @@ export default function Home() {
         {categories.length ? <NewDailyForm categories={categories} /> : <div />}
       </div>
       <div className="chart-container">
-        <h2>Your spending - visualized</h2>
-        <h3>Change chart range</h3>
-        <select defaultValue={'6'} onChange={handleViewChange}>
-          <option value="3">3</option>
-          <option value="6">6</option>
-          <option value="12">12</option>
-          <option value="18">18</option>
-        </select>
+        <div id="home-chart-header">
+          <h2>Your spending - visualized</h2>
+          <h3>Change chart range</h3>
+          <select defaultValue={'6'} onChange={handleViewChange}>
+            <option value="3">3</option>
+            <option value="6">6</option>
+            <option value="12">12</option>
+            <option value="18">18</option>
+          </select>
+        </div>
         <Chart
+          id="home-chart"
           type="bar"
           data={data[0]}
           options={{

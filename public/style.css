@@ -38,7 +38,7 @@ form div {
 }
 
 #page {
-  margin-top: 100px;
+  margin-top: 120px;
 }
 
 #nav {
@@ -160,11 +160,6 @@ form div {
   margin-top: 10px;
 }
 
-.chart rect:hover,
-.chart path:hover {
-  fill: aqua;
-}
-
 #summaries {
   display: flex;
   width: 90%;
@@ -197,20 +192,29 @@ form div {
 }
 
 .chart-container {
-  width: 100%;
+  width: 90%;
+  border: 5px solid#93e9be;
+  margin: 20px auto 20px auto;
+  border-radius: 15px;
 }
 
-.chart {
-  margin: 10px auto 10px auto;
-  display: flex;
+#home-chart-header {
+  background-color: #93e9be;
+  padding: 10px;
 }
 
-.chart svg {
-  margin: 10px auto 10px auto;
+#recent-purchases {
+  width: 90%;
+  margin: auto;
+  border: 5px solid#93e9be;
+  border-radius: 15px;
+  padding: 0px 0px 10px 0px;
 }
 
-.chart svg rect:hover {
-  color: #73b694;
+#recent-purchases>h2 {
+  margin: 0px;
+  background-color: #93e9be;
+  padding: 10px;
 }
 
 @keyframes fadeInAndRiseScootLeft {
@@ -375,4 +379,12 @@ button:hover {
   font-size: 50px;
   background-color: #93e9be;
   color: white;
+}
+
+#welcome {
+  background-color: #93e9be;
+  width: 90%;
+  margin: 40px auto;
+  padding: 10px;
+  border-radius: 15px;
 }

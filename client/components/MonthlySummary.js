@@ -147,21 +147,20 @@ export default function MonthlySummary() {
         )}
       </div>
       <div className="chart-container">
-        <div className="chart" id="month-chart" />
-      </div>
-      <div>
-        <Chart
-          type="bar"
-          data={reactChartData[0]}
-          options={{
-            scales: {
-              y: {
-                beginAtZero: true,
-                max: reactChartData[1] * 1.1,
+        <div>
+          <Chart
+            type="bar"
+            data={reactChartData[0]}
+            options={{
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  max: reactChartData[1] * 1.1,
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
       <h1>PURCHASES</h1>
       {dailies.length ? (
