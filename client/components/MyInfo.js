@@ -156,46 +156,49 @@ export default function MyInfo() {
       <Link to="/edit/flexible-categories">
         <button type="button">Edit my Flexible Categories</button>
       </Link>
-      <div className="chart-container">
+      <div className="chart-container" id="info-chart">
         <h1>My spending:</h1>
-        <Chart
-          type="pie"
-          data={{
-            labels: [
-              ...deducts.map((de) => de.name),
-              ...expenses.map((ex) => ex.name),
-              ...fixedCats.map((cat) => cat.name),
-              ...unfixedCats.map((cat) => cat.name),
-            ],
-            datasets: [
-              {
-                label: 'Dollars spent each year: ',
-                data: [
-                  ...deducts.map((de) => de.amount || de.percent * income),
-                  ...expenses.map(
-                    (ex) => (ex.amount || ex.percent * monthlyNet) * 12
-                  ),
-                  ...fixedCats.map((cat) => cat.amount * 12),
-                  ...unfixedCats.map(
-                    (cat) => cat.percent * afterFixedCats * 12
-                  ),
-                ],
-                backgroundColor: Array(10)
-                  .fill('')
-                  .map(
-                    () =>
-                      `#${Math.round(Math.random() * 30 + 132).toString(
-                        16
-                      )}${Math.round(Math.random() * 30 + 218).toString(
-                        16
-                      )}${Math.round(Math.random() * 30 + 175).toString(16)}`
-                  ),
-                borderColor: 'black',
-                borderWidth: 3,
-              },
-            ],
-          }}
-        />
+        <div>
+          <Chart
+            width="50%"
+            type="pie"
+            data={{
+              labels: [
+                ...deducts.map((de) => de.name),
+                ...expenses.map((ex) => ex.name),
+                ...fixedCats.map((cat) => cat.name),
+                ...unfixedCats.map((cat) => cat.name),
+              ],
+              datasets: [
+                {
+                  label: 'Dollars spent each year: ',
+                  data: [
+                    ...deducts.map((de) => de.amount || de.percent * income),
+                    ...expenses.map(
+                      (ex) => (ex.amount || ex.percent * monthlyNet) * 12
+                    ),
+                    ...fixedCats.map((cat) => cat.amount * 12),
+                    ...unfixedCats.map(
+                      (cat) => cat.percent * afterFixedCats * 12
+                    ),
+                  ],
+                  backgroundColor: Array(10)
+                    .fill('')
+                    .map(
+                      () =>
+                        `#${Math.round(Math.random() * 30 + 132).toString(
+                          16
+                        )}${Math.round(Math.random() * 30 + 218).toString(
+                          16
+                        )}${Math.round(Math.random() * 30 + 175).toString(16)}`
+                    ),
+                  borderColor: 'black',
+                  borderWidth: 3,
+                },
+              ],
+            }}
+          />
+        </div>
       </div>
     </div>
   );

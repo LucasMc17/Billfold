@@ -169,6 +169,7 @@ form div {
   gap: 2%;
   border-radius: 15px;
   flex-wrap: wrap;
+  background-color: white;
 }
 
 .summary {
@@ -198,20 +199,29 @@ form div {
   border-radius: 15px;
 }
 
-#home-chart-header {
+#home-chart-header, #month-chart-header, #info-chart-header {
   background-color: #93e9be;
   padding: 10px;
 }
 
-#recent-purchases {
+#info-chart {
+  display: flex;
+}
+
+#info-chart>* {
+  flex: 0 0 50%;
+  width: 50%;
+}
+
+#recent-purchases, #monthly-purchases {
   width: 90%;
-  margin: auto;
+  margin: 0px auto 20px auto;
   border: 5px solid#93e9be;
   border-radius: 15px;
   padding: 0px 0px 10px 0px;
 }
 
-#recent-purchases>h2 {
+#recent-purchases>h2, #monthly-purchases>h1 {
   margin: 0px;
   background-color: #93e9be;
   padding: 10px;
@@ -415,4 +425,12 @@ button:hover {
   color: white;
   text-align: center;
   font-size: 2.5vh;
+}
+
+#month-overview {
+  width: 90%;
+  margin: auto;
+  background-color: #93e9be;
+  border-radius: 15px;
+  padding: 15px;
 }
