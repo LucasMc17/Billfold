@@ -123,7 +123,7 @@ form div {
 
 #bulk-upload {
   width: 75%;
-  margin: auto;
+  margin: 0px auto 20px auto;
   border: 5px solid #93e9be;
   border-radius: 15px;
 }
