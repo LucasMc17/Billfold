@@ -121,35 +121,37 @@ export default function MonthlySummary() {
 
   return (
     <div>
-      <h1>
-        {monthTable[month]}, {year}
-      </h1>
-      <h1>OVERVIEW</h1>
-      <div id="summaries">
-        <div className="summary total">
-          <h2>Total</h2>
-          <h3>BUDGET: {dollarFormat(data.afterExpenses)}</h3>
-          <h3 className={totalSpent > data.afterExpenses ? 'warning' : ''}>
-            SPENT: {dollarFormat(totalSpent)}
-          </h3>
-          <h3 className={totalSpent > data.afterExpenses ? 'warning' : ''}>
-            {fixedDec((totalSpent / data.afterExpenses) * 100)}%
-          </h3>
+      <div id="month-overview">
+        <h1>
+          {monthTable[month]}, {year}
+        </h1>
+        <h1>Categories Overview</h1>
+        <div id="summaries">
+          <div className="summary total">
+            <h2>Total</h2>
+            <h3>BUDGET: {dollarFormat(data.afterExpenses)}</h3>
+            <h3 className={totalSpent > data.afterExpenses ? 'warning' : ''}>
+              SPENT: {dollarFormat(totalSpent)}
+            </h3>
+            <h3 className={totalSpent > data.afterExpenses ? 'warning' : ''}>
+              {fixedDec((totalSpent / data.afterExpenses) * 100)}%
+            </h3>
+          </div>
+          {data.categories.length ? (
+            data.categories.map((cat) => (
+              <div className="summary" key={cat.id}>
+                <CatSummary cat={cat} month={month} year={year} />
+              </div>
+            ))
+          ) : (
+            <h2>You've got no active expense categories! Go make some!</h2>
+          )}
         </div>
-        {data.categories.length ? (
-          data.categories.map((cat) => (
-            <div className="summary" key={cat.id}>
-              <CatSummary cat={cat} month={month} year={year} />
-            </div>
-          ))
-        ) : (
-          <h2>You've got no active expense categories! Go make some!</h2>
-        )}
       </div>
       <div className="chart-container">
-        <div className="chart" id="month-chart" />
-      </div>
-      <div>
+        <div id="month-chart-header">
+          <h1>Your spending - visualized</h1>
+        </div>
         <Chart
           type="bar"
           data={reactChartData[0]}
@@ -163,15 +165,17 @@ export default function MonthlySummary() {
           }}
         />
       </div>
-      <h1>PURCHASES</h1>
-      {dailies.length ? (
-        dailies
-          .sort((a, b) => new Date(a.date) - new Date(b.date))
-          .map((daily) => <DailyExpense key={daily.id} daily={daily} />)
-      ) : (
-        <h2>You have no purchases this month.</h2>
-      )}
-      <NewDailyForm categories={data.categories} />
+      <div id="monthly-purchases">
+        <h1>Your Purchases</h1>
+        {dailies.length ? (
+          dailies
+            .sort((a, b) => new Date(a.date) - new Date(b.date))
+            .map((daily) => <DailyExpense key={daily.id} daily={daily} />)
+        ) : (
+          <h2>You have no purchases this month.</h2>
+        )}
+        <NewDailyForm categories={data.categories} />
+      </div>
     </div>
   );
 }

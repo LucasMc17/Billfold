@@ -1,15 +1,17 @@
-import React from 'react'
+import React from 'react';
 
-import Navbar from './components/Navbar'
-import Routes from './Routes'
+import Navbar from './components/Navbar';
+import Routes from './Routes';
+import SiteFooter from './components/SiteFooter';
 
 const App = () => {
   return (
     <div>
       <Navbar />
-      <Routes/>
+      <Routes />
+      <SiteFooter />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
