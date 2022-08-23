@@ -149,27 +149,29 @@ export default function MonthlySummary() {
   return (
     <div>
       <div id="month-overview">
-        {Number(month) === 1 ? (
-          <Link to={`/year/${Number(year) - 1}/month/12`}>
-            <h1>{'<<'}</h1>
-          </Link>
-        ) : (
-          <Link to={`/year/${year}/month/${Number(month) - 1}`}>
-            <h1>{'<<'}</h1>
-          </Link>
-        )}
-        <h1>
-          {monthTable[month]}, {year}
-        </h1>
-        {Number(month) === 12 ? (
-          <Link to={`/year/${Number(year) + 1}/month/1`}>
-            <h1>{'>>'}</h1>
-          </Link>
-        ) : (
-          <Link to={`/year/${year}/month/${Number(month) + 1}`}>
-            <h1>{'>>'}</h1>
-          </Link>
-        )}
+        <div id="month-header">
+          {Number(month) === 1 ? (
+            <Link to={`/year/${Number(year) - 1}/month/12`}>
+              <h1 className="arrow">{'<<'}</h1>
+            </Link>
+          ) : (
+            <Link to={`/year/${year}/month/${Number(month) - 1}`}>
+              <h1 className="arrow">{'<<'}</h1>
+            </Link>
+          )}
+          <h1>
+            {monthTable[month]}, {year}
+          </h1>
+          {Number(month) === 12 ? (
+            <Link to={`/year/${Number(year) + 1}/month/1`}>
+              <h1 className="arrow">{'>>'}</h1>
+            </Link>
+          ) : (
+            <Link to={`/year/${year}/month/${Number(month) + 1}`}>
+              <h1 className="arrow">{'>>'}</h1>
+            </Link>
+          )}
+        </div>
         <h1>Categories Overview</h1>
         <div id="summaries">
           <div className="summary total">
