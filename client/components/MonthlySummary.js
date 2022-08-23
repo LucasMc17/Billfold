@@ -64,6 +64,13 @@ export default function MonthlySummary() {
     },
     100,
   ]);
+  const [filter, setFilter] = useState({
+    filterCat: '#special#billfold#all#',
+    filterFunc(array) {
+      return array;
+    },
+  });
+  console.log(filter);
   const { dollarFormat, fixedDec } = useFormatters();
   const data = useData();
   const { year, month } = useParams();
@@ -73,6 +80,24 @@ export default function MonthlySummary() {
   );
   const totalSpent = dailies.reduce((acc, daily) => acc + daily.amount, 0);
   const categories = useSelector((state) => state.categories);
+
+  const handleFilter = (event) => {
+    if (event.target.value === '#special#billfold#all#') {
+      setFilter({
+        filterCat: event.target.value,
+        filterFunc(array) {
+          return array;
+        },
+      });
+    } else {
+      setFilter({
+        filterCat: event.target.value,
+        filterFunc(array) {
+          return array.filter((a) => a.category.name === this.filterCat);
+        },
+      });
+    }
+  };
 
   function reactGetChartData() {
     const result = {
@@ -167,8 +192,17 @@ export default function MonthlySummary() {
       </div>
       <div id="monthly-purchases">
         <h1>Your Purchases</h1>
+        <select onChange={handleFilter}>
+          <option value={'#special#billfold#all#'}>All</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.name}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
         {dailies.length ? (
-          dailies
+          filter
+            .filterFunc(dailies)
             .sort((a, b) => new Date(a.date) - new Date(b.date))
             .map((daily) => <DailyExpense key={daily.id} daily={daily} />)
         ) : (
