@@ -6,6 +6,7 @@ import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import DailyExpense from './DailyExpense';
+import { Link } from 'react-router-dom';
 
 import { Chart } from 'react-chartjs-2';
 import {
@@ -141,14 +142,34 @@ export default function MonthlySummary() {
   useEffect(() => {
     const reactData = reactGetChartData();
     setReactChartData(reactData);
-  }, [dailyExpenses]);
+  }, [dailyExpenses, month, year]);
+
+  console.log(typeof month);
 
   return (
     <div>
       <div id="month-overview">
+        {Number(month) === 1 ? (
+          <Link to={`/year/${Number(year) - 1}/month/12`}>
+            <h1>{'<<'}</h1>
+          </Link>
+        ) : (
+          <Link to={`/year/${year}/month/${Number(month) - 1}`}>
+            <h1>{'<<'}</h1>
+          </Link>
+        )}
         <h1>
           {monthTable[month]}, {year}
         </h1>
+        {Number(month) === 12 ? (
+          <Link to={`/year/${Number(year) + 1}/month/1`}>
+            <h1>{'>>'}</h1>
+          </Link>
+        ) : (
+          <Link to={`/year/${year}/month/${Number(month) + 1}`}>
+            <h1>{'>>'}</h1>
+          </Link>
+        )}
         <h1>Categories Overview</h1>
         <div id="summaries">
           <div className="summary total">
