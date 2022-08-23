@@ -55,8 +55,8 @@ export default function AllMonths() {
             <h1>{year}</h1>
             <div className="month-chart">
               {dateList[year].map((month, i) => {
-                return month ? (
-                  <div className="month">
+                return (
+                  <div className={`month${month ? '' : ' no-dailies'}`}>
                     <Link to={`/year/${year}/month/${i + 1}`}>
                       <h1>{`${monthTable[i + 1]}`}</h1>
                       <div className="calendar">
@@ -68,18 +68,6 @@ export default function AllMonths() {
                         <div className="square end" />
                       </div>
                     </Link>
-                  </div>
-                ) : (
-                  <div className="month no-dailies">
-                    <h1>{`${monthTable[i + 1]}`}</h1>
-                    <div className="calendar">
-                      <div className="square" />
-                      <div className="square" />
-                      <div className="square end" />
-                      <div className="square" />
-                      <div className="square" />
-                      <div className="square end" />
-                    </div>
                   </div>
                 );
               })}
