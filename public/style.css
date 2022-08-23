@@ -221,10 +221,15 @@ form div {
   padding: 0px 0px 10px 0px;
 }
 
-#recent-purchases>h2, #monthly-purchases>h1 {
+#recent-purchases>h2, #monthly-purchases>div#monthly-purchases-header {
   margin: 0px;
   background-color: #93e9be;
   padding: 10px;
+}
+
+#monthly-purchases>div#monthly-purchases-header {
+  display: flex;
+  justify-content: space-between;
 }
 
 @keyframes fadeInAndRiseScootLeft {

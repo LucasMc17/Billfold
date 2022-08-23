@@ -70,7 +70,6 @@ export default function MonthlySummary() {
       return array;
     },
   });
-  console.log(filter);
   const { dollarFormat, fixedDec } = useFormatters();
   const data = useData();
   const { year, month } = useParams();
@@ -191,15 +190,20 @@ export default function MonthlySummary() {
         />
       </div>
       <div id="monthly-purchases">
-        <h1>Your Purchases</h1>
-        <select onChange={handleFilter}>
-          <option value={'#special#billfold#all#'}>All</option>
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.name}>
-              {cat.name}
-            </option>
-          ))}
-        </select>
+        <div id="monthly-purchases-header">
+          <h1>Your Purchases</h1>
+          <div>
+            <label>Filter: </label>
+            <select onChange={handleFilter}>
+              <option value={'#special#billfold#all#'}>All</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.name}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         {dailies.length ? (
           filter
             .filterFunc(dailies)
