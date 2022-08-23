@@ -4,10 +4,10 @@ import { postDaily } from '../store';
 
 export default function NewDailyForm(props) {
   const dispatch = useDispatch();
-  const { categories } = props;
+  const { categories, defaultDate } = props;
   const [daily, setDaily] = useState({
     name: '',
-    date: new Date().toISOString().split('T')[0],
+    date: defaultDate ? defaultDate : new Date().toISOString().split('T')[0],
     amount: 0,
     category: categories.length ? categories[0].name : '',
   });

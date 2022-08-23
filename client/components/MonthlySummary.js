@@ -212,7 +212,10 @@ export default function MonthlySummary() {
         ) : (
           <h2>You have no purchases this month.</h2>
         )}
-        <NewDailyForm categories={data.categories} />
+        <NewDailyForm
+          categories={data.categories}
+          defaultDate={new Date(year, month - 1).toISOString().split('T')[0]}
+        />
       </div>
     </div>
   );
