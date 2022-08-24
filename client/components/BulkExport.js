@@ -15,7 +15,6 @@ export default function BulkExport() {
         { type: Date, value: new Date(d.date), format: 'mm/dd/yyyy' },
       ])
       .sort((a, b) => {
-        console.log(a[3].date);
         return a[3].value - b[3].value;
       });
     const exportData = [
