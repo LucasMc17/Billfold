@@ -123,7 +123,7 @@ form div {
 
 #bulk-upload {
   width: 75%;
-  margin: 0px auto 20px auto;
+  margin: 0px auto 40px auto;
   border: 5px solid #93e9be;
   border-radius: 15px;
 }
@@ -195,7 +195,7 @@ form div {
 .chart-container {
   width: 90%;
   border: 5px solid#93e9be;
-  margin: 20px auto 20px auto;
+  margin: 20px auto 40px auto;
   border-radius: 15px;
 }
 
@@ -215,7 +215,7 @@ form div {
 
 #recent-purchases, #monthly-purchases {
   width: 90%;
-  margin: 0px auto 20px auto;
+  margin: 0px auto 40px auto;
   border: 5px solid#93e9be;
   border-radius: 15px;
   padding: 0px 0px 10px 0px;
