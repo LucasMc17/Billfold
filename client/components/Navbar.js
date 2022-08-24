@@ -19,6 +19,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
             </a>
             <Link to="/myinfo">My Info</Link>
             <Link to="/bulk-upload">Bulk Upload</Link>
+            <Link to="/bulk-export">Bulk Export</Link>
             <Link to="/all-months">All Months</Link>
           </div>
         </nav>

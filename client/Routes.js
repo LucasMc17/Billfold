@@ -16,6 +16,7 @@ import EditSingleCategory from './components/EditSingleCategory';
 import AllMonths from './components/AllMonths';
 import EditDailyExpense from './components/EditDailyExpense';
 import BulkUpload from './components/BulkUpload';
+import BulkExport from './components/BulkExport';
 import {
   fetchDeducts,
   fetchExpenses,
@@ -44,6 +45,7 @@ class Routes extends Component {
             <Route path="/year/:year/month/:month" component={MonthlySummary} />
             <Route path="/myinfo" component={MyInfo} />
             <Route path="/bulk-upload" component={BulkUpload} />
+            <Route path="/bulk-export" component={BulkExport} />
             <Route path="/edit/basic-info" component={EditBasicInfo} />
             <Route
               exact
@@ -72,7 +74,10 @@ class Routes extends Component {
               component={EditFlexibleCategories}
             />
             <Route path="/edit/categories/:id" component={EditSingleCategory} />
-            <Route path="/edit/daily-expenses/:id" component={EditDailyExpense} />
+            <Route
+              path="/edit/daily-expenses/:id"
+              component={EditDailyExpense}
+            />
             <Redirect to="/home" />
           </Switch>
         ) : (
