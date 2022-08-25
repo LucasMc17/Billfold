@@ -81,17 +81,14 @@ export default function BulkExport() {
         empty to export all your purchases in one sheet.
       </p>
       <div id="export-form">
-        <p>export all purchases from </p>
-        <br />
+        <p>export all purchases from</p>
         <input
           name="startDate"
           onChange={handleDateChange}
           value={dateRange.startDate}
           type="date"
         ></input>
-        <br />
-        <p> to </p>
-        <br />
+        <p>to</p>
         <input
           onChange={handleDateChange}
           name="endDate"
