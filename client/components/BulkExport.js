@@ -80,18 +80,25 @@ export default function BulkExport() {
         export all purchases from your starting date onwards. Leave both fields
         empty to export all your purchases in one sheet.
       </p>
-      <input
-        name="startDate"
-        onChange={handleDateChange}
-        value={dateRange.startDate}
-        type="date"
-      ></input>
-      <input
-        onChange={handleDateChange}
-        name="endDate"
-        value={dateRange.endDate}
-        type="date"
-      ></input>
+      <div id="export-form">
+        <p>export all purchases from </p>
+        <br />
+        <input
+          name="startDate"
+          onChange={handleDateChange}
+          value={dateRange.startDate}
+          type="date"
+        ></input>
+        <br />
+        <p> to </p>
+        <br />
+        <input
+          onChange={handleDateChange}
+          name="endDate"
+          value={dateRange.endDate}
+          type="date"
+        ></input>
+      </div>
       <h3>Export {exports.length} purchases</h3>
       <button onClick={handleExport}>EXPORT</button>
       {loading ? <h3>exporting...</h3> : ''}

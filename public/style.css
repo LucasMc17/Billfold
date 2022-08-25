@@ -456,3 +456,25 @@ button:hover {
   color: white;
   padding: 5px;
 }
+
+#bulk-export {
+  width: 80%;
+  margin: auto;
+  border-radius: 15px;
+  margin-top: 20px;
+  background-color: #93e9be;
+  padding: 10px;
+}
+
+#export-form {
+  display: flex;
+  height: fit-content;
+}
+
+#export-form>p {
+  margin: 0px;
+}
+
+#export-form>input {
+  margin: 0px 10px;
+}
