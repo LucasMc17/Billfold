@@ -32,10 +32,12 @@ export default function BulkExport() {
       ...rows,
     ];
     const file = await writeXlsxFile(exportData, {
-      fileName: 'billfold-export.xlsx',
+      fileName: `billfold-export${
+        dateRange.startDate ? '-from-' + dateRange.startDate : ''
+      }${dateRange.endDate ? '-to-' + dateRange.endDate : ''}.xlsx`,
     });
 
-    saveAs(file, 'billfold-export.xlsx');
+    saveAs(file);
   }
 
   function handleDateChange(event) {
