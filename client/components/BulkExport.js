@@ -7,11 +7,13 @@ export default function BulkExport() {
   const dailies = useSelector((state) => state.dailyExpenses);
   const [exports, setExports] = useState([]);
   const [dateRange, setDateRange] = useState({ startDate: '', endDate: '' });
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     setExports(dailies);
   }, []);
 
   async function handleExport() {
+    setLoading(true);
     const rows = exports
       .map((d) => [
         { type: String, value: d.category.name },
@@ -36,6 +38,7 @@ export default function BulkExport() {
         dateRange.startDate ? '-from-' + dateRange.startDate : ''
       }${dateRange.endDate ? '-to-' + dateRange.endDate : ''}.xlsx`,
     });
+    setLoading(false);
 
     saveAs(file);
   }
@@ -91,6 +94,7 @@ export default function BulkExport() {
       ></input>
       <h3>Export {exports.length} purchases</h3>
       <button onClick={handleExport}>EXPORT</button>
+      {loading ? <h3>exporting...</h3> : ''}
     </div>
   );
 }
