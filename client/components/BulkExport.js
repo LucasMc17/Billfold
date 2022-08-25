@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import writeXlsxFile from 'write-excel-file';
 import { useSelector } from 'react-redux';
 import { saveAs } from 'file-saver';
 
 export default function BulkExport() {
   const dailies = useSelector((state) => state.dailyExpenses);
+  const [exports, setExports] = useState([]);
+  const [dateRange, setDateRange] = useState({ startDate: '', endDate: '' });
+  useEffect(() => {
+    setExports(dailies);
+  }, []);
 
   async function handleExport() {
-    const rows = dailies
+    const rows = exports
       .map((d) => [
         { type: String, value: d.category.name },
         { type: String, value: d.name },
@@ -32,8 +37,57 @@ export default function BulkExport() {
 
     saveAs(file, 'billfold-export.xlsx');
   }
+
+  function handleDateChange(event) {
+    const { name, value } = event.target;
+    setDateRange((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
+
+  useEffect(() => {
+    const { startDate, endDate } = dateRange;
+    if (startDate && endDate) {
+      setExports(
+        dailies.filter((d) => d.date >= startDate && d.date <= endDate)
+      );
+    } else if (startDate) {
+      setExports(dailies.filter((d) => d.date >= startDate));
+    } else if (endDate) {
+      setExports(dailies.filter((d) => d.date <= endDate));
+    } else {
+      setExports(dailies);
+    }
+  }, [dateRange]);
+
   return (
-    <div>
+    <div id="bulk-export">
+      <h1>Billfold supports data exporting!</h1>
+      <p>
+        Need to put those purchases into a .xlsx file? Billfold makes it easy!
+        Choose a date range, then click export to download an excel file of your
+        purchases, already formatted for bulk upload.
+      </p>
+      <p>
+        NOTE: if you leave the starting date empty, your export will include all
+        your purchases up to your ending date. Leave the ending date empty to
+        export all purchases from your starting date onwards. Leave both fields
+        empty to export all your purchases in one sheet.
+      </p>
+      <input
+        name="startDate"
+        onChange={handleDateChange}
+        value={dateRange.startDate}
+        type="date"
+      ></input>
+      <input
+        onChange={handleDateChange}
+        name="endDate"
+        value={dateRange.endDate}
+        type="date"
+      ></input>
+      <h3>Export {exports.length} purchases</h3>
       <button onClick={handleExport}>EXPORT</button>
     </div>
   );
