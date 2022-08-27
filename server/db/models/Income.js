@@ -1,21 +1,11 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-const Category = db.define('category', {
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  rule: {
-    type: Sequelize.ENUM('FIXED', 'PERCENT'),
-    allowNull: false,
-    defaultValue: 'FIXED',
-  },
-  percent: {
-    type: Sequelize.FLOAT,
-  },
+const Income = db.define('income', {
   amount: {
     type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 40000,
   },
   startMonth: {
     type: Sequelize.INTEGER,
@@ -40,12 +30,4 @@ const Category = db.define('category', {
   },
 });
 
-Category.beforeSave(async (category) => {
-  if (category.rule === 'FIXED') {
-    category.percent = null;
-  } else {
-    category.amount = null;
-  }
-});
-
-module.exports = Category;
+module.exports = Income;

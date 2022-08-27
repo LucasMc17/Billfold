@@ -17,6 +17,27 @@ const MonthlyExpense = db.define('monthlyExpense', {
   amount: {
     type: Sequelize.INTEGER,
   },
+  startMonth: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  startYear: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  startDate: {
+    type: Sequelize.DATE,
+    allowNull: false,
+  },
+  endMonth: {
+    type: Sequelize.INTEGER,
+  },
+  endYear: {
+    type: Sequelize.INTEGER,
+  },
+  endDate: {
+    type: Sequelize.DATE,
+  },
 });
 
 MonthlyExpense.beforeSave(async (monthlyExpense) => {

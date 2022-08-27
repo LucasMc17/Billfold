@@ -21,10 +21,6 @@ const User = db.define('user', {
       notEmpty: true,
     },
   },
-  income: {
-    type: Sequelize.INTEGER,
-    defaultValue: 40000,
-  },
 });
 
 /**
