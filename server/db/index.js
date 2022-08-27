@@ -5,10 +5,14 @@ const db = require('./db');
 const User = require('./models/User');
 const YearlyDeduction = require('./models/YearlyDeduction');
 const MonthlyExpense = require('./models/MonthlyExpense');
-const Category = require('./models/Category')
-const DailyExpense = require('./models/DailyExpense')
+const Category = require('./models/Category');
+const DailyExpense = require('./models/DailyExpense');
+const Income = require('./models/Income');
 
 //associations could go here!
+User.hasMany(Income);
+Income.belongsTo(User);
+
 User.hasMany(YearlyDeduction);
 YearlyDeduction.belongsTo(User);
 
@@ -31,6 +35,7 @@ module.exports = {
     YearlyDeduction,
     MonthlyExpense,
     Category,
-    DailyExpense
+    DailyExpense,
+    Income,
   },
 };
