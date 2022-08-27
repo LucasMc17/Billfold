@@ -104,10 +104,12 @@ export default function MonthlySummary() {
       labels: [...categories.map((cat) => cat.name), 'Total'],
       datasets: [
         {
-          type: 'line',
+          type: 'bar',
           label: 'Budget',
           data: Array(categories.length + 1).fill(100),
-          borderColor: 'red',
+          borderColor: 'rgba(255, 10, 10, 1)',
+          borderWidth: 1,
+          backgroundColor: 'rgba(0, 0, 0, 0)',
         },
         {
           type: 'bar',
@@ -207,6 +209,9 @@ export default function MonthlySummary() {
               y: {
                 beginAtZero: true,
                 max: reactChartData[1] * 1.1,
+              },
+              x: {
+                stacked: true,
               },
             },
           }}

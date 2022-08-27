@@ -46,10 +46,11 @@ export default function Home() {
       labels: [],
       datasets: [
         {
-          type: 'line',
+          type: 'bar',
           label: 'Budget',
           data: [],
-          borderColor: 'red',
+          color: 'red',
+          width: '100%',
         },
         {
           type: 'bar',
@@ -89,10 +90,12 @@ export default function Home() {
       labels: [],
       datasets: [
         {
-          type: 'line',
+          type: 'bar',
           label: 'Budget',
           data: [],
-          borderColor: 'red',
+          backgroundColor: 'rgba(0, 0, 0, 0)',
+          borderColor: 'rgba(255, 10, 10, 1)',
+          borderWidth: 1,
         },
         {
           type: 'bar',
@@ -207,6 +210,9 @@ export default function Home() {
               y: {
                 beginAtZero: true,
                 max: data[1] * 1.1,
+              },
+              x: {
+                stacked: true,
               },
             },
           }}
