@@ -6,8 +6,27 @@ module.exports = router;
 const { requireToken } = require('./requireToken');
 const { Op } = require('sequelize');
 
+//this needs testing, may not work yet
 router.post('/new-income', requireToken, async (req, res, next) => {
   try {
+    const oldIncome = await Income.findOne({
+      where: {
+        userId: req.user.id,
+        endDate: null,
+      },
+    });
+    const today = new Date();
+    const newIncome = await Income.create({
+      amount: req.body,
+      userId: req.user.id,
+      startDate: today - 1,
+      startMonth: today.getMonth() + 1,
+      startYear: today.getFullYear(),
+    });
+    await oldIncome.update({
+      endYear: today.getFullYear(),
+      endMonth: today.getMonth() + 1,
+    });
   } catch (err) {
     next(err);
   }
