@@ -23,6 +23,7 @@ import {
   LineController,
   BarController,
 } from 'chart.js';
+import { fetchIncome } from '../store/income';
 ChartJS.register(
   LinearScale,
   CategoryScale,
@@ -135,6 +136,7 @@ export default function Home() {
     dispatch(fetchExpenses());
     dispatch(fetchCategories());
     dispatch(fetchDailies());
+    dispatch(fetchIncome(year, month));
   }, []);
 
   useEffect(() => {
