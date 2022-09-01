@@ -18,8 +18,6 @@ router.post('/new-income', requireToken, async (req, res, next) => {
     const today = new Date();
     const month = today.getMonth();
     const year = today.getFullYear();
-    console.log(month + 1, '===', oldIncome.startMonth, '?');
-    console.log(year, '===', oldIncome.startYear, '?');
     if (oldIncome.startMonth === month + 1 && oldIncome.startYear === year) {
       await oldIncome.update({ amount: req.body.income });
       res.json(oldIncome);

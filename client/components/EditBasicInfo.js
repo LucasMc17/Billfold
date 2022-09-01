@@ -22,8 +22,12 @@ export default function EditBasicInfo() {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    dispatch(patchIncome({ income }));
-    dispatch(updateUser({ username }));
+    if (starterIncome != income) {
+      dispatch(patchIncome({ income }));
+    }
+    if (starterUsername != username) {
+      dispatch(updateUser({ username }));
+    }
     history.push('/myinfo');
   }
 
