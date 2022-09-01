@@ -4,7 +4,7 @@ const year = new Date().getFullYear();
 
 export default function useData() {
   const username = useSelector((state) => state.auth.username);
-  const income = useSelector((state) => state.auth.income);
+  const income = useSelector((state) => state.income);
   const deducts = useSelector((state) => state.yearlyDeductions);
   const afterDeducts = deducts.reduce(
     (acc, de) => acc - (de.amount || de.percent * acc),
@@ -12,11 +12,10 @@ export default function useData() {
   );
   const monthlyNet = afterDeducts / 12;
   const expenses = useSelector((state) => state.monthlyExpenses);
-  const afterExpenses =
-    expenses.reduce(
-      (acc, ex) => acc - (ex.amount || ex.percent * acc),
-      monthlyNet
-    );
+  const afterExpenses = expenses.reduce(
+    (acc, ex) => acc - (ex.amount || ex.percent * acc),
+    monthlyNet
+  );
   const categories = useSelector((state) => state.categories);
   const fixedCats = categories.filter((cat) => cat.rule === 'FIXED');
   const afterFixedCats =

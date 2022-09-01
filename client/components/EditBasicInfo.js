@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { updateUser } from '../store';
+import { patchIncome } from '../store/income';
 
 export default function EditBasicInfo() {
   const dispatch = useDispatch();
   const starterUsername = useSelector((state) => state.auth.username);
-  const starterIncome = useSelector((state) => state.auth.income);
+  const starterIncome = useSelector((state) => state.income);
   const [username, setUsername] = useState(starterUsername);
   const [income, setIncome] = useState(starterIncome);
   let history = useHistory();
@@ -21,7 +22,9 @@ export default function EditBasicInfo() {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    dispatch(updateUser({ username, income: Number(income) }));
+    console.log({ income });
+    dispatch(patchIncome({ income }));
+    dispatch(updateUser({ username }));
     history.push('/myinfo');
   }
 

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { Link } from 'react-router-dom';
-import { updateUnassigned } from '../store';
+import { updateUnassigned, fetchIncome } from '../store';
 import { Chart } from 'react-chartjs-2';
 import { ArcElement, Chart as ChartJS, Tooltip, PieController } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, PieController);
@@ -28,11 +28,16 @@ export default function MyInfo() {
 
   dispatch(updateUnassigned(unassigned));
 
+  // useEffect(() => {
+  //   const today = new Date();
+  //   dispatch(fetchIncome(today.getFullYear(), today.getMonth() + 1));
+  // }, []);
+
   return (
     <div>
       <div className="user-story">
         <h1>Hi, my name is {username}</h1>
-        <h1>I make {dollarFormat(income)} per year.</h1>
+        <h1>I make {dollarFormat(Number(income))} per year.</h1>
         <Link to="/edit/basic-info">
           <button type="button">Edit My Info</button>
         </Link>
