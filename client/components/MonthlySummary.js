@@ -146,8 +146,6 @@ export default function MonthlySummary() {
     setReactChartData(reactData);
   }, [dailyExpenses, month, year]);
 
-  console.log(typeof month);
-
   return (
     <div>
       <div id="month-overview">

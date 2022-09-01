@@ -44,7 +44,6 @@ export default function AllMonths() {
     });
     return result;
   }
-  console.log(getUniqueMonths(dailies));
   const dateList = getUniqueMonths(dailies);
   return (
     <div id="year-list">

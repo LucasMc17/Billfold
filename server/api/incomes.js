@@ -18,18 +18,26 @@ router.post('/new-income', requireToken, async (req, res, next) => {
     const today = new Date();
     const month = today.getMonth();
     const year = today.getFullYear();
-    const newIncome = await Income.create({
-      amount: req.body.income,
-      userId: req.user.id,
-      startDate: new Date(year, month),
-      startMonth: month + 1,
-      startYear: year,
-    });
-    await oldIncome.update({
-      endYear: year,
-      endMonth: month + 1,
-      endDate: new Date(year, month) - 1,
-    });
+    console.log(month + 1, '===', oldIncome.startMonth, '?');
+    console.log(year, '===', oldIncome.startYear, '?');
+    if (oldIncome.startMonth === month + 1 && oldIncome.startYear === year) {
+      await oldIncome.update({ amount: req.body.income });
+      res.json(oldIncome);
+    } else {
+      const newIncome = await Income.create({
+        amount: req.body.income,
+        userId: req.user.id,
+        startDate: new Date(year, month),
+        startMonth: month + 1,
+        startYear: year,
+      });
+      await oldIncome.update({
+        endYear: year,
+        endMonth: month + 1,
+        endDate: new Date(year, month) - 1,
+      });
+      res.json(newIncome);
+    }
   } catch (err) {
     next(err);
   }
