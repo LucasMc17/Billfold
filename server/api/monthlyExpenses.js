@@ -46,8 +46,19 @@ router.get('/:id', requireToken, async (req, res, next) => {
 router.delete('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const ex = await MonthlyExpense.findByPk(id);
-    await ex.destroy();
+    const oldEx = await MonthlyExpense.findByPk(id);
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+    if (oldEx.startMonth === month + 1 && oldEx.startYear === year) {
+      await oldEx.destroy();
+    } else {
+      await oldEx.update({
+        endYear: year,
+        endMonth: month + 1,
+        endDate: new Date(year, month) - 1,
+      });
+    }
     res.status(204).send(204);
   } catch (err) {
     next(err);
@@ -67,9 +78,15 @@ router.put('/:id', requireToken, async (req, res, next) => {
 
 router.post('/', requireToken, async (req, res, next) => {
   try {
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
     const expense = await MonthlyExpense.create({
       ...req.body,
       userId: req.user.id,
+      startMonth: month + 1,
+      startYear: year,
+      startDate: new Date(year, month),
     });
     res.json(expense);
   } catch (err) {
