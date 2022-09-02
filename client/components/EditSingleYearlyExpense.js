@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { patchDeduct, fetchDeduct } from '../store';
+import { patchDeduct, fetchDeduct, fetchDeducts } from '../store';
 import { useParams, useHistory } from 'react-router-dom';
 
 export default function EditSingleYearlyExpense() {
@@ -43,6 +43,10 @@ export default function EditSingleYearlyExpense() {
         amount: Number(de.amount),
       })
     );
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    dispatch(fetchDeducts(year, month));
     history.push('/edit/yearly-expenses');
   }
 
