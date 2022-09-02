@@ -43,10 +43,6 @@ export default function EditSingleYearlyExpense() {
         amount: Number(de.amount),
       })
     );
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    dispatch(fetchDeducts(year, month));
     history.push('/edit/yearly-expenses');
   }
 

@@ -49,10 +49,21 @@ export const deleteDeduct = (de) => {
 export const patchDeduct = (de) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data } = await axios.put(`/api/yearly-deductions/${de.id}`, de, {
+    await axios.put(`/api/yearly-deductions/${de.id}`, de, {
       headers: { authorization: token },
     });
-    dispatch(updateDeduct(data));
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const { data } = await axios.get(
+      `/api/yearly-deductions/${year}/${month}`,
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    dispatch(setDeducts(data));
   };
 };
 
