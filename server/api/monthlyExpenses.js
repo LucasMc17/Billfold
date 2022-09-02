@@ -4,12 +4,27 @@ const {
 } = require('../db');
 module.exports = router;
 const { requireToken } = require('./requireToken');
+const { Op } = require('sequelize');
 
-router.get('/', requireToken, async (req, res, next) => {
+router.get('/:year/:month', requireToken, async (req, res, next) => {
   try {
+    const { year, month } = req.params;
+    const today = new Date(year, month, 15);
+    console.log('EXPENSES: ', today);
     const expenses = await MonthlyExpense.findAll({
       where: {
         userId: req.user.id,
+        startDate: {
+          [Op.lt]: today,
+        },
+        [Op.or]: [
+          {
+            endDate: {
+              [Op.gt]: today,
+            },
+          },
+          { endDate: null },
+        ],
       },
     });
     res.json(expenses);

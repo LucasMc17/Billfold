@@ -19,10 +19,10 @@ const addExpense = (expense) => ({ type: ADD_EXPENSE, expense });
 /**
  * THUNK CREATORS
  */
-export const fetchExpenses = () => {
+export const fetchExpenses = (year, month) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data } = await axios.get('/api/monthly-expenses', {
+    const { data } = await axios.get(`/api/monthly-expenses/${year}/${month}`, {
       headers: {
         authorization: token,
       },
