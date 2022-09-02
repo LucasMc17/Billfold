@@ -132,11 +132,11 @@ export default function Home() {
   }
 
   useEffect(() => {
-    dispatch(fetchDeducts());
+    dispatch(fetchDeducts(year, month - 1));
     dispatch(fetchExpenses());
     dispatch(fetchCategories());
     dispatch(fetchDailies());
-    dispatch(fetchIncome(year, month));
+    dispatch(fetchIncome(year, month - 1));
   }, []);
 
   useEffect(() => {

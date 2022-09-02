@@ -45,6 +45,7 @@ router.get('/:year/:month', requireToken, async (req, res, next) => {
   try {
     const { year, month } = req.params;
     const date = new Date(year, month, 15);
+    console.log('YEAR: ', date);
     const result = await Income.findAll({
       where: {
         userId: req.user.id,

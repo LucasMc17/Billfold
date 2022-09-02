@@ -19,14 +19,17 @@ const addDeduct = (deduct) => ({ type: ADD_DEDUCT, deduct });
 /**
  * THUNK CREATORS
  */
-export const fetchDeducts = () => {
+export const fetchDeducts = (year, month) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data } = await axios.get('/api/yearly-deductions', {
-      headers: {
-        authorization: token,
-      },
-    });
+    const { data } = await axios.get(
+      `/api/yearly-deductions/${year}/${month}`,
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
     dispatch(setDeducts(data));
   };
 };

@@ -4,12 +4,27 @@ const {
 } = require('../db');
 module.exports = router;
 const { requireToken } = require('./requireToken');
+const { Op } = require('sequelize');
 
-router.get('/', requireToken, async (req, res, next) => {
+router.get('/:year/:month', requireToken, async (req, res, next) => {
   try {
+    const { year, month } = req.params;
+    const today = new Date(year, month, 15);
+    console.log('DEDUCTS: ', today);
     const deducts = await YearlyDeduction.findAll({
       where: {
         userId: req.user.id,
+        startDate: {
+          [Op.lt]: today,
+        },
+        [Op.or]: [
+          {
+            endDate: {
+              [Op.gt]: today,
+            },
+          },
+          { endDate: null },
+        ],
       },
     });
     res.json(deducts);
@@ -31,8 +46,19 @@ router.get('/:id', requireToken, async (req, res, next) => {
 router.delete('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deduct = await YearlyDeduction.findByPk(id);
-    await deduct.destroy();
+    const oldDeduct = await YearlyDeduction.findByPk(id);
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+    if (oldDeduct.startMonth === month + 1 && oldDeduct.startYear === year) {
+      await oldDeduct.destroy();
+    } else {
+      await oldDeduct.update({
+        endYear: year,
+        endMonth: month + 1,
+        endDate: new Date(year, month) - 1,
+      });
+    }
     res.status(204).send(204);
   } catch (err) {
     next(err);
@@ -52,9 +78,15 @@ router.put('/:id', requireToken, async (req, res, next) => {
 
 router.post('/', requireToken, async (req, res, next) => {
   try {
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
     const deduct = await YearlyDeduction.create({
       ...req.body,
       userId: req.user.id,
+      startMonth: month + 1,
+      startYear: year,
+      startDate: new Date(year, month),
     });
     res.json(deduct);
   } catch (err) {
