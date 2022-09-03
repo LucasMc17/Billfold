@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CatSummary from './CatSummary';
 import useData from './custom_hooks/useData';
@@ -7,6 +7,7 @@ import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import DailyExpense from './DailyExpense';
 import { Link } from 'react-router-dom';
+import { fetchCategories, fetchDeducts, fetchExpenses } from '../store';
 
 import { Chart } from 'react-chartjs-2';
 import {
@@ -45,6 +46,7 @@ const monthTable = {
 };
 
 export default function MonthlySummary() {
+  const dispatch = useDispatch();
   const [reactChartData, setReactChartData] = useState([
     {
       labels: ['Total'],
@@ -144,7 +146,13 @@ export default function MonthlySummary() {
   useEffect(() => {
     const reactData = reactGetChartData();
     setReactChartData(reactData);
-  }, [dailyExpenses, month, year]);
+  }, [categories, dailyExpenses, month, year]);
+
+  useEffect(() => {
+    dispatch(fetchCategories(year, month - 1));
+    dispatch(fetchDeducts(year, month - 1));
+    dispatch(fetchExpenses(year, month - 1));
+  }, [year, month]);
 
   return (
     <div>
