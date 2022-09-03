@@ -7,7 +7,12 @@ import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import DailyExpense from './DailyExpense';
 import { Link } from 'react-router-dom';
-import { fetchCategories, fetchDeducts, fetchExpenses } from '../store';
+import {
+  fetchCategories,
+  fetchDeducts,
+  fetchExpenses,
+  fetchIncome,
+} from '../store';
 
 import { Chart } from 'react-chartjs-2';
 import {
@@ -152,6 +157,7 @@ export default function MonthlySummary() {
     dispatch(fetchCategories(year, month - 1));
     dispatch(fetchDeducts(year, month - 1));
     dispatch(fetchExpenses(year, month - 1));
+    dispatch(fetchIncome(year, month - 1));
   }, [year, month]);
 
   return (
