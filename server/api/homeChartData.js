@@ -26,6 +26,7 @@ router.get('/:num', requireToken, async (req, res, next) => {
       const qDate = new Date(year, month, 15);
       const income = await Income.findOne({
         where: {
+          userId: req.user.id,
           startDate: {
             [Op.lt]: qDate,
           },
@@ -42,6 +43,7 @@ router.get('/:num', requireToken, async (req, res, next) => {
       console.log(income);
       const deducts = await YearlyDeduction.findAll({
         where: {
+          userId: req.user.id,
           startDate: {
             [Op.lt]: qDate,
           },
@@ -57,6 +59,7 @@ router.get('/:num', requireToken, async (req, res, next) => {
       });
       const expenses = await MonthlyExpense.findAll({
         where: {
+          userId: req.user.id,
           startDate: {
             [Op.lt]: qDate,
           },

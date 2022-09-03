@@ -95,10 +95,11 @@ export default function HomeChart({ year, month, afterExpenses }) {
       }
     }
 
-    const reactHighestPoint = result.datasets[1].data.reduce(
-      (curr, item) => (curr > item ? curr : item),
-      afterExpenses
-    );
+    const reactHighestPoint = [
+      ...result.datasets[1].data,
+      ...result.datasets[0].data,
+    ].reduce((curr, item) => (curr > item ? curr : item), 0);
+    console.log(reactHighestPoint);
     return [result, reactHighestPoint];
   }
 
@@ -135,8 +136,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
         options={{
           scales: {
             y: {
-              beginAtZero: true,
-              max: data[1] * 1.1,
+              max: Math.floor(data[1] * 1.1),
             },
             x: {
               stacked: true,
