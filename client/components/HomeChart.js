@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Chart } from 'react-chartjs-2';
+import { fetchChartData } from '../store';
 import {
   BarElement,
   CategoryScale,
@@ -24,6 +25,9 @@ ChartJS.register(
 export default function HomeChart({ year, month, afterExpenses }) {
   const categories = useSelector((state) => state.categories);
   const dailies = useSelector((state) => state.dailyExpenses);
+  const rawData = useSelector((state) => state.homeChartData);
+
+  const dispatch = useDispatch();
 
   const [view, setView] = useState(6);
   const [data, setData] = useState([
@@ -69,7 +73,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
         {
           type: 'bar',
           label: 'Budget',
-          data: [],
+          data: rawData.budgets,
           backgroundColor: 'rgba(0, 0, 0, 0)',
           borderColor: 'rgba(255, 10, 10, 1)',
           borderWidth: 1,
@@ -77,21 +81,12 @@ export default function HomeChart({ year, month, afterExpenses }) {
         {
           type: 'bar',
           label: 'Dollars Spent',
-          data: [],
-          backgroundColor: [],
+          data: rawData.spents,
+          backgroundColor: '#93e9be',
         },
       ],
     };
     for (let i = 0; i < num; i++) {
-      result.datasets[1].backgroundColor.push('#93e9be');
-      result.datasets[1].data.unshift(
-        dailies
-          .filter(
-            (daily) => daily.month === searchMonth && daily.year === searchYear
-          )
-          .reduce((acc, daily) => acc + daily.amount, 0)
-      );
-      result.datasets[0].data.unshift(afterExpenses);
       result.labels.unshift(months[searchMonth - 1]);
       searchMonth--;
       if (searchMonth === 0) {
@@ -108,13 +103,18 @@ export default function HomeChart({ year, month, afterExpenses }) {
   }
 
   useEffect(() => {
-    const reactChartData = getReactChartData(view, year, month);
-    setData(reactChartData);
-  }, [categories, dailies, view]);
+    dispatch(fetchChartData(view));
+  }, [view, categories, dailies]);
+
+  useEffect(() => {
+    setData(getReactChartData(view, year, month));
+  }, [rawData]);
 
   function handleViewChange(evt) {
     setView(Number(evt.target.value));
   }
+
+  window.data = data;
 
   return (
     <div className="chart-container">
