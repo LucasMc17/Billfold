@@ -4,12 +4,27 @@ const {
 } = require('../db');
 module.exports = router;
 const { requireToken } = require('./requireToken');
+const { Op } = require('sequelize');
 
-router.get('/', requireToken, async (req, res, next) => {
+router.get('/:year/:month', requireToken, async (req, res, next) => {
   try {
+    const { year, month } = req.params;
+    const today = new Date(year, month, 15);
+    console.log('CATS: ', today);
     const categories = await Category.findAll({
       where: {
         userId: req.user.id,
+        startDate: {
+          [Op.lt]: today,
+        },
+        [Op.or]: [
+          {
+            endDate: {
+              [Op.gt]: today,
+            },
+          },
+          { endDate: null },
+        ],
       },
     });
     res.json(categories);
@@ -31,8 +46,19 @@ router.get('/:id', requireToken, async (req, res, next) => {
 router.delete('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const cat = await Category.findByPk(id);
-    await cat.destroy();
+    const oldCat = await Category.findByPk(id);
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+    if (oldCat.startMonth === month + 1 && oldCat.startYear === year) {
+      await oldCat.destroy();
+    } else {
+      await oldCat.update({
+        endYear: year,
+        endMonth: month + 1,
+        endDate: new Date(year, month) - 1,
+      });
+    }
     res.status(204).send(204);
   } catch (err) {
     next(err);
@@ -42,9 +68,28 @@ router.delete('/:id', requireToken, async (req, res, next) => {
 router.put('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const cat = await Category.findByPk(id);
-    await cat.update(req.body);
-    res.json(cat);
+    const oldCat = await Category.findByPk(id);
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+    if (oldCat.startMonth === month + 1 && oldCat.startYear === year) {
+      await oldCat.update(req.body);
+      res.json(oldCat);
+    } else {
+      await oldCat.update({
+        endMonth: month + 1,
+        endYear: year,
+        endDate: new Date(year, month) - 1,
+      });
+      const newCat = await Category.create({
+        ...req.body,
+        id: null,
+        startMonth: month + 1,
+        startYear: year,
+        startDate: new Date(year, month),
+      });
+      res.json(newCat);
+    }
   } catch (err) {
     next(err);
   }
@@ -52,9 +97,15 @@ router.put('/:id', requireToken, async (req, res, next) => {
 
 router.post('/', requireToken, async (req, res, next) => {
   try {
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
     const category = await Category.create({
       ...req.body,
       userId: req.user.id,
+      startMonth: month + 1,
+      startYear: year,
+      startDate: new Date(year, month),
     });
     res.json(category);
   } catch (err) {

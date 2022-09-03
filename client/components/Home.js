@@ -134,7 +134,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchDeducts(year, month - 1));
     dispatch(fetchExpenses(year, month - 1));
-    dispatch(fetchCategories());
+    dispatch(fetchCategories(year, month - 1));
     dispatch(fetchDailies());
     dispatch(fetchIncome(year, month - 1));
   }, []);
