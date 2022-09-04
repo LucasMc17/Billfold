@@ -23,6 +23,7 @@ export default function NewDailyForm(props) {
   function handleSubmit(evt) {
     evt.preventDefault();
     dispatch(postDaily(daily));
+    console.log(daily);
   }
 
   useEffect(() => {
@@ -31,6 +32,13 @@ export default function NewDailyForm(props) {
       dispatch(fetchAvailableCategories(date.getFullYear(), date.getMonth()));
     }
   }, [daily.date]);
+
+  useEffect(() => {
+    setDaily({
+      ...daily,
+      category: categories.length ? categories[0].name : '',
+    });
+  }, [categories]);
 
   return (
     <div className="form add-daily-form">
