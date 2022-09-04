@@ -14,6 +14,7 @@ import singleDailyExpense from './SingleDailyExpense';
 import unassigned from './unassigned';
 import income from './income';
 import homeChartData from './homeChartData';
+import availableCategories from './availableCategories';
 
 const reducer = combineReducers({
   auth,
@@ -28,6 +29,7 @@ const reducer = combineReducers({
   unassigned,
   income,
   homeChartData,
+  availableCategories,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
@@ -47,3 +49,4 @@ export * from './SingleDailyExpense';
 export * from './unassigned';
 export * from './income';
 export * from './homeChartData';
+export * from './availableCategories';

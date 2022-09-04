@@ -80,7 +80,7 @@ export default function Home() {
           .map((daily) => (
             <DailyExpense key={daily.id} daily={daily} />
           ))}
-        {categories.length ? <NewDailyForm categories={categories} /> : <div />}
+        {categories.length ? <NewDailyForm /> : <div />}
       </div>
       <HomeChart year={year} month={month} afterExpenses={afterExpenses} />
     </div>

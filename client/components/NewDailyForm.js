@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { postDaily } from '../store';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAvailableCategories, postDaily } from '../store';
 
 export default function NewDailyForm(props) {
+  const categories = useSelector((state) => state.availableCategories);
   const dispatch = useDispatch();
-  const { categories, defaultDate } = props;
+  const { defaultDate } = props;
   const [daily, setDaily] = useState({
     name: '',
     date: defaultDate ? defaultDate : new Date().toISOString().split('T')[0],
@@ -23,6 +24,13 @@ export default function NewDailyForm(props) {
     evt.preventDefault();
     dispatch(postDaily(daily));
   }
+
+  useEffect(() => {
+    if (daily.date) {
+      const date = new Date(daily.date);
+      dispatch(fetchAvailableCategories(date.getFullYear(), date.getMonth()));
+    }
+  }, [daily.date]);
 
   return (
     <div className="form add-daily-form">

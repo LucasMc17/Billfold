@@ -40,7 +40,6 @@ router.get('/:num', requireToken, async (req, res, next) => {
           ],
         },
       });
-      console.log(income);
       const deducts = await YearlyDeduction.findAll({
         where: {
           userId: req.user.id,
