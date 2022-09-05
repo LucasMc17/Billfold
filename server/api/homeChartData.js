@@ -12,6 +12,7 @@ router.get('/:num', requireToken, async (req, res, next) => {
     const today = new Date();
     let month = today.getMonth();
     let year = today.getFullYear();
+    const defaultResult = { spent: [], budgets: [] };
     const result = { spents: [], budgets: [] };
     for (let i = 0; i < Number(num); i++) {
       result.spents.unshift(
@@ -40,54 +41,58 @@ router.get('/:num', requireToken, async (req, res, next) => {
           ],
         },
       });
-      const deducts = await YearlyDeduction.findAll({
-        where: {
-          userId: req.user.id,
-          startDate: {
-            [Op.lt]: qDate,
-          },
-          [Op.or]: [
-            { endDate: null },
-            {
-              endDate: {
-                [Op.gt]: qDate,
-              },
+      if (!income) {
+        result.budgets.unshift(0);
+      } else {
+        const deducts = await YearlyDeduction.findAll({
+          where: {
+            userId: req.user.id,
+            startDate: {
+              [Op.lt]: qDate,
             },
-          ],
-        },
-      });
-      const expenses = await MonthlyExpense.findAll({
-        where: {
-          userId: req.user.id,
-          startDate: {
-            [Op.lt]: qDate,
-          },
-          [Op.or]: [
-            { endDate: null },
-            {
-              endDate: {
-                [Op.gt]: qDate,
+            [Op.or]: [
+              { endDate: null },
+              {
+                endDate: {
+                  [Op.gt]: qDate,
+                },
               },
+            ],
+          },
+        });
+        const expenses = await MonthlyExpense.findAll({
+          where: {
+            userId: req.user.id,
+            startDate: {
+              [Op.lt]: qDate,
             },
-          ],
-        },
-      });
-      const perMonth =
-        deducts.reduce((a, b) => {
+            [Op.or]: [
+              { endDate: null },
+              {
+                endDate: {
+                  [Op.gt]: qDate,
+                },
+              },
+            ],
+          },
+        });
+        const perMonth =
+          deducts.reduce((a, b) => {
+            if (b.rule === 'FIXED') {
+              return a - b.amount;
+            } else {
+              return a * (1 - b.percent);
+            }
+          }, income.amount) / 12;
+        const budget = expenses.reduce((a, b) => {
           if (b.rule === 'FIXED') {
             return a - b.amount;
           } else {
             return a * (1 - b.percent);
           }
-        }, income.amount) / 12;
-      const budget = expenses.reduce((a, b) => {
-        if (b.rule === 'FIXED') {
-          return a - b.amount;
-        } else {
-          return a * (1 - b.percent);
-        }
-      }, perMonth);
-      result.budgets.unshift(budget);
+        }, perMonth);
+        result.budgets.unshift(budget);
+      }
       if (month === 0) {
         month = 11;
         year--;

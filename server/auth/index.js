@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {
-  models: { User },
+  models: { User, Income },
 } = require('../db');
 module.exports = router;
 
@@ -18,6 +18,16 @@ router.post('/signup', async (req, res, next) => {
       res.status(401).send('Please fill out both fields!');
     } else {
       const user = await User.create(req.body);
+      const date = new Date();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      const income = await Income.create({
+        amount: 50000,
+        startDate: new Date(year, month),
+        startMonth: month,
+        startYear: year,
+      });
+      await income.setUser(user);
       res.send({ token: await user.generateToken() });
     }
   } catch (err) {
