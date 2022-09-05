@@ -16,6 +16,7 @@ import income from './income';
 import homeChartData from './homeChartData';
 import availableCategories from './availableCategories';
 import monthChartData from './monthChartData';
+import allCategories from './allCategories';
 
 const reducer = combineReducers({
   auth,
@@ -32,6 +33,7 @@ const reducer = combineReducers({
   homeChartData,
   availableCategories,
   monthChartData,
+  allCategories,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
@@ -53,3 +55,4 @@ export * from './income';
 export * from './homeChartData';
 export * from './availableCategories';
 export * from './monthChartData';
+export * from './allCategories';

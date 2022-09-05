@@ -9,6 +9,7 @@ router.use('/daily-expenses', require('./dailyExpenses'));
 router.use('/incomes', require('./incomes'));
 router.use('/chart-data', require('./homeChartData'));
 router.use('/month-chart-data', require('./monthChartData'));
+router.use('/all-categories', require('./allCategories'));
 
 router.use((req, res, next) => {
   const error = new Error('Not Found');
