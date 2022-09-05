@@ -6,9 +6,9 @@ module.exports = router;
 const { requireToken } = require('./requireToken');
 const { Op } = require('sequelize');
 
-router.get('/:year/:month', requireToken, async (req, res, next) => {
+router.get('/:year/:month/:metric', requireToken, async (req, res, next) => {
   try {
-    const { year, month } = req.params;
+    const { year, month, metric } = req.params;
     const date = new Date(year, month - 1, 15);
     const income = await Income.findOne({
       where: {
@@ -109,6 +109,9 @@ router.get('/:year/:month', requireToken, async (req, res, next) => {
         (daily) => daily.category.name === category.name
       );
       const totalSpent = purchases.reduce((a, b) => a + b.amount, 0);
+      if (metric === 'AMOUNT') {
+        return totalSpent;
+      }
       if (category.rule === 'FIXED') {
         return (totalSpent / category.amount) * 100;
       } else {
@@ -119,9 +122,19 @@ router.get('/:year/:month', requireToken, async (req, res, next) => {
       labels: [...labels, 'Total'],
       spents: [
         ...spents,
-        (dailies.reduce((a, b) => a + b.amount, 0) / budget) * 100,
+        metric === 'AMOUNT'
+          ? dailies.reduce((a, b) => a + b.amount, 0)
+          : (dailies.reduce((a, b) => a + b.amount, 0) / budget) * 100,
       ],
-      budgets: Array(cats.length + 1).fill(100),
+      budgets:
+        metric === 'AMOUNT'
+          ? [
+              ...cats.map((cat) =>
+                cat.rule === 'FIXED' ? cat.amount : cat.percent * afterFixed
+              ),
+              budget,
+            ]
+          : Array(cats.length + 1).fill(100),
     };
     res.json(result);
   } catch (err) {

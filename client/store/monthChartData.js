@@ -7,14 +7,17 @@ const SET_MONTH_DATA = 'SET_MONTH_DATA';
 const setMonthData = (data) => ({ type: SET_MONTH_DATA, data });
 
 // THUNK CREATORS
-export const fetchMonthChartData = (year, month) => {
+export const fetchMonthChartData = (year, month, metric) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data } = await axios.get(`/api/month-chart-data/${year}/${month}`, {
-      headers: {
-        authorization: token,
-      },
-    });
+    const { data } = await axios.get(
+      `/api/month-chart-data/${year}/${month}/${metric}`,
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
     dispatch(setMonthData(data));
   };
 };

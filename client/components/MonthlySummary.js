@@ -73,6 +73,7 @@ export default function MonthlySummary() {
     },
     100,
   ]);
+  const [metric, setMetric] = useState('PERCENT');
   const [filter, setFilter] = useState({
     filterCat: '#special#billfold#all#',
     filterFunc(array) {
@@ -108,6 +109,10 @@ export default function MonthlySummary() {
     }
   };
 
+  const handleMetricChange = (event) => {
+    setMetric(event.target.value);
+  };
+
   function reactGetChartData() {
     const result = {
       labels: rawData.labels,
@@ -122,22 +127,22 @@ export default function MonthlySummary() {
         },
         {
           type: 'bar',
-          label: 'Percent Spent',
+          label: `${metric === 'AMOUNT' ? 'Amount' : 'Percent'} Spent`,
           data: rawData.spents,
           backgroundColor: '#93e9be',
         },
       ],
     };
-    const heighestPoint = result.datasets[1].data.reduce(
-      (datum, highest) => (datum > highest ? datum : highest),
-      100
-    );
+    const heighestPoint = [
+      ...result.datasets[1].data,
+      ...result.datasets[0].data,
+    ].reduce((datum, highest) => (datum > highest ? datum : highest), 0);
     return [result, heighestPoint];
   }
 
   useEffect(() => {
-    dispatch(fetchMonthChartData(year, month));
-  }, [categories, dailyExpenses, month, year]);
+    dispatch(fetchMonthChartData(year, month, metric));
+  }, [categories, dailyExpenses, month, year, metric]);
 
   useEffect(() => {
     setReactChartData(reactGetChartData());
@@ -202,6 +207,11 @@ export default function MonthlySummary() {
       <div className="chart-container">
         <div id="month-chart-header">
           <h1>Your spending - visualized</h1>
+          <h3>Toggle percent or dollar amount</h3>
+          <select defaultValue={'PERCENT'} onChange={handleMetricChange}>
+            <option value="PERCENT">Percent</option>
+            <option value="AMOUNT">Dollar Amount</option>
+          </select>
         </div>
         <Chart
           type="bar"
