@@ -8,6 +8,7 @@ import NewDailyForm from './NewDailyForm';
 import DailyExpense from './DailyExpense';
 import { Link } from 'react-router-dom';
 import {
+  fetchMonthChartData,
   fetchCategories,
   fetchDeducts,
   fetchExpenses,
@@ -57,7 +58,7 @@ export default function MonthlySummary() {
       labels: ['Total'],
       datasets: [
         {
-          type: 'line',
+          type: 'bar',
           label: 'Budget',
           data: [],
           borderColor: 'red',
@@ -87,6 +88,7 @@ export default function MonthlySummary() {
   );
   const totalSpent = dailies.reduce((acc, daily) => acc + daily.amount, 0);
   const categories = useSelector((state) => state.categories);
+  const rawData = useSelector((state) => state.monthChartData);
 
   const handleFilter = (event) => {
     if (event.target.value === '#special#billfold#all#') {
@@ -108,12 +110,12 @@ export default function MonthlySummary() {
 
   function reactGetChartData() {
     const result = {
-      labels: [...categories.map((cat) => cat.name), 'Total'],
+      labels: rawData.labels,
       datasets: [
         {
           type: 'bar',
           label: 'Budget',
-          data: Array(categories.length + 1).fill(100),
+          data: rawData.budgets,
           borderColor: 'rgba(255, 10, 10, 1)',
           borderWidth: 1,
           backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -121,26 +123,11 @@ export default function MonthlySummary() {
         {
           type: 'bar',
           label: 'Percent Spent',
-          data: [],
+          data: rawData.spents,
           backgroundColor: '#93e9be',
         },
       ],
     };
-    result.labels.forEach((label, i) => {
-      if (i === result.labels.length - 1) {
-        result.datasets[1].data.push((totalSpent / data.afterExpenses) * 100);
-      } else {
-        const catBudget =
-          categories[i].amount || categories[i].percent * data.afterFixedCats;
-        const catTotal =
-          (dailies
-            .filter((daily) => daily.category.name === label)
-            .reduce((a, b) => a + b.amount, 0) /
-            catBudget) *
-          100;
-        result.datasets[1].data.push(catTotal);
-      }
-    });
     const heighestPoint = result.datasets[1].data.reduce(
       (datum, highest) => (datum > highest ? datum : highest),
       100
@@ -149,9 +136,12 @@ export default function MonthlySummary() {
   }
 
   useEffect(() => {
-    const reactData = reactGetChartData();
-    setReactChartData(reactData);
+    dispatch(fetchMonthChartData(year, month));
   }, [categories, dailyExpenses, month, year]);
+
+  useEffect(() => {
+    setReactChartData(reactGetChartData());
+  }, [rawData]);
 
   useEffect(() => {
     dispatch(fetchCategories(year, month - 1));
