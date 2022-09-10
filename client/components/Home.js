@@ -21,7 +21,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories);
   const dailies = useSelector((state) => state.dailyExpenses);
-  const { username, budgetGap, afterExpenses, unassigned } = useData();
+  const { username, budgetGap, afterExpenses, unassigned, onTrack } = useData();
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
@@ -43,14 +43,20 @@ export default function Home() {
     lastMonth = month - 1;
   }
   let warning;
-  if (budgetGap > 100) {
-    warning = `You're under budget so far this month!`;
-  } else if (budgetGap <= 100 && budgetGap > 0) {
-    warning = `You're almost at your budget for this month!`;
-  } else if (budgetGap <= 0 && budgetGap > -100) {
+  if (budgetGap > 1.1) {
+    warning = `You're significantly over budget this month!`;
+  } else if (budgetGap > 1) {
     warning = `You're a little bit over budget this month!`;
+  } else if (budgetGap > 0.9) {
+    warning = `You're almost at your budget this month!`;
   } else if (budgetGap <= -100) {
     warning = `You're significantly over budget this month!`;
+  } else if (onTrack > -0.1 && onTrack < 0.1) {
+    warning = `You're roughly on track to hit your budget this month!`;
+  } else if (onTrack > 0) {
+    warning = `You're trending over budget this month!`;
+  } else {
+    warning = `You're trending under budget so far this month!`;
   }
 
   return (

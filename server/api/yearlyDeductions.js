@@ -10,7 +10,6 @@ router.get('/:year/:month', requireToken, async (req, res, next) => {
   try {
     const { year, month } = req.params;
     const today = new Date(year, month, 15);
-    console.log('DEDUCTS: ', today);
     const deducts = await YearlyDeduction.findAll({
       where: {
         userId: req.user.id,

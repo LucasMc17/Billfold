@@ -10,7 +10,6 @@ router.get('/:year/:month', requireToken, async (req, res, next) => {
   try {
     const { year, month } = req.params;
     const today = new Date(year, month, 15);
-    console.log('CATS: ', today);
     const categories = await Category.findAll({
       where: {
         userId: req.user.id,
