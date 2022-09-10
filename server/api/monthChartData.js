@@ -91,12 +91,15 @@ router.get('/:year/:month/:metric', requireToken, async (req, res, next) => {
     }, perMonth);
     const labels = cats.map((cat) => cat.name);
     const dailies = await DailyExpense.findAll({
+      include: { model: Category },
       where: {
         userId: req.user.id,
         month: month,
         year,
+        categoryId: {
+          [Op.not]: null,
+        },
       },
-      include: { model: Category },
     });
     const afterFixed =
       budget -

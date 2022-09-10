@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {
-  models: { Category },
+  models: { Category, DailyExpense },
 } = require('../db');
 module.exports = router;
 const { requireToken } = require('./requireToken');
@@ -58,6 +58,15 @@ router.delete('/:id', requireToken, async (req, res, next) => {
         endMonth: month + 1,
         endDate: new Date(year, month) - 1,
       });
+      const purchases = await DailyExpense.findAll({
+        where: {
+          categoryId: oldCat.id,
+          userId: req.user.id,
+          year,
+          month: month + 1,
+        },
+      });
+      purchases.forEach((purch) => purch.setCategory(null));
     }
     res.status(204).send(204);
   } catch (err) {
