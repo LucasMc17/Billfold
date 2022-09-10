@@ -97,6 +97,15 @@ router.put('/:id', requireToken, async (req, res, next) => {
         startYear: year,
         startDate: new Date(year, month),
       });
+      const purchases = await DailyExpense.findAll({
+        where: {
+          categoryId: oldCat.id,
+          userId: req.user.id,
+          year,
+          month: month + 1,
+        },
+      });
+      purchases.forEach((purch) => purch.setCategory(newCat));
       res.json(newCat);
     }
   } catch (err) {
