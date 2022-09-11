@@ -38,7 +38,6 @@ export default function BulkUpload() {
         u = rows.length - 1;
         rows.slice(1).forEach((row) => {
           const [category, name, amount, date] = row;
-          console.log(date.setMilliseconds(date.getMilliseconds() + 1));
           if (
             categories.find(
               (cat) =>

@@ -23,7 +23,6 @@ export default function NewDailyForm(props) {
   function handleSubmit(evt) {
     evt.preventDefault();
     dispatch(postDaily(daily));
-    console.log(daily);
   }
 
   useEffect(() => {

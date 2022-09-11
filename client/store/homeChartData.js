@@ -18,7 +18,6 @@ export const fetchChartData = (num) => {
     });
     dispatch(setData(data));
     dispatch(homeSetLoading(false));
-    console.log(false);
   };
 };
 

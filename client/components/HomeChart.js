@@ -100,13 +100,11 @@ export default function HomeChart({ year, month, afterExpenses }) {
       ...result.datasets[1].data,
       ...result.datasets[0].data,
     ].reduce((curr, item) => (curr > item ? curr : item), 0);
-    console.log(reactHighestPoint);
     return [result, reactHighestPoint];
   }
 
   useEffect(() => {
     dispatch(homeSetLoading(true));
-    console.log(true);
     dispatch(fetchChartData(view));
   }, [view, categories, dailies]);
 
