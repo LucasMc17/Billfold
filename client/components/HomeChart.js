@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Chart } from 'react-chartjs-2';
-import { fetchChartData } from '../store';
+import { fetchChartData, homeSetLoading } from '../store';
 import {
   BarElement,
   CategoryScale,
@@ -26,6 +26,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
   const categories = useSelector((state) => state.categories);
   const dailies = useSelector((state) => state.dailyExpenses);
   const rawData = useSelector((state) => state.homeChartData);
+  const loading = useSelector((state) => state.loading.homeChart);
 
   const dispatch = useDispatch();
 
@@ -104,6 +105,8 @@ export default function HomeChart({ year, month, afterExpenses }) {
   }
 
   useEffect(() => {
+    dispatch(homeSetLoading(true));
+    console.log(true);
     dispatch(fetchChartData(view));
   }, [view, categories, dailies]);
 
@@ -129,21 +132,30 @@ export default function HomeChart({ year, month, afterExpenses }) {
           <option value="18">18</option>
         </select>
       </div>
-      <Chart
-        id="home-chart"
-        type="bar"
-        data={data[0]}
-        options={{
-          scales: {
-            y: {
-              max: Math.floor(data[1] * 1.1),
+      <div id="loading-screen-container">
+        {loading ? (
+          <div id="loading-screen">
+            <h2>Loading...</h2>
+          </div>
+        ) : (
+          <></>
+        )}
+        <Chart
+          id="home-chart"
+          type="bar"
+          data={data[0]}
+          options={{
+            scales: {
+              y: {
+                max: Math.floor(data[1] * 1.1),
+              },
+              x: {
+                stacked: true,
+              },
             },
-            x: {
-              stacked: true,
-            },
-          },
-        }}
-      />
+          }}
+        />
+      </div>
     </div>
   );
 }

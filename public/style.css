@@ -478,3 +478,22 @@ button:hover {
 #export-form>input {
   margin: 0px 10px;
 }
+
+#loading-screen-container {
+  position: relative;
+}
+
+#loading-screen {
+  background-color: white;
+  opacity: 0.7;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#loading-screen h2 {
+  text-align: center;
+  margin-top: 20%;
+}

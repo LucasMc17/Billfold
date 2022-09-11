@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { homeSetLoading } from './loading';
 
 // ACTION TYPES
 const SET_DATA = 'SET_DATA';
@@ -16,6 +17,8 @@ export const fetchChartData = (num) => {
       },
     });
     dispatch(setData(data));
+    dispatch(homeSetLoading(false));
+    console.log(false);
   };
 };
 
