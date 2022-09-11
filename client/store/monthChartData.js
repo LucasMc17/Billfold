@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { monthSetLoading } from './loading';
 
 // ACTION TYPES
 const SET_MONTH_DATA = 'SET_MONTH_DATA';
@@ -19,6 +20,7 @@ export const fetchMonthChartData = (year, month, metric) => {
       }
     );
     dispatch(setMonthData(data));
+    dispatch(monthSetLoading(false));
   };
 };
 

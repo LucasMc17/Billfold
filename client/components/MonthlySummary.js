@@ -13,6 +13,7 @@ import {
   fetchDeducts,
   fetchExpenses,
   fetchIncome,
+  monthSetLoading,
 } from '../store';
 
 import { Chart } from 'react-chartjs-2';
@@ -90,6 +91,7 @@ export default function MonthlySummary() {
   const totalSpent = dailies.reduce((acc, daily) => acc + daily.amount, 0);
   const categories = useSelector((state) => state.categories);
   const rawData = useSelector((state) => state.monthChartData);
+  const loading = useSelector((state) => state.loading.monthChart);
 
   const handleFilter = (event) => {
     if (event.target.value === '#special#billfold#all#') {
@@ -141,6 +143,7 @@ export default function MonthlySummary() {
   }
 
   useEffect(() => {
+    dispatch(monthSetLoading(true));
     dispatch(fetchMonthChartData(year, month, metric));
   }, [categories, dailyExpenses, month, year, metric]);
 
@@ -213,21 +216,30 @@ export default function MonthlySummary() {
             <option value="AMOUNT">Dollar Amount</option>
           </select>
         </div>
-        <Chart
-          type="bar"
-          data={reactChartData[0]}
-          options={{
-            scales: {
-              y: {
-                beginAtZero: true,
-                max: reactChartData[1] * 1.1,
+        <div id="loading-screen-container">
+          {loading ? (
+            <div id="loading-screen">
+              <h2>Loading...</h2>
+            </div>
+          ) : (
+            <></>
+          )}
+          <Chart
+            type="bar"
+            data={reactChartData[0]}
+            options={{
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  max: reactChartData[1] * 1.1,
+                },
+                x: {
+                  stacked: true,
+                },
               },
-              x: {
-                stacked: true,
-              },
-            },
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
       <div id="monthly-purchases">
         <div id="monthly-purchases-header">
