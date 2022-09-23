@@ -33,10 +33,12 @@ export default function NewDailyForm(props) {
   }, [daily.date]);
 
   useEffect(() => {
-    setDaily({
-      ...daily,
-      category: categories.length ? categories[0].name : '',
-    });
+    if (!categories.some((cat) => cat.name === daily.category)) {
+      setDaily({
+        ...daily,
+        category: categories.length ? categories[0].name : '',
+      });
+    }
   }, [categories]);
 
   return (
