@@ -65,7 +65,7 @@ export default function NewDailyForm(props) {
           value={daily.date}
         />
         <label htmlFor="category">Category: </label>
-        <select name="category" onChange={handleChange}>
+        <select name="category" onChange={handleChange} value={daily.category}>
           {categories.map((cat) => (
             <option key={cat.id} value={cat.name}>
               {cat.name}
