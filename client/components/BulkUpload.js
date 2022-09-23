@@ -15,7 +15,7 @@ export default function BulkUpload() {
   });
 
   function handleUpload() {
-    state.toUpload.forEach((purchase) => {
+    state.toUpload.forEach((purchase, i) => {
       dispatch(postDaily(purchase));
     });
     setState({ result: 'Purchases uploaded!', toUpload: [] });
@@ -55,7 +55,7 @@ export default function BulkUpload() {
             r++;
           }
           setState({
-            result: `${u - r} purchases uploaded. ${r} purchases rejected.`,
+            result: `${u - r} elligible purchases. ${r} rejected purchases.`,
             toUpload: toUpload,
           });
         });
