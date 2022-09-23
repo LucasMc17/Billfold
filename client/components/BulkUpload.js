@@ -15,7 +15,7 @@ export default function BulkUpload() {
   });
 
   function handleUpload() {
-    state.toUpload.forEach((purchase, i) => {
+    state.toUpload.forEach((purchase) => {
       dispatch(postDaily(purchase));
     });
     setState({ result: 'Purchases uploaded!', toUpload: [] });
