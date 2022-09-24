@@ -161,7 +161,27 @@ export default function MyInfo() {
         <button type="button">Edit my Flexible Categories</button>
       </Link>
       <div className="chart-container" id="info-chart">
-        <h1>My spending:</h1>
+        <div>
+          <h1>My spending:</h1>
+          <div id="legend">
+            <div className="legend-section">
+              <square style={{ backgroundColor: '#F45B69' }} />
+              <p>Yearly Expenses</p>
+            </div>
+            <div className="legend-section">
+              <square style={{ backgroundColor: '#4B3B47' }} />
+              <p>Monthly Expenses</p>
+            </div>
+            <div className="legend-section">
+              <square style={{ backgroundColor: '#475841' }} />
+              <p>Fixed Categories</p>
+            </div>
+            <div className="legend-section">
+              <square style={{ backgroundColor: '#93e9be' }} />
+              <p>Unfixed Categories</p>
+            </div>
+          </div>
+        </div>
         <div>
           <Chart
             width="50%"
@@ -186,16 +206,12 @@ export default function MyInfo() {
                       (cat) => cat.percent * afterFixedCats * 12
                     ),
                   ],
-                  backgroundColor: Array(10)
-                    .fill('')
-                    .map(
-                      () =>
-                        `#${Math.round(Math.random() * 30 + 132).toString(
-                          16
-                        )}${Math.round(Math.random() * 30 + 218).toString(
-                          16
-                        )}${Math.round(Math.random() * 30 + 175).toString(16)}`
-                    ),
+                  backgroundColor: [
+                    ...deducts.map((de) => '#F45B69'),
+                    ...expenses.map((ex) => '#4B3B47'),
+                    ...fixedCats.map((cat) => '#475841'),
+                    ...unfixedCats.map((cat) => '#93e9be'),
+                  ],
                   borderColor: 'black',
                   borderWidth: 3,
                 },

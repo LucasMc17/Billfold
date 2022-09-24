@@ -157,6 +157,27 @@ form div {
   padding: 20px;
 }
 
+#legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.legend-section {
+  display: flex;
+  gap: 5px;
+}
+
+.legend-section p {
+  margin: 0;
+}
+
+.legend-section square {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+}
+
 #bulk-upload {
   width: 75%;
   margin: 0px auto 40px auto;
