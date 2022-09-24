@@ -134,6 +134,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
         {loading ? (
           <div id="loading-screen">
             <h2>Loading...</h2>
+            <img id="load-icon" src="/load-icon.png" />
           </div>
         ) : (
           <></>
