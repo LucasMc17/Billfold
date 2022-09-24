@@ -145,6 +145,7 @@ form div {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  padding: 20px;
 }
 
 #bulk-upload {
