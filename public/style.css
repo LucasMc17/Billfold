@@ -17,12 +17,19 @@ label {
 
 nav a {
   display: inline-block;
-  margin: 1em;
+  /* margin: 1em; */
+}
+
+nav {
+  width: 100%
 }
 
 #links {
-  margin-top: 15px;
+  height: 100%;
   align-self: flex-end;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
 #links a {
@@ -30,6 +37,22 @@ nav a {
   margin-left: 50px;
   color: white;
   font-weight: bold;
+  padding: 10px
+}
+
+#links a:hover {
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 9px
+}
+
+#links div {
+  display: flex;
+  align-items: center;
+}
+
+#logout-button {
+  margin-left: auto !important;
 }
 
 form div {
@@ -496,4 +519,8 @@ button:hover {
 #loading-screen h2 {
   text-align: center;
   margin-top: 20%;
+}
+
+#home-link {
+  display: flex;
 }
