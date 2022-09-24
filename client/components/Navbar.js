@@ -17,13 +17,21 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <nav>
           <div id="links">
             <div>
-              <Link to="/myinfo">My Info</Link>
-              <Link to="/all-months">All Months</Link>
-              <Link to="/bulk-upload">Bulk Upload</Link>
-              <Link to="/bulk-export">Bulk Export</Link>
+              <Link class="nav-button" to="/myinfo">
+                My Info
+              </Link>
+              <Link class="nav-button" to="/all-months">
+                All Months
+              </Link>
+              <Link class="nav-button" to="/bulk-upload">
+                Bulk Upload
+              </Link>
+              <Link class="nav-button" to="/bulk-export">
+                Bulk Export
+              </Link>
             </div>
             <div id="logout-button">
-              <a href="#" onClick={handleClick}>
+              <a class="nav-button" href="#" onClick={handleClick}>
                 Logout
               </a>
             </div>

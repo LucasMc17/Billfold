@@ -67,15 +67,20 @@ export default function Home() {
           <div id="exc">!</div>
           <h2>{warning}</h2>
         </div>
-        <Link to={`/year/${year}/month/${month}`}>
-          <button type="button">Show Me This Month</button>
-        </Link>
-        <Link to={`/year/${lastMonthYear}/month/${lastMonth}`}>
-          <button type="button">Show Me Last Month</button>
-        </Link>
-        <Link to={'/all-months'}>
-          <button type="button">Show Me All Months</button>
-        </Link>
+        <div id="home-links">
+          <Link class="nav-button" to={`/year/${year}/month/${month}`}>
+            This Month
+          </Link>
+          <Link
+            class="nav-button"
+            to={`/year/${lastMonthYear}/month/${lastMonth}`}
+          >
+            Last Month
+          </Link>
+          <Link class="nav-button" to={'/all-months'}>
+            All Months
+          </Link>
+        </div>
       </div>
       <div id="recent-purchases">
         <h2>Recent purchases</h2>
