@@ -32,10 +32,10 @@ export default function MyInfo() {
     <div>
       <div className="user-story first">
         <h1>
-          Hi, my name is <u>{username}</u>
+          Hi, my name is <span>{username}</span>
         </h1>
         <h1>
-          I make <u>{dollarFormat(Number(income))}</u> per year.
+          I make <span>{dollarFormat(Number(income))}</span> per year.
         </h1>
         <Link to="/edit/basic-info">
           <button type="button">Edit My Info</button>

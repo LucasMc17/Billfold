@@ -146,6 +146,10 @@ form div {
   border-top: none;
 }
 
+.user-story span {
+  color: #93e9be;
+}
+
 .user-items {
   display: flex;
   gap: 10px;
