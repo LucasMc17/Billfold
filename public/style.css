@@ -138,7 +138,12 @@ form div {
 }
 
 .user-story {
-  background-color: #93e9be;
+  border-top: 5px dotted #93e9be;
+  margin-top: 10px;
+}
+
+.user-story.first {
+  border-top: none;
 }
 
 .user-items {

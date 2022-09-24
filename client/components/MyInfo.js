@@ -30,7 +30,7 @@ export default function MyInfo() {
 
   return (
     <div>
-      <div className="user-story">
+      <div className="user-story first">
         <h1>
           Hi, my name is <u>{username}</u>
         </h1>
