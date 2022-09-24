@@ -220,6 +220,7 @@ export default function MonthlySummary() {
           {loading ? (
             <div id="loading-screen">
               <h2>Loading...</h2>
+              <img id="load-icon" src="/load-icon.png" />
             </div>
           ) : (
             <></>
