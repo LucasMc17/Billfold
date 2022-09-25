@@ -269,6 +269,17 @@ form div {
   padding: 10px;
 }
 
+#month-chart-header>div {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+#month-chart-header>div>* {
+  margin: 0;
+  height: fit-content
+}
+
 #info-chart {
   display: flex;
 }
@@ -601,6 +612,10 @@ button:hover {
   height: 20px;
   width: 30px;
   border-radius: 10px;
+  display: flex;
+}
+
+.toggle-container {
   display: flex;
 }
 

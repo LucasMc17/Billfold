@@ -214,14 +214,19 @@ export default function MonthlySummary() {
       <div className="chart-container">
         <div id="month-chart-header">
           <h1>Your spending - visualized</h1>
-          <h3>Toggle percent or dollar amount</h3>
-          <div className="nav-button" onClick={handleMetricChange}>
-            <h3>{metric}</h3>
-            <div className="toggle-switch">
-              <div
-                className={metric === 'PERCENT' ? 'toggle-off' : 'toggle-on'}
-              ></div>
+          <div>
+            <h3>Show by:</h3>
+            <div
+              className="nav-button toggle-container"
+              onClick={handleMetricChange}
+            >
+              <div className="toggle-switch">
+                <div
+                  className={metric === 'PERCENT' ? 'toggle-off' : 'toggle-on'}
+                ></div>
+              </div>
             </div>
+            <h3>{metric}</h3>
           </div>
         </div>
         <div id="loading-screen-container">
