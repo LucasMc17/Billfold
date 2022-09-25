@@ -239,7 +239,7 @@ form div {
 
 .summary {
   flex: 1 0 22%;
-  background-image: linear-gradient(to bottom, white, rgb(214, 214, 214));
+  background-image: linear-gradient(to bottom, white, #93e9be);
   border-radius: 15px;
   border: 5px solid #93e9be;
   margin-bottom: 10px;
@@ -543,6 +543,7 @@ button:hover {
 
 #month-header {
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: 15px;
 }
