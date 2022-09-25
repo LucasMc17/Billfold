@@ -595,3 +595,46 @@ button:hover {
 #home-link {
   display: flex;
 }
+
+.toggle-switch {
+  background-color: white;
+  height: 20px;
+  width: 30px;
+  border-radius: 10px;
+  display: flex;
+}
+
+.toggle-off, .toggle-on {
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background-color: #93e9be;
+  margin: 1px auto 0 1px;
+}
+
+@keyframes turnOn {
+  0% {
+    translate: 0px;
+  }
+  100% {
+    translate: 10px;
+  }
+}
+
+@keyframes turnOff {
+  0% {
+    translate: 10px;
+  }
+  100% {
+    translate: 0px;
+  }
+}
+
+.toggle-off {
+  animation: turnOff 0.3s;
+}
+
+.toggle-on {
+  animation: turnOn 0.3s;
+  translate: 10px;
+}

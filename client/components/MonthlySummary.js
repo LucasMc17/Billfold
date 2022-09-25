@@ -111,8 +111,12 @@ export default function MonthlySummary() {
     }
   };
 
-  const handleMetricChange = (event) => {
-    setMetric(event.target.value);
+  const handleMetricChange = () => {
+    if (metric === 'PERCENT') {
+      setMetric('AMOUNT');
+    } else {
+      setMetric('PERCENT');
+    }
   };
 
   function reactGetChartData() {
@@ -211,10 +215,14 @@ export default function MonthlySummary() {
         <div id="month-chart-header">
           <h1>Your spending - visualized</h1>
           <h3>Toggle percent or dollar amount</h3>
-          <select defaultValue={'PERCENT'} onChange={handleMetricChange}>
-            <option value="PERCENT">Percent</option>
-            <option value="AMOUNT">Dollar Amount</option>
-          </select>
+          <div className="nav-button" onClick={handleMetricChange}>
+            <h3>{metric}</h3>
+            <div className="toggle-switch">
+              <div
+                className={metric === 'PERCENT' ? 'toggle-off' : 'toggle-on'}
+              ></div>
+            </div>
+          </div>
         </div>
         <div id="loading-screen-container">
           {loading ? (
