@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { Link } from 'react-router-dom';
 import { updateUnassigned } from '../store';
-import { Chart } from 'react-chartjs-2';
+import { Chart, getElementAtEvent } from 'react-chartjs-2';
 import { ArcElement, Chart as ChartJS, Tooltip, PieController } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, PieController);
 
@@ -25,6 +25,23 @@ export default function MyInfo() {
     unfixedCats,
     unassigned,
   } = data;
+  const chartRef = useRef();
+  const [state, setState] = useState({
+    name: 'Click on a slice to see more!',
+    perYear: null,
+  });
+
+  const handleHover = (e) => {
+    console.log(chartRef);
+    const currentSlice = getElementAtEvent(chartRef.current, e)[0];
+    console.log(currentSlice);
+    const list = [...deducts, ...expenses, ...fixedCats, ...unfixedCats];
+    console.log(list[currentSlice.index]);
+    setState({
+      name: list[currentSlice.index].name,
+      perYear: currentSlice.element.$context.parsed,
+    });
+  };
 
   dispatch(updateUnassigned(unassigned));
 
@@ -165,27 +182,39 @@ export default function MyInfo() {
           <h1>My spending:</h1>
           <div id="legend">
             <div className="legend-section">
-              <square style={{ backgroundColor: '#F45B69' }} />
+              <square style={{ backgroundColor: '#01161E' }} />
               <p>Yearly Expenses</p>
             </div>
             <div className="legend-section">
-              <square style={{ backgroundColor: '#4B3B47' }} />
+              <square style={{ backgroundColor: '#124559' }} />
               <p>Monthly Expenses</p>
             </div>
             <div className="legend-section">
-              <square style={{ backgroundColor: '#475841' }} />
+              <square style={{ backgroundColor: '#598392' }} />
               <p>Fixed Categories</p>
             </div>
             <div className="legend-section">
-              <square style={{ backgroundColor: '#93e9be' }} />
+              <square style={{ backgroundColor: '#AEC3B0' }} />
               <p>Unfixed Categories</p>
             </div>
+          </div>
+          <div id="pie-slice-info">
+            <h1>{state.name}</h1>
+            <h2>
+              {state.perYear
+                ? `${dollarFormat(
+                    state.perYear / 12
+                  )} per month, or ${dollarFormat(state.perYear)} per year.`
+                : ''}
+            </h2>
           </div>
         </div>
         <div>
           <Chart
             width="50%"
             type="pie"
+            onClick={handleHover}
+            ref={chartRef}
             data={{
               labels: [
                 ...deducts.map((de) => de.name),
@@ -207,10 +236,10 @@ export default function MyInfo() {
                     ),
                   ],
                   backgroundColor: [
-                    ...deducts.map((de) => '#F45B69'),
-                    ...expenses.map((ex) => '#4B3B47'),
-                    ...fixedCats.map((cat) => '#475841'),
-                    ...unfixedCats.map((cat) => '#93e9be'),
+                    ...deducts.map((de) => '#01161E'),
+                    ...expenses.map((ex) => '#124559'),
+                    ...fixedCats.map((cat) => '#598392'),
+                    ...unfixedCats.map((cat) => '#AEC3B0'),
                   ],
                   borderColor: 'black',
                   borderWidth: 3,

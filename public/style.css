@@ -178,6 +178,14 @@ form div {
   border: 1px solid black;
 }
 
+#pie-slice-info {
+  width: 80%;
+  margin: 25px auto 0 auto;
+  border: 5px solid #93e9be;
+  border-radius: 15px;
+  padding: 5px;
+}
+
 #bulk-upload {
   width: 75%;
   margin: 0px auto 40px auto;
