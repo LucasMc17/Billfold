@@ -40,13 +40,26 @@ nav {
   font-size: 18px;
   color: white;
   font-weight: bold;
-  padding: 10px
+  padding: 10px;
+  cursor: pointer;
 }
 
 .nav-button:hover {
   border: 1px solid white;
   border-radius: 10px;
-  padding: 9px
+  padding: 9px;
+}
+
+#export-buttons {
+  background-color: #93e9be;
+  display: flex;
+  align-items: center;
+  height: fit-content;
+  gap: 5px;
+}
+
+#export-buttons>.nav-button {
+  margin: 0;
 }
 
 #links div {
@@ -186,20 +199,20 @@ form div {
   padding: 5px;
 }
 
-#bulk-upload {
+#bulk-upload, #bulk-export {
   width: 75%;
   margin: 0px auto 40px auto;
   border: 5px solid #93e9be;
   border-radius: 15px;
 }
 
-#bulk-upload h1 {
+#bulk-upload h1, #bulk-export h1 {
   margin-top: 0px;
   padding-top: 20px;
   background-color: #93e9be;
 }
 
-#bulk-upload h2 {
+#bulk-upload h2, #bulk-export h2 {
   background-color: #93e9be;
 }
 
@@ -211,7 +224,7 @@ form div {
   border-radius: 15px;
 }
 
-#bulk-upload p {
+#bulk-upload p, #bulk-export p {
   text-align: justify;
   padding: 0px 15px 0px 15px;
 }
@@ -555,14 +568,14 @@ button:hover {
   padding: 5px;
 }
 
-#bulk-export {
+/* #bulk-export {
   width: 80%;
   margin: auto;
   border-radius: 15px;
   margin-top: 20px;
   background-color: #93e9be;
   padding: 10px;
-}
+} */
 
 #export-form {
   display: flex;

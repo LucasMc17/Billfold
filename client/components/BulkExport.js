@@ -96,9 +96,13 @@ export default function BulkExport() {
           type="date"
         ></input>
       </div>
-      <h3>Export {exports.length} purchases</h3>
-      <button onClick={handleExport}>EXPORT</button>
-      {loading ? <h3>exporting...</h3> : ''}
+      <div id="export-buttons">
+        <h2>Export {exports.length} purchases:</h2>
+        <p className="nav-button" onClick={handleExport}>
+          GO
+        </p>
+        {loading ? <h3>exporting...</h3> : ''}
+      </div>
     </div>
   );
 }
