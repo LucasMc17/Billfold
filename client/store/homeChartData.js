@@ -8,15 +8,27 @@ const SET_DATA = 'SET_DATA';
 const setData = (data) => ({ type: SET_DATA, data });
 
 // THUNK CREATORS
-export const fetchChartData = (num) => {
+export const fetchChartData = (view) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data } = await axios.get(`/api/chart-data/${num}`, {
-      headers: {
-        authorization: token,
-      },
-    });
-    dispatch(setData(data));
+    if (!view.custom) {
+      const { data } = await axios.get(`/api/chart-data/${view.count}`, {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch(setData(data));
+    } else {
+      const { data } = await axios.get(
+        `/api/chart-data/custom/${view.startYear}/${view.startMonth}/to/${view.endYear}/${view.endMonth}`,
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      dispatch(setData(data));
+    }
     dispatch(homeSetLoading(false));
   };
 };

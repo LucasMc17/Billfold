@@ -32,6 +32,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
 
   const [view, setView] = useState({
     custom: false,
+    showRange: false,
     count: 6,
     startMonth: null,
     startYear: null,
@@ -77,7 +78,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
       'Dec',
     ];
     let result = {
-      labels: [],
+      labels: rawData.labels,
       datasets: [
         {
           type: 'bar',
@@ -95,14 +96,6 @@ export default function HomeChart({ year, month, afterExpenses }) {
         },
       ],
     };
-    for (let i = 0; i < num; i++) {
-      result.labels.unshift(months[searchMonth - 1]);
-      searchMonth--;
-      if (searchMonth === 0) {
-        searchMonth = 12;
-        searchYear--;
-      }
-    }
 
     const reactHighestPoint = [
       ...result.datasets[1].data,
@@ -114,10 +107,12 @@ export default function HomeChart({ year, month, afterExpenses }) {
   useEffect(() => {
     if (!view.custom) {
       dispatch(homeSetLoading(true));
-      dispatch(fetchChartData(view.count));
+      dispatch(fetchChartData(view));
     } else {
+      dispatch(homeSetLoading(true));
+      dispatch(fetchChartData(view));
     }
-  }, [view.count, categories, dailies]);
+  }, [view.count, view.custom, categories, dailies]);
 
   useEffect(() => {
     setData(getReactChartData(view.count, year, month));
@@ -129,14 +124,22 @@ export default function HomeChart({ year, month, afterExpenses }) {
       setView((prevView) => ({
         ...prevView,
         custom: false,
+        showRange: false,
         count: value,
       }));
     } else {
       setView((prevView) => ({
         ...prevView,
-        custom: true,
+        showRange: true,
       }));
     }
+  }
+
+  function handleSetRange() {
+    setView((prevView) => ({
+      ...prevView,
+      custom: true,
+    }));
   }
 
   function handleDateRangeChange(evt) {
@@ -173,7 +176,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
           <option value="18">18</option>
           <option value="custom">Custom...</option>
         </select>
-        <div className={view.custom ? 'custom-date-range' : 'disabled'}>
+        <div className={view.showRange ? 'custom-date-range' : 'disabled'}>
           <p>from</p>
           <input name="start" type="month" onChange={handleDateRangeChange} />
           <p> to </p>
@@ -187,6 +190,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
                 ? false
                 : true
             }
+            onClick={handleSetRange}
           />
         </div>
       </div>
