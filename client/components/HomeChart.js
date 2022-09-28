@@ -34,6 +34,10 @@ export default function HomeChart({ year, month, afterExpenses }) {
     custom: false,
     showRange: false,
     count: 6,
+    stagingStartMonth: null,
+    stagingStartYear: null,
+    stagingEndMonth: null,
+    stagingEndYear: null,
     startMonth: null,
     startYear: null,
     endMonth: null,
@@ -63,20 +67,6 @@ export default function HomeChart({ year, month, afterExpenses }) {
   ]);
 
   function getReactChartData(num, searchYear, searchMonth) {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
     let result = {
       labels: rawData.labels,
       datasets: [
@@ -105,14 +95,18 @@ export default function HomeChart({ year, month, afterExpenses }) {
   }
 
   useEffect(() => {
-    if (!view.custom) {
-      dispatch(homeSetLoading(true));
-      dispatch(fetchChartData(view));
-    } else {
-      dispatch(homeSetLoading(true));
-      dispatch(fetchChartData(view));
-    }
-  }, [view.count, view.custom, categories, dailies]);
+    dispatch(homeSetLoading(true));
+    dispatch(fetchChartData(view));
+  }, [
+    view.count,
+    view.custom,
+    view.startMonth,
+    view.startYear,
+    view.endMonth,
+    view.endYear,
+    categories,
+    dailies,
+  ]);
 
   useEffect(() => {
     setData(getReactChartData(view.count, year, month));
@@ -139,6 +133,10 @@ export default function HomeChart({ year, month, afterExpenses }) {
     setView((prevView) => ({
       ...prevView,
       custom: true,
+      startMonth: prevView.stagingStartMonth,
+      startYear: prevView.stagingStartYear,
+      endMonth: prevView.stagingEndMonth,
+      endYear: prevView.stagingEndYear,
     }));
   }
 
@@ -150,14 +148,14 @@ export default function HomeChart({ year, month, afterExpenses }) {
     if (name === 'start') {
       setView((prevView) => ({
         ...prevView,
-        startMonth: newVal.getMonth() + 1,
-        startYear: newVal.getFullYear(),
+        stagingStartMonth: newVal.getMonth() + 1,
+        stagingStartYear: newVal.getFullYear(),
       }));
     } else {
       setView((prevView) => ({
         ...prevView,
-        endMonth: newVal.getMonth() + 1,
-        endYear: newVal.getFullYear(),
+        stagingEndMonth: newVal.getMonth() + 1,
+        stagingEndYear: newVal.getFullYear(),
       }));
     }
   }
@@ -183,10 +181,10 @@ export default function HomeChart({ year, month, afterExpenses }) {
           <input name="end" type="month" onChange={handleDateRangeChange} />
           <button
             disabled={
-              view.startYear &&
-              view.endYear &&
-              new Date(view.endYear, view.endMonth) >
-                new Date(view.startYear, view.startMonth)
+              view.stagingStartYear &&
+              view.stagingEndYear &&
+              new Date(view.stagingEndYear, view.stagingEndMonth) >
+                new Date(view.stagingStartYear, view.stagingStartMonth)
                 ? false
                 : true
             }
