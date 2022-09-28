@@ -50,6 +50,18 @@ nav {
   padding: 9px;
 }
 
+.disabled {
+  display: none;
+}
+
+.custom-date-range {
+  display: flex;
+}
+
+button:disabled {
+  background-color: red;
+}
+
 #export-buttons {
   background-color: #93e9be;
   display: flex;

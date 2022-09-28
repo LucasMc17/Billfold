@@ -30,7 +30,15 @@ export default function HomeChart({ year, month, afterExpenses }) {
 
   const dispatch = useDispatch();
 
-  const [view, setView] = useState(6);
+  const [view, setView] = useState({
+    custom: false,
+    count: 6,
+    startMonth: null,
+    startYear: null,
+    endMonth: null,
+    endYear: null,
+  });
+
   const [data, setData] = useState([
     {
       labels: [],
@@ -104,19 +112,54 @@ export default function HomeChart({ year, month, afterExpenses }) {
   }
 
   useEffect(() => {
-    dispatch(homeSetLoading(true));
-    dispatch(fetchChartData(view));
-  }, [view, categories, dailies]);
+    if (!view.custom) {
+      dispatch(homeSetLoading(true));
+      dispatch(fetchChartData(view.count));
+    } else {
+    }
+  }, [view.count, categories, dailies]);
 
   useEffect(() => {
-    setData(getReactChartData(view, year, month));
+    setData(getReactChartData(view.count, year, month));
   }, [rawData]);
 
   function handleViewChange(evt) {
-    setView(Number(evt.target.value));
+    const { value } = evt.target;
+    if (value !== 'custom') {
+      setView((prevView) => ({
+        ...prevView,
+        custom: false,
+        count: value,
+      }));
+    } else {
+      setView((prevView) => ({
+        ...prevView,
+        custom: true,
+      }));
+    }
   }
 
-  window.data = data;
+  function handleDateRangeChange(evt) {
+    let { name, value } = evt.target;
+    value = new Date(value);
+    value.setDate(value.getDate() + 15);
+    const newVal = new Date(value);
+    if (name === 'start') {
+      setView((prevView) => ({
+        ...prevView,
+        startMonth: newVal.getMonth() + 1,
+        startYear: newVal.getFullYear(),
+      }));
+    } else {
+      setView((prevView) => ({
+        ...prevView,
+        endMonth: newVal.getMonth() + 1,
+        endYear: newVal.getFullYear(),
+      }));
+    }
+  }
+
+  window.view = view;
 
   return (
     <div className="chart-container">
@@ -128,7 +171,24 @@ export default function HomeChart({ year, month, afterExpenses }) {
           <option value="6">6</option>
           <option value="12">12</option>
           <option value="18">18</option>
+          <option value="custom">Custom...</option>
         </select>
+        <div className={view.custom ? 'custom-date-range' : 'disabled'}>
+          <p>from</p>
+          <input name="start" type="month" onChange={handleDateRangeChange} />
+          <p> to </p>
+          <input name="end" type="month" onChange={handleDateRangeChange} />
+          <button
+            disabled={
+              view.startYear &&
+              view.endYear &&
+              new Date(view.endYear, view.endMonth) >
+                new Date(view.startYear, view.startMonth)
+                ? false
+                : true
+            }
+          />
+        </div>
       </div>
       <div id="loading-screen-container">
         {loading ? (
