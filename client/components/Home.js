@@ -68,16 +68,16 @@ export default function Home() {
           <h2>{warning}</h2>
         </div>
         <div id="home-links">
-          <Link class="nav-button" to={`/year/${year}/month/${month}`}>
+          <Link className="nav-button" to={`/year/${year}/month/${month}`}>
             This Month
           </Link>
           <Link
-            class="nav-button"
+            className="nav-button"
             to={`/year/${lastMonthYear}/month/${lastMonth}`}
           >
             Last Month
           </Link>
-          <Link class="nav-button" to={'/all-months'}>
+          <Link className="nav-button" to={'/all-months'}>
             All Months
           </Link>
         </div>

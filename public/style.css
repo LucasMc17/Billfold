@@ -679,3 +679,19 @@ button:hover {
   animation: turnOn 0.3s;
   translate: 10px;
 }
+
+.custom-date-range {
+  margin: 10px 0px;
+  gap: 10px;
+  align-items: center;
+}
+
+.custom-date-range>p {
+  margin: 0;
+}
+
+.no-op {
+  opacity: 0.5;
+  pointer-events: none;
+  transition: 0.5s;
+}

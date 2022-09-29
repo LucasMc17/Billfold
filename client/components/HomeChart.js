@@ -113,9 +113,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
   }, [rawData]);
 
   function getMonthsAgo(date, num) {
-    console.log(date, num);
     date.setMonth(date.getMonth() - num);
-    console.log(date);
     return [date.getFullYear(), date.getMonth() + 1];
   }
 
@@ -210,19 +208,19 @@ export default function HomeChart({ year, month, afterExpenses }) {
             ).padStart(2, '0')}`}
             onChange={handleDateRangeChange}
           />
-          <button
-            disabled={
+          <p
+            className={`nav-button${
               view.stagingStartYear &&
               view.stagingEndYear &&
               new Date(view.stagingEndYear, view.stagingEndMonth) >
                 new Date(view.stagingStartYear, view.stagingStartMonth)
-                ? false
-                : true
-            }
+                ? ''
+                : ' no-op'
+            }`}
             onClick={handleSetRange}
           >
             Set
-          </button>
+          </p>
         </div>
       </div>
       <div id="loading-screen-container">
