@@ -29,19 +29,21 @@ export default function HomeChart({ year, month, afterExpenses }) {
   const loading = useSelector((state) => state.loading.homeChart);
 
   const dispatch = useDispatch();
+  const [initStartYear, initStartMonth] = getMonthsAgo(
+    new Date(year, month, 15),
+    6
+  );
 
   const [view, setView] = useState({
-    custom: false,
     showRange: false,
-    count: 6,
-    stagingStartMonth: null,
-    stagingStartYear: null,
-    stagingEndMonth: null,
-    stagingEndYear: null,
-    startMonth: null,
-    startYear: null,
-    endMonth: null,
-    endYear: null,
+    stagingStartMonth: initStartMonth,
+    stagingStartYear: initStartYear,
+    stagingEndMonth: month,
+    stagingEndYear: year,
+    startMonth: initStartMonth,
+    startYear: initStartYear,
+    endMonth: month,
+    endYear: year,
   });
 
   const [data, setData] = useState([
@@ -66,7 +68,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
     100,
   ]);
 
-  function getReactChartData(num, searchYear, searchMonth) {
+  function getReactChartData() {
     let result = {
       labels: rawData.labels,
       datasets: [
@@ -98,8 +100,6 @@ export default function HomeChart({ year, month, afterExpenses }) {
     dispatch(homeSetLoading(true));
     dispatch(fetchChartData(view));
   }, [
-    view.count,
-    view.custom,
     view.startMonth,
     view.startYear,
     view.endMonth,
@@ -109,17 +109,34 @@ export default function HomeChart({ year, month, afterExpenses }) {
   ]);
 
   useEffect(() => {
-    setData(getReactChartData(view.count, year, month));
+    setData(getReactChartData());
   }, [rawData]);
+
+  function getMonthsAgo(date, num) {
+    console.log(date, num);
+    date.setMonth(date.getMonth() - num);
+    console.log(date);
+    return [date.getFullYear(), date.getMonth() + 1];
+  }
 
   function handleViewChange(evt) {
     const { value } = evt.target;
     if (value !== 'custom') {
+      const [stagingStartYear, stagingStartMonth] = getMonthsAgo(
+        new Date(year, month, 15),
+        Number(value)
+      );
       setView((prevView) => ({
         ...prevView,
-        custom: false,
         showRange: false,
-        count: value,
+        stagingEndMonth: month,
+        endMonth: month,
+        stagingEndYear: year,
+        endYear: year,
+        stagingStartYear,
+        startYear: stagingStartYear,
+        stagingStartMonth,
+        startMonth: stagingStartMonth,
       }));
     } else {
       setView((prevView) => ({
@@ -132,7 +149,6 @@ export default function HomeChart({ year, month, afterExpenses }) {
   function handleSetRange() {
     setView((prevView) => ({
       ...prevView,
-      custom: true,
       startMonth: prevView.stagingStartMonth,
       startYear: prevView.stagingStartYear,
       endMonth: prevView.stagingEndMonth,
@@ -143,6 +159,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
   function handleDateRangeChange(evt) {
     let { name, value } = evt.target;
     value = new Date(value);
+    console.log(name, value);
     value.setDate(value.getDate() + 15);
     const newVal = new Date(value);
     if (name === 'start') {
@@ -168,17 +185,31 @@ export default function HomeChart({ year, month, afterExpenses }) {
         <h2>Your spending - visualized</h2>
         <h3>Change chart range</h3>
         <select defaultValue={'6'} onChange={handleViewChange}>
-          <option value="3">3</option>
-          <option value="6">6</option>
-          <option value="12">12</option>
-          <option value="18">18</option>
-          <option value="custom">Custom...</option>
+          <option value="3">Past 3 months</option>
+          <option value="6">Past 6 months</option>
+          <option value="12">Past 12 months</option>
+          <option value="18">Past 18 months</option>
+          <option value="custom">Custom range...</option>
         </select>
         <div className={view.showRange ? 'custom-date-range' : 'disabled'}>
           <p>from</p>
-          <input name="start" type="month" onChange={handleDateRangeChange} />
+          <input
+            name="start"
+            type="month"
+            value={`${view.stagingStartYear}-${String(
+              view.stagingStartMonth
+            ).padStart(2, '0')}`}
+            onChange={handleDateRangeChange}
+          />
           <p> to </p>
-          <input name="end" type="month" onChange={handleDateRangeChange} />
+          <input
+            name="end"
+            type="month"
+            value={`${view.stagingEndYear}-${String(
+              view.stagingEndMonth
+            ).padStart(2, '0')}`}
+            onChange={handleDateRangeChange}
+          />
           <button
             disabled={
               view.stagingStartYear &&
@@ -189,7 +220,9 @@ export default function HomeChart({ year, month, afterExpenses }) {
                 : true
             }
             onClick={handleSetRange}
-          />
+          >
+            Set
+          </button>
         </div>
       </div>
       <div id="loading-screen-container">

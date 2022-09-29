@@ -11,24 +11,15 @@ const setData = (data) => ({ type: SET_DATA, data });
 export const fetchChartData = (view) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    if (!view.custom) {
-      const { data } = await axios.get(`/api/chart-data/${view.count}`, {
+    const { data } = await axios.get(
+      `/api/chart-data/custom/${view.startYear}/${view.startMonth}/to/${view.endYear}/${view.endMonth}`,
+      {
         headers: {
           authorization: token,
         },
-      });
-      dispatch(setData(data));
-    } else {
-      const { data } = await axios.get(
-        `/api/chart-data/custom/${view.startYear}/${view.startMonth}/to/${view.endYear}/${view.endMonth}`,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-      dispatch(setData(data));
-    }
+      }
+    );
+    dispatch(setData(data));
     dispatch(homeSetLoading(false));
   };
 };
