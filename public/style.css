@@ -695,3 +695,30 @@ button:hover {
   pointer-events: none;
   transition: 0.5s;
 }
+
+.track-month {
+  border: 1px solid lightgray
+}
+
+.track-month {
+  width: calc(100% / 12);
+  height: 100px;
+}
+
+.history-section {
+  border-spacing: 0;
+  width: 100%;
+}
+
+.expense-track {
+  position: relative;
+}
+
+.expense-on-track {
+  position: absolute;
+  height: 90px;
+  width: 90px;
+  top: 7px;
+  background-color: rgba(147, 233, 190, 0.8);
+  border-radius: 15px;
+}

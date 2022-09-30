@@ -29,6 +29,12 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
               <Link className="nav-button" to="/bulk-export">
                 Bulk Export
               </Link>
+              <Link
+                className="nav-button"
+                to={`/budget-history/${new Date().getFullYear()}`}
+              >
+                Budget History
+              </Link>
             </div>
             <div id="logout-button">
               <a className="nav-button" href="#" onClick={handleClick}>

@@ -175,7 +175,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
     }
   }
 
-  window.view = view;
+  window.now = new Date();
 
   return (
     <div className="chart-container">
