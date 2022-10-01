@@ -33,7 +33,7 @@ export default function ExpenseTrack(props) {
         <td className="track-month" />
         <td className="track-month" />
         <td className="track-month" />
-        {data.map((datum) => {
+        {data.map((datum, i) => {
           const [left, right] = getEnds(
             datum.startMonth,
             datum.startYear,
@@ -48,18 +48,31 @@ export default function ExpenseTrack(props) {
               : '0';
           return (
             <td
+              key={i}
               className="expense-on-track"
               style={{
                 left: `${left}%`,
-                width: `calc(${right}% - 2px)`,
+                width: `calc(${right - left}% - 2px)`,
                 borderRadius: `${leftRadius} ${rightRadius} ${rightRadius} ${leftRadius}`,
               }}
             >
-              <h3>{datum.name}</h3>
+              <h3>{datum.name || `${dollarFormat(datum.amount)} per year`}</h3>
               <p>
-                {datum.amount
-                  ? dollarFormat(datum.amount)
-                  : `${datum.percent * 100}%`}
+                {datum.name ? (
+                  datum.amount ? (
+                    dollarFormat(datum.amount)
+                  ) : (
+                    `${datum.percent * 100}%`
+                  )
+                ) : (
+                  <></>
+                )}
+              </p>
+              <p>
+                {datum.startMonth}/{datum.startYear}
+                {datum.endMonth
+                  ? ` - ${datum.endMonth}/${datum.endYear}`
+                  : ' onward'}
               </p>
             </td>
           );

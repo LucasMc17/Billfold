@@ -566,7 +566,7 @@ button:hover {
   padding: 15px;
 }
 
-#month-header {
+#month-header, #budget-history-header {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -577,6 +577,13 @@ button:hover {
   border: 3px solid white;
   border-radius: 10px;
   color: white;
+  padding: 5px;
+}
+
+#budget-history-header .arrow {
+  border: 3px solid #93e9be;
+  border-radius: 10px;
+  color: #93e9be;
   padding: 5px;
 }
 
@@ -708,6 +715,7 @@ button:hover {
 .history-section {
   border-spacing: 0;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .expense-track {
@@ -721,4 +729,8 @@ button:hover {
   top: 7px;
   background-color: rgba(147, 233, 190, 0.8);
   border-radius: 15px;
+}
+
+.expense-on-track>h3, .expense-on-track>p {
+  margin: 5px;
 }

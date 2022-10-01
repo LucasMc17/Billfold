@@ -18,6 +18,9 @@ import availableCategories from './availableCategories';
 import monthChartData from './monthChartData';
 import allCategories from './allCategories';
 import loading from './loading';
+import allIncomes from './allIncomes';
+import allDeducts from './allDeducts';
+import allExpenses from './allExpenses';
 
 const reducer = combineReducers({
   auth,
@@ -36,6 +39,9 @@ const reducer = combineReducers({
   monthChartData,
   allCategories,
   loading,
+  allIncomes,
+  allDeducts,
+  allExpenses,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
@@ -59,3 +65,6 @@ export * from './availableCategories';
 export * from './monthChartData';
 export * from './allCategories';
 export * from './loading';
+export * from './allIncomes';
+export * from './allDeducts';
+export * from './allExpenses';
