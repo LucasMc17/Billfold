@@ -18,9 +18,8 @@ export default function EditYearlyExpenses() {
   return (
     <div>
       <div className="user-items">
-        {deducts.map((de, i) => (
+        {deducts.map((de) => (
           <div key={de.id}>
-            <h1>{i + 1}</h1>
             <h3>{de.name}</h3>
             <p>
               {de.percent
@@ -28,7 +27,14 @@ export default function EditYearlyExpenses() {
                 : dollarFormat(de.amount)}
             </p>
             <Link to={`/edit/yearly-expenses/${de.id}`}>
-              <button type="button">Edit</button>
+              <button type="button">Edit Details</button>
+            </Link>
+            <p>
+              {de.startMonth}/{de.startYear}
+              {de.endMonth ? ` - ${de.endMonth}/${de.endYear}` : ' onward'}
+            </p>
+            <Link to={`/edit/yearly-expenses/dates/${de.id}`}>
+              <button type="button">Edit Date Range</button>
             </Link>
             <button type="button" onClick={() => handleDelete(de)}>
               X

@@ -29,7 +29,14 @@ export default function EditMonthlyExpenses() {
                 : dollarFormat(ex.amount)}
             </p>
             <Link to={`/edit/monthly-expenses/${ex.id}`}>
-              <button type="button">Edit</button>
+              <button type="button">Edit Details</button>
+            </Link>
+            <p>
+              {ex.startMonth}/{ex.startYear}
+              {ex.endMonth ? ` - ${ex.endMonth}/${ex.endYear}` : ' onward'}
+            </p>
+            <Link to={`/edit/monthly-expenses/dates/${ex.id}`}>
+              <button type="button">Edit Date Range</button>
             </Link>
             <button type="button" onClick={() => handleDelete(ex)}>
               X

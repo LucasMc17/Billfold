@@ -26,7 +26,14 @@ export default function EditFixedCategories() {
               this.
             </p>
             <Link to={`/edit/categories/${cat.id}`}>
-              <button type="button">Edit</button>
+              <button type="button">Edit Details</button>
+            </Link>
+            <p>
+              {cat.startMonth}/{cat.startYear}
+              {cat.endMonth ? ` - ${cat.endMonth}/${cat.endYear}` : ' onward'}
+            </p>
+            <Link to={`/edit/categories/dates/${cat.id}`}>
+              <button type="button">Edit Date Range</button>
             </Link>
             <button type="button" onClick={() => handleDelete(cat)}>
               X
