@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { patchDeduct, fetchDeduct, fetchDeducts } from '../store';
+import { patchDeduct, fetchDeduct } from '../store';
 import { useParams, useHistory } from 'react-router-dom';
 
 export default function EditSingleYearlyExpense() {
@@ -14,6 +14,11 @@ export default function EditSingleYearlyExpense() {
     rule: '',
     amount: null,
     percent: null,
+    startMonth: 1,
+    startYear: 2000,
+    endMonth: 1,
+    endYear: 3000,
+    changeDate: new Date(),
   });
 
   useEffect(() => {
@@ -23,7 +28,11 @@ export default function EditSingleYearlyExpense() {
   useEffect(() => {
     const keys = Object.keys(deduct);
     if (keys.length > 0) {
-      setDe({ ...deduct, percent: deduct.percent * 100 });
+      setDe({
+        ...deduct,
+        percent: deduct.percent * 100,
+        changeDate: new Date(new Date().getFullYear(), new Date().getMonth()),
+      });
     }
   }, [deduct]);
 
@@ -45,6 +54,23 @@ export default function EditSingleYearlyExpense() {
     );
     history.push('/edit/yearly-expenses');
   }
+
+  function handleDateChange(evt) {
+    const { value } = evt.target;
+    setDe((prevDate) => ({
+      ...prevDate,
+      changeDate: new Date(
+        Number(value.split('-')[0]),
+        Number(value.split('-')[1]) - 1,
+        1
+      ),
+    }));
+  }
+
+  const error = de.changeDate < new Date(de.startYear, de.startMonth - 1);
+
+  console.log(new Date(de.startYear, de.startMonth - 1));
+  console.log(de.changeDate);
 
   return (
     <div>
@@ -85,7 +111,32 @@ export default function EditSingleYearlyExpense() {
             />
           </div>
         )}
-        <button type="submit">Save Changes</button>
+        <p>
+          {de.startMonth}/{de.startYear}
+          {de.endMonth ? ` to ${de.endMonth}/${de.endYear}` : ' onward'}
+        </p>
+        <p>
+          This change would be effective from the start of{' '}
+          <input
+            type="month"
+            onChange={handleDateChange}
+            value={`${de.changeDate.getFullYear()}-${String(
+              de.changeDate.getMonth() + 1
+            ).padStart(2, '0')}`}
+          />
+          {de.endYear
+            ? ` until the start of ${de.endMonth}/${de.endYear}`
+            : ' onward'}
+        </p>
+        <button type="submit" disabled={error}>
+          Save Changes
+        </button>
+        <p>
+          {de.changeDate.getMonth() + 1 === de.startMonth &&
+          de.changeDate.getFullYear() === de.startYear
+            ? 'WARNING: This will overwrite the expense'
+            : ''}
+        </p>
       </form>
     </div>
   );

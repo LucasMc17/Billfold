@@ -67,6 +67,19 @@ router.delete('/:id', requireToken, async (req, res, next) => {
 router.put('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
+    const deduct = await YearlyDeduction.findByPk(id);
+    await deduct.update({
+      ...req.body,
+    });
+    res.json(deduct);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/:id', requireToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
     const oldDeduct = await YearlyDeduction.findByPk(id);
     const today = new Date();
     const month = today.getMonth();
