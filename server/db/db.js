@@ -21,14 +21,9 @@ if (process.env.DATABASE_URL) {
   };
 }
 
-// const db = new Sequelize(
-//   process.env.DATABASE_URL || `postgres://localhost:5432/${databaseName}`,
-//   config
-// );
-
 const db = new Sequelize(
-  'postgresql://doadmin:AVNS_gPdRK1CoHy1RxC4HncV@dbaas-db-10431507-do-user-11409516-0.b.db.ondigitalocean.com:25060/defaultdb?sslmode=require' ||
-    `postgres://localhost:5432/${databaseName}`,
+  process.env.DATABASE_URL || `postgres://localhost:5432/${databaseName}`,
   config
 );
+
 module.exports = db;
