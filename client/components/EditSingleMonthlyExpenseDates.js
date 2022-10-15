@@ -88,7 +88,7 @@ export default function EditSingleYearlyExpenseDates() {
     <div>
       <h1>Edit this Monthly Expense</h1>
       <h2>{ex.name}</h2>
-      <h2>{ex.amount ? dollarFormat(ex.amount) : `${ex.percent * 100}%`}</h2>
+      <h2>{ex.amount ? dollarFormat(ex.amount) : `${ex.percent}%`}</h2>
       <form onSubmit={handleSubmit}>
         <p>
           Active from the start of{' '}

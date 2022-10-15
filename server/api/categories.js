@@ -77,35 +77,37 @@ router.put('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
     const oldCat = await Category.findByPk(id);
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    if (oldCat.startMonth === month + 1 && oldCat.startYear === year) {
-      await oldCat.update(req.body);
-      res.json(oldCat);
+    if (req.body.changeDate) {
+      const changeDate = new Date(req.body.changeDate);
+      const month = changeDate.getMonth();
+      const year = changeDate.getFullYear();
+      if (oldCat.startMonth === month + 1 && oldCat.startYear === year) {
+        await oldCat.update(req.body);
+        res.json(oldCat);
+      } else {
+        await oldCat.update({
+          endMonth: month + 1,
+          endYear: year,
+          endDate: new Date(year, month) - 1,
+        });
+        const newCat = await Category.create({
+          ...req.body,
+          id: null,
+          startMonth: month + 1,
+          startYear: year,
+          startDate: new Date(year, month),
+        });
+        res.json(newCat);
+      }
     } else {
       await oldCat.update({
-        endMonth: month + 1,
-        endYear: year,
-        endDate: new Date(year, month) - 1,
-      });
-      const newCat = await Category.create({
         ...req.body,
-        id: null,
-        startMonth: month + 1,
-        startYear: year,
-        startDate: new Date(year, month),
+        startDate: new Date(req.body.startYear, req.body.startMonth - 1),
+        endDate: req.body.endYear
+          ? new Date(req.body.endYear, req.body.endMonth - 1) - 1
+          : null,
       });
-      const purchases = await DailyExpense.findAll({
-        where: {
-          categoryId: oldCat.id,
-          userId: req.user.id,
-          year,
-          month: month + 1,
-        },
-      });
-      purchases.forEach((purch) => purch.setCategory(newCat));
-      res.json(newCat);
+      res.json(oldCat);
     }
   } catch (err) {
     next(err);

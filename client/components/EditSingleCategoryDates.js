@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { patchDeduct, fetchDeduct } from '../store';
+import { patchCategory, fetchCategory } from '../store';
 import { useParams, useHistory } from 'react-router-dom';
 import useFormatters from './custom_hooks/useFormatters';
 
@@ -9,9 +9,9 @@ export default function EditSingleYearlyExpenseDates() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
-  const deduct = useSelector((state) => state.singleYearlyDeduction);
+  const category = useSelector((state) => state.singleCategory);
 
-  const [de, setDe] = useState({
+  const [cat, setCat] = useState({
     name: '',
     rule: '',
     amount: null,
@@ -23,49 +23,48 @@ export default function EditSingleYearlyExpenseDates() {
   });
 
   useEffect(() => {
-    dispatch(fetchDeduct(id));
+    dispatch(fetchCategory(id));
   }, []);
 
   useEffect(() => {
-    const keys = Object.keys(deduct);
+    const keys = Object.keys(category);
     if (keys.length > 0) {
-      setDe({ ...deduct, percent: deduct.percent * 100 });
+      setCat({ ...category, percent: category.percent * 100 });
     }
-  }, [deduct]);
+  }, [category]);
 
   const error =
-    !de.startYear ||
-    (de.endYear &&
-      ((de.startYear === de.endYear && de.startMonth >= de.endMonth) ||
-        de.endYear < de.startYear));
+    !cat.startYear ||
+    (cat.endYear &&
+      ((cat.startYear === cat.endYear && cat.startMonth >= cat.endMonth) ||
+        cat.endYear < cat.startYear));
 
   const handleChange = (evt) => {
     const { value, name } = evt.target;
-    console.log(de);
     if (name === 'start') {
       if (value) {
-        setDe({
-          ...de,
+        setCat({
+          ...cat,
           startYear: Number(value.split('-')[0]),
           startMonth: Number(value.split('-')[1]),
         });
       } else {
-        setDe({
-          ...de,
+        setCat({
+          ...cat,
           startYear: null,
           startMonth: null,
         });
       }
     } else {
       if (value) {
-        setDe({
-          ...de,
+        setCat({
+          ...cat,
           endYear: Number(value.split('-')[0]),
           endMonth: Number(value.split('-')[1]),
         });
       } else {
-        setDe({
-          ...de,
+        setCat({
+          ...cat,
           endYear: null,
           endMonth: null,
         });
@@ -76,26 +75,33 @@ export default function EditSingleYearlyExpenseDates() {
   function handleSubmit(evt) {
     evt.preventDefault();
     dispatch(
-      patchDeduct({
-        ...de,
-        percent: Number(de.percent) / 100,
-        amount: Number(de.amount),
+      patchCategory({
+        ...cat,
+        percent: Number(cat.percent) / 100,
+        amount: Number(cat.amount),
       })
     );
-    history.push('/edit/yearly-expenses');
+    if (cat.rule === 'FIXED') {
+      history.push('/edit/fixed-categories');
+    } else {
+      history.push('/edit/flexible-categories');
+    }
   }
   return (
     <div>
-      <h1>Edit this Yearly Expense</h1>
-      <h2>{de.name}</h2>
-      <h2>{de.amount ? dollarFormat(de.amount) : `${de.percent}%`}</h2>
+      <h1>Edit this Category</h1>
+      <h2>{cat.name}</h2>
+      <h2>{cat.amount ? dollarFormat(cat.amount) : `${cat.percent}%`}</h2>
       <form onSubmit={handleSubmit}>
         <p>
           Active from the start of{' '}
           <input
             type="month"
             name="start"
-            value={`${de.startYear}-${String(de.startMonth).padStart(2, '0')}`}
+            value={`${cat.startYear}-${String(cat.startMonth).padStart(
+              2,
+              '0'
+            )}`}
             onChange={handleChange}
           ></input>
         </p>
@@ -104,8 +110,8 @@ export default function EditSingleYearlyExpenseDates() {
           <input
             type="month"
             value={
-              de.endYear
-                ? `${de.endYear}-${String(de.endMonth).padStart(2, '0')}`
+              cat.endYear
+                ? `${cat.endYear}-${String(cat.endMonth).padStart(2, '0')}`
                 : ''
             }
             onChange={handleChange}
