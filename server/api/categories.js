@@ -46,27 +46,7 @@ router.delete('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
     const oldCat = await Category.findByPk(id);
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    if (oldCat.startMonth === month + 1 && oldCat.startYear === year) {
-      await oldCat.destroy();
-    } else {
-      await oldCat.update({
-        endYear: year,
-        endMonth: month + 1,
-        endDate: new Date(year, month) - 1,
-      });
-      const purchases = await DailyExpense.findAll({
-        where: {
-          categoryId: oldCat.id,
-          userId: req.user.id,
-          year,
-          month: month + 1,
-        },
-      });
-      purchases.forEach((purch) => purch.setCategory(null));
-    }
+    await oldCat.destroy();
     res.status(204).send(204);
   } catch (err) {
     next(err);

@@ -46,36 +46,12 @@ router.delete('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
     const oldDeduct = await YearlyDeduction.findByPk(id);
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    if (oldDeduct.startMonth === month + 1 && oldDeduct.startYear === year) {
-      await oldDeduct.destroy();
-    } else {
-      await oldDeduct.update({
-        endYear: year,
-        endMonth: month + 1,
-        endDate: new Date(year, month) - 1,
-      });
-    }
+    await oldDeduct.destroy();
     res.status(204).send(204);
   } catch (err) {
     next(err);
   }
 });
-
-// router.put('/:id', requireToken, async (req, res, next) => {
-//   try {
-//     const { id } = req.params;
-//     const deduct = await YearlyDeduction.findByPk(id);
-//     await deduct.update({
-//       ...req.body,
-//     });
-//     res.json(deduct);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
 
 router.put('/:id', requireToken, async (req, res, next) => {
   try {
