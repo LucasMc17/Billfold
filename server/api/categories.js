@@ -97,15 +97,37 @@ router.put('/:id', requireToken, async (req, res, next) => {
           startYear: year,
           startDate: new Date(year, month),
         });
+        const dailies = await DailyExpense.findAll({
+          where: {
+            categoryId: oldCat.id,
+          },
+        });
+        dailies.forEach((daily) => {
+          if (daily.date > changeDate) {
+            daily.setCategory(newCat);
+          }
+        });
         res.json(newCat);
       }
     } else {
+      const startDate = new Date(req.body.startYear, req.body.startMonth - 1);
+      const endDate = req.body.endYear
+        ? new Date(req.body.endYear, req.body.endMonth - 1) - 1
+        : null;
       await oldCat.update({
         ...req.body,
-        startDate: new Date(req.body.startYear, req.body.startMonth - 1),
-        endDate: req.body.endYear
-          ? new Date(req.body.endYear, req.body.endMonth - 1) - 1
-          : null,
+        startDate,
+        endDate,
+      });
+      const dailies = await DailyExpense.findAll({
+        where: {
+          categoryId: oldCat.id,
+        },
+      });
+      dailies.forEach((daily) => {
+        if (daily.date < startDate || (endDate && daily.date > endDate)) {
+          daily.setCategory(null);
+        }
       });
       res.json(oldCat);
     }
