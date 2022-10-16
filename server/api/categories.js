@@ -118,15 +118,13 @@ router.put('/:id', requireToken, async (req, res, next) => {
 
 router.post('/', requireToken, async (req, res, next) => {
   try {
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
     const category = await Category.create({
       ...req.body,
       userId: req.user.id,
-      startMonth: month + 1,
-      startYear: year,
-      startDate: new Date(year, month),
+      startDate: new Date(req.body.startYear, req.body.startMonth - 1),
+      endDate: req.body.endYear
+        ? new Date(req.body.endYear, req.body.endMonth - 1)
+        : null,
     });
     res.json(category);
   } catch (err) {
