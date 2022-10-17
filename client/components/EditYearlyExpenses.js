@@ -24,58 +24,70 @@ export default function EditYearlyExpenses() {
   return (
     <div>
       <NewYearlyForm />
-      <h1>My Active Yearly Expenses:</h1>
-      <div className="user-items">
-        {active.map((de) => (
-          <div key={de.id}>
-            <h3>{de.name}</h3>
-            <p>
-              {de.percent
-                ? `${de.percent * 100}% of my earnings`
-                : dollarFormat(de.amount)}
-            </p>
-            <Link to={`/edit/yearly-expenses/${de.id}`}>
-              <button type="button">Edit Details</button>
-            </Link>
-            <p>
-              {de.startMonth}/{de.startYear}
-              {de.endMonth ? ` - ${de.endMonth}/${de.endYear}` : ' onward'}
-            </p>
-            <Link to={`/edit/yearly-expenses/dates/${de.id}`}>
-              <button type="button">Edit Date Range</button>
-            </Link>
-            <button type="button" onClick={() => handleDelete(de)}>
-              X
-            </button>
+      {active.length ? (
+        <>
+          <h1>My Active Yearly Expenses:</h1>
+          <div className="user-items">
+            {active.map((de) => (
+              <div key={de.id}>
+                <h3>{de.name}</h3>
+                <p>
+                  {de.percent
+                    ? `${de.percent * 100}% of my earnings`
+                    : dollarFormat(de.amount)}
+                </p>
+                <Link to={`/edit/yearly-expenses/${de.id}`}>
+                  <button type="button">Edit Details</button>
+                </Link>
+                <p>
+                  {de.startMonth}/{de.startYear}
+                  {de.endMonth ? ` - ${de.endMonth}/${de.endYear}` : ' onward'}
+                </p>
+                <Link to={`/edit/yearly-expenses/dates/${de.id}`}>
+                  <button type="button">Edit Date Range</button>
+                </Link>
+                <button type="button" onClick={() => handleDelete(de)}>
+                  X
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <h1>My Inactive Yearly Expenses:</h1>
-      <div className="user-items">
-        {inactive.map((de) => (
-          <div key={de.id} style={{ backgroundColor: 'gray' }}>
-            <h3>{de.name}</h3>
-            <p>
-              {de.percent
-                ? `${de.percent * 100}% of my earnings`
-                : dollarFormat(de.amount)}
-            </p>
-            <Link to={`/edit/yearly-expenses/${de.id}`}>
-              <button type="button">Edit Details</button>
-            </Link>
-            <p>
-              {de.startMonth}/{de.startYear}
-              {de.endMonth ? ` - ${de.endMonth}/${de.endYear}` : ' onward'}
-            </p>
-            <Link to={`/edit/yearly-expenses/dates/${de.id}`}>
-              <button type="button">Edit Date Range</button>
-            </Link>
-            <button type="button" onClick={() => handleDelete(de)}>
-              X
-            </button>
+        </>
+      ) : (
+        <></>
+      )}
+      {inactive.length ? (
+        <>
+          <h1>My Inactive Yearly Expenses:</h1>
+          <div className="user-items">
+            {inactive.map((de) => (
+              <div key={de.id} style={{ backgroundColor: 'gray' }}>
+                <h3>{de.name}</h3>
+                <p>
+                  {de.percent
+                    ? `${de.percent * 100}% of my earnings`
+                    : dollarFormat(de.amount)}
+                </p>
+                <Link to={`/edit/yearly-expenses/${de.id}`}>
+                  <button type="button">Edit Details</button>
+                </Link>
+                <p>
+                  {de.startMonth}/{de.startYear}
+                  {de.endMonth ? ` - ${de.endMonth}/${de.endYear}` : ' onward'}
+                </p>
+                <Link to={`/edit/yearly-expenses/dates/${de.id}`}>
+                  <button type="button">Edit Date Range</button>
+                </Link>
+                <button type="button" onClick={() => handleDelete(de)}>
+                  X
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
