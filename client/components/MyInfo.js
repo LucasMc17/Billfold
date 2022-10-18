@@ -74,6 +74,10 @@ export default function MyInfo() {
                   ? `${de.percent * 100}% of my earnings`
                   : dollarFormat(de.amount)}
               </p>
+              <p>
+                {de.startMonth}/{de.startYear}
+                {de.endMonth ? ` - ${de.endMonth}/${de.endYear}` : ' onward'}
+              </p>
             </div>
           ))
         ) : (
@@ -103,6 +107,10 @@ export default function MyInfo() {
                   ? `${ex.percent * 100}% of my monthly net`
                   : dollarFormat(ex.amount)}
               </p>
+              <p>
+                {ex.startMonth}/{ex.startYear}
+                {ex.endMonth ? ` - ${ex.endMonth}/${ex.endYear}` : ' onward'}
+              </p>
             </div>
           ))
         ) : (
@@ -126,6 +134,10 @@ export default function MyInfo() {
               <p>
                 I want to spend at most {dollarFormat(cat.amount)} a month on
                 this.
+              </p>
+              <p>
+                {cat.startMonth}/{cat.startYear}
+                {cat.endMonth ? ` - ${cat.endMonth}/${cat.endYear}` : ' onward'}
               </p>
             </div>
           ))
@@ -153,6 +165,10 @@ export default function MyInfo() {
               </p>
               <p>
                 That means about {dollarFormat(cat.percent * afterFixedCats)}.
+              </p>
+              <p>
+                {cat.startMonth}/{cat.startYear}
+                {cat.endMonth ? ` - ${cat.endMonth}/${cat.endYear}` : ' onward'}
               </p>
             </div>
           ))

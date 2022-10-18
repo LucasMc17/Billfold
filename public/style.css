@@ -83,7 +83,7 @@ button:disabled {
   margin-left: auto !important;
 }
 
-form div {
+form>div {
   margin: 1em;
   display: inline-block;
 }
@@ -716,6 +716,7 @@ button:hover {
   border-spacing: 0;
   width: 100%;
   margin-bottom: 20px;
+  position: relative
 }
 
 .expense-track {
@@ -731,6 +732,66 @@ button:hover {
   border-radius: 15px;
 }
 
+#time-marker {
+  position: absolute;
+  width: 3px;
+  background-color: red;
+  height: calc(100% - 20px);
+  top: 20px;
+  opacity: 0.5;
+}
+
 .expense-on-track>h3, .expense-on-track>p {
   margin: 5px;
+}
+
+#edit-form {
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+}
+
+#edit-form>h1 {
+  margin: auto 0 auto 0;
+  font-size: 10vw;
+  color: #93e9be;
+}
+
+.edit-card {
+  flex: 0 0 40%;
+  background-color: #93e9be;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 10px;
+}
+
+.edit-card-header {
+  text-align: center;
+}
+
+.edit-card-rule {
+  margin: 0;
+  display: flex;
+}
+
+.edit-card>.edit-card-field {
+  flex: 0 0 5vh;
+  margin: 0;
+  padding: 0;
+}
+
+.edit-card-field>* {
+  margin: 0;
+  padding: 0;
+}
+
+.edit-card-rule>* {
+  height: fit-content;
+}
+
+.edit-card-field {
+  display: flex;
+  align-items: center;
 }

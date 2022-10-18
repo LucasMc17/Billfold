@@ -4,19 +4,44 @@ import { postDeduct } from '../store';
 
 export default function NewYearlyForm(props) {
   const dispatch = useDispatch();
-  // const { categories } = props;
   const [deduct, setDeduct] = useState({
     name: '',
     rule: 'FIXED',
     amount: null,
     percent: null,
+    startMonth: new Date().getMonth() + 1,
+    startYear: new Date().getFullYear(),
+    endMonth: null,
+    endYear: null,
   });
 
   const handleChange = (evt) => {
-    setDeduct({
-      ...deduct,
-      [evt.target.name]: evt.target.value,
-    });
+    if (evt.target.name !== 'start' && evt.target.name !== 'end') {
+      setDeduct({
+        ...deduct,
+        [evt.target.name]: evt.target.value,
+      });
+    } else if (evt.target.name === 'start') {
+      setDeduct({
+        ...deduct,
+        startYear: Number(evt.target.value.split('-')[0]),
+        startMonth: Number(evt.target.value.split('-')[1]),
+      });
+    } else {
+      if (evt.target.value) {
+        setDeduct({
+          ...deduct,
+          endYear: Number(evt.target.value.split('-')[0]),
+          endMonth: Number(evt.target.value.split('-')[1]),
+        });
+      } else {
+        setDeduct({
+          ...deduct,
+          endYear: null,
+          endMonth: null,
+        });
+      }
+    }
   };
 
   function handleSubmit(evt) {
@@ -69,6 +94,33 @@ export default function NewYearlyForm(props) {
             />
           </div>
         )}
+        <p>
+          This expense begins/began at the start of{' '}
+          <input
+            name="start"
+            type="month"
+            value={`${deduct.startYear}-${String(deduct.startMonth).padStart(
+              2,
+              '0'
+            )}`}
+            onChange={handleChange}
+          />{' '}
+          and ends/ended at the start of{' '}
+          <input
+            name="end"
+            type="month"
+            value={
+              deduct.endYear
+                ? `${deduct.endYear}-${String(deduct.endMonth).padStart(
+                    2,
+                    '0'
+                  )}`
+                : ''
+            }
+            onChange={handleChange}
+          />{' '}
+          (leave blank if ongoing)
+        </p>
         <button type="submit">Finish</button>
       </form>
     </div>

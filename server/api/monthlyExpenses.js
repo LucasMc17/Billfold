@@ -46,18 +46,7 @@ router.delete('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
     const oldEx = await MonthlyExpense.findByPk(id);
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    if (oldEx.startMonth === month + 1 && oldEx.startYear === year) {
-      await oldEx.destroy();
-    } else {
-      await oldEx.update({
-        endYear: year,
-        endMonth: month + 1,
-        endDate: new Date(year, month) - 1,
-      });
-    }
+    await oldEx.destroy();
     res.status(204).send(204);
   } catch (err) {
     next(err);
@@ -68,28 +57,38 @@ router.put('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
     const oldEx = await MonthlyExpense.findByPk(id);
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    if (oldEx.startMonth === month + 1 && oldEx.startYear === year) {
-      await oldEx.update(req.body);
-      res.json(oldEx);
+    if (req.body.changeDate) {
+      const changeDate = new Date(req.body.changeDate);
+      const month = changeDate.getMonth();
+      const year = changeDate.getFullYear();
+      if (oldEx.startMonth === month + 1 && oldEx.startYear === year) {
+        await oldEx.update(req.body);
+        res.json(oldEx);
+      } else {
+        await oldEx.update({
+          endMonth: month + 1,
+          endYear: year,
+          endDate: new Date(year, month) - 1,
+        });
+        const newDeduct = await MonthlyExpense.create({
+          ...req.body,
+          id: null,
+          startMonth: month + 1,
+          startYear: year,
+          startDate: new Date(year, month),
+        });
+        res.json(newDeduct);
+      }
     } else {
       await oldEx.update({
-        endMonth: month + 2,
-        endYear: year,
-        endDate: new Date(year, month) - 1,
-      });
-      const newEx = await MonthlyExpense.create({
         ...req.body,
-        id: null,
-        startMonth: month + 1,
-        startYear: year,
-        startDate: new Date(year, month),
+        startDate: new Date(req.body.startYear, req.body.startMonth - 1),
+        endDate: req.body.endYear
+          ? new Date(req.body.endYear, req.body.endMonth - 1) - 1
+          : null,
       });
-      res.json(newEx);
+      res.json(oldEx);
     }
-    res.json(ex);
   } catch (err) {
     next(err);
   }
@@ -97,15 +96,13 @@ router.put('/:id', requireToken, async (req, res, next) => {
 
 router.post('/', requireToken, async (req, res, next) => {
   try {
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
     const expense = await MonthlyExpense.create({
       ...req.body,
       userId: req.user.id,
-      startMonth: month + 1,
-      startYear: year,
-      startDate: new Date(year, month),
+      startDate: new Date(req.body.startYear, req.body.startMonth - 1),
+      endDate: req.body.endYear
+        ? new Date(req.body.endYear, req.body.endMonth - 1)
+        : null,
     });
     res.json(expense);
   } catch (err) {

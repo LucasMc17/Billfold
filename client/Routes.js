@@ -18,6 +18,9 @@ import EditDailyExpense from './components/EditDailyExpense';
 import BulkUpload from './components/BulkUpload';
 import BulkExport from './components/BulkExport';
 import BudgetHistory from './components/BudgetHistory';
+import EditSingleYearlyExpenseDates from './components/EditSingleYearlyExpenseDates';
+import EditSingleMonthlyExpenseDates from './components/EditSingleMonthlyExpenseDates';
+import EditSingleCategoryDates from './components/EditSingleCategoryDates';
 import {
   fetchDeducts,
   fetchExpenses,
@@ -55,6 +58,10 @@ class Routes extends Component {
               component={EditYearlyExpenses}
             />
             <Route
+              path="/edit/yearly-expenses/dates/:id"
+              component={EditSingleYearlyExpenseDates}
+            />
+            <Route
               path="/edit/yearly-expenses/:id"
               component={EditSingleYearlyExpense}
             />
@@ -62,6 +69,10 @@ class Routes extends Component {
               exact
               path="/edit/monthly-expenses"
               component={EditMonthlyExpenses}
+            />
+            <Route
+              path="/edit/monthly-expenses/dates/:id"
+              component={EditSingleMonthlyExpenseDates}
             />
             <Route
               path="/edit/monthly-expenses/:id"
@@ -74,6 +85,10 @@ class Routes extends Component {
             <Route
               path="/edit/flexible-categories"
               component={EditFlexibleCategories}
+            />
+            <Route
+              path="/edit/categories/dates/:id"
+              component={EditSingleCategoryDates}
             />
             <Route path="/edit/categories/:id" component={EditSingleCategory} />
             <Route

@@ -19,6 +19,8 @@ export default function BudgetHistory() {
     dispatch(fetchAllExpenses());
   }, []);
 
+  const today = new Date();
+
   const categories = useSelector((state) =>
     state.allCategories.filter(
       (cat) =>
@@ -54,6 +56,8 @@ export default function BudgetHistory() {
         !(ex.endYear == year && ex.endMonth === 1)
     )
   );
+
+  console.log(today.getDate());
 
   return (
     <>
@@ -123,6 +127,18 @@ export default function BudgetHistory() {
         {categories.map((cat, i) => (
           <ExpenseTrack key={i} data={[cat]} />
         ))}
+        {year == Number(today.getFullYear()) ? (
+          <div
+            id="time-marker"
+            style={{
+              left: `${
+                today.getMonth() * 8.33333333 + today.getDate() * 0.2688172
+              }%`,
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </table>
     </>
   );
