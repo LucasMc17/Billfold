@@ -716,6 +716,7 @@ button:hover {
   border-spacing: 0;
   width: 100%;
   margin-bottom: 20px;
+  position: relative
 }
 
 .expense-track {
@@ -729,6 +730,15 @@ button:hover {
   top: 7px;
   background-color: rgba(147, 233, 190, 0.8);
   border-radius: 15px;
+}
+
+#time-marker {
+  position: absolute;
+  width: 3px;
+  background-color: red;
+  height: calc(100% - 20px);
+  top: 20px;
+  opacity: 0.5;
 }
 
 .expense-on-track>h3, .expense-on-track>p {
