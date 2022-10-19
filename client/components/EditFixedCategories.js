@@ -61,9 +61,9 @@ export default function EditFixedCategories() {
       {inactive.length ? (
         <>
           <h1>My Inactive Fixed Categories</h1>
-          <div className="user-items" style={{ backgroundColor: 'gray' }}>
+          <div className="user-items">
             {inactive.map((cat) => (
-              <div key={cat.id}>
+              <div key={cat.id} style={{ backgroundColor: 'gray' }}>
                 <h3>{cat.name}</h3>
                 <p>
                   I want to spend at most {dollarFormat(cat.amount)} a month on
