@@ -56,6 +56,13 @@ export default function NewCategoryForm(props) {
     );
   }
 
+  const error =
+    !category.startYear ||
+    (category.endYear &&
+      ((category.startYear === category.endYear &&
+        category.startMonth >= category.endMonth) ||
+        category.endYear < category.startYear));
+
   return (
     <div className="form add-category-form">
       <h1>Add a New Category</h1>
@@ -116,7 +123,9 @@ export default function NewCategoryForm(props) {
           />{' '}
           (leave blank if ongoing)
         </p>
-        <button type="submit">Finish</button>
+        <button type="submit" disabled={error}>
+          Finish
+        </button>
       </form>
     </div>
   );

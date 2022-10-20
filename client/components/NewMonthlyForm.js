@@ -55,6 +55,13 @@ export default function NewMonthlyForm(props) {
     );
   }
 
+  const error =
+    !expense.startYear ||
+    (expense.endYear &&
+      ((expense.startYear === expense.endYear &&
+        expense.startMonth >= expense.endMonth) ||
+        expense.endYear < expense.startYear));
+
   return (
     <div className="form add-monthly-form">
       <h1>Add a New Monthly Expense</h1>
@@ -121,7 +128,9 @@ export default function NewMonthlyForm(props) {
           />{' '}
           (leave blank if ongoing)
         </p>
-        <button type="submit">Finish</button>
+        <button type="submit" disabled={error}>
+          Finish
+        </button>
       </form>
     </div>
   );

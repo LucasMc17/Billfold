@@ -55,6 +55,13 @@ export default function NewYearlyForm(props) {
     );
   }
 
+  const error =
+    !deduct.startYear ||
+    (deduct.endYear &&
+      ((deduct.startYear === deduct.endYear &&
+        deduct.startMonth >= deduct.endMonth) ||
+        deduct.endYear < deduct.startYear));
+
   return (
     <div className="form add-yearly-form">
       <h1>Add a New Yearly Expense</h1>
@@ -121,7 +128,9 @@ export default function NewYearlyForm(props) {
           />{' '}
           (leave blank if ongoing)
         </p>
-        <button type="submit">Finish</button>
+        <button type="submit" disabled={error}>
+          Finish
+        </button>
       </form>
     </div>
   );
