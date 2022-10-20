@@ -49,7 +49,7 @@ router.get(
           })
         );
         const qDate = new Date(endYear, endMonth - 1, 15);
-        const income = await Income.findOne({
+        const income = await Income.sum('amount', {
           where: {
             userId: req.user.id,
             startDate: {
@@ -107,7 +107,7 @@ router.get(
               } else {
                 return a * (1 - b.percent);
               }
-            }, income.amount) / 12;
+            }, income) / 12;
           const budget = expenses.reduce((a, b) => {
             if (b.rule === 'FIXED') {
               return a - b.amount;

@@ -10,7 +10,7 @@ router.get('/:year/:month/:metric', requireToken, async (req, res, next) => {
   try {
     const { year, month, metric } = req.params;
     const date = new Date(year, month - 1, 15);
-    const income = await Income.findOne({
+    const income = await Income.sum('amount', {
       where: {
         userId: req.user.id,
         startDate: {
@@ -81,7 +81,7 @@ router.get('/:year/:month/:metric', requireToken, async (req, res, next) => {
         } else {
           return a * (1 - b.percent);
         }
-      }, income.amount) / 12;
+      }, income) / 12;
     const budget = expenses.reduce((a, b) => {
       if (b.rule === 'FIXED') {
         return a - b.amount;
