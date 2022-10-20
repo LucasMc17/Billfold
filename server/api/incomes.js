@@ -51,11 +51,19 @@ router.get('/:year/:month', requireToken, async (req, res, next) => {
         startDate: {
           [Op.lt]: date,
         },
+        [Op.or]: [
+          {
+            endDate: {
+              [Op.gt]: date,
+            },
+          },
+          { endDate: null },
+        ],
       },
       order: [['startDate', 'DESC']],
-      limit: 1,
     });
-    res.json(result[0].amount);
+    const sum = result.reduce((a, b) => a + b.amount, 0);
+    res.json(sum);
   } catch (err) {
     next(err);
   }
