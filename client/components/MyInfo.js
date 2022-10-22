@@ -1,17 +1,23 @@
-import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useRef, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { Link } from 'react-router-dom';
-import { updateUnassigned } from '../store';
+import { updateUnassigned, fetchAllIncomes } from '../store';
 import { Chart, getElementAtEvent } from 'react-chartjs-2';
 import { ArcElement, Chart as ChartJS, Tooltip, PieController } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, PieController);
 
 export default function MyInfo() {
   const dispatch = useDispatch();
-  const { dollarFormat, fixedDec } = useFormatters();
+  const { dollarFormat, fixedDec, seperateActive } = useFormatters();
   const data = useData();
+  const incomes = seperateActive(useSelector((state) => state.allIncomes))[0];
+
+  useEffect(() => {
+    dispatch(fetchAllIncomes());
+  }, []);
+
   const {
     username,
     income,
@@ -51,42 +57,63 @@ export default function MyInfo() {
         <h1>
           Hi, my name is <span>{username}</span>
         </h1>
-        <h1>
-          I make <span>{dollarFormat(Number(income))}</span> per year.
-        </h1>
         <Link to="/edit/basic-info">
-          <button type="button">Edit My Info</button>
+          <button type="button">Edit My Username</button>
         </Link>
+        <h1>Here are my sources of income:</h1>
+        <div className="user-items">
+          {incomes.length ? (
+            incomes.map((inc) => (
+              <div key={inc.id}>
+                <h3>{dollarFormat(inc.amount)}</h3>
+                <p>
+                  {inc.startMonth}/{inc.startYear}
+                  {inc.endMonth
+                    ? ` - ${inc.endMonth}/${inc.endYear}`
+                    : ' onward'}
+                </p>
+              </div>
+            ))
+          ) : (
+            <h2>You don't have any incomes at the moment!</h2>
+          )}
+        </div>
+        <h1>That comes to {dollarFormat(income)} per year.</h1>
+        <Link to="/edit/incomes">
+          <button type="button">Edit My Incomes</button>
+        </Link>
+      </div>
+      <div className="user-story">
         <h1>These are my yearly expenses:</h1>
         <p>
           NOTE: these expenses are calculated in order, meaning a 10% deduction
           isn't ten percent of your total income, but of your income minus all
           prior expenses
         </p>
+        <div className="user-items">
+          {deducts.length ? (
+            deducts.map((de) => (
+              <div key={de.id}>
+                <h3>{de.name}</h3>
+                <p>
+                  {de.percent
+                    ? `${de.percent * 100}% of my earnings`
+                    : dollarFormat(de.amount)}
+                </p>
+                <p>
+                  {de.startMonth}/{de.startYear}
+                  {de.endMonth ? ` - ${de.endMonth}/${de.endYear}` : ' onward'}
+                </p>
+              </div>
+            ))
+          ) : (
+            <h2>You don't have any yearly expenses yet!</h2>
+          )}
+        </div>
+        <Link to="/edit/yearly-expenses">
+          <button type="button">Edit my Yearly Expenses</button>
+        </Link>
       </div>
-      <div className="user-items">
-        {deducts.length ? (
-          deducts.map((de) => (
-            <div key={de.id}>
-              <h3>{de.name}</h3>
-              <p>
-                {de.percent
-                  ? `${de.percent * 100}% of my earnings`
-                  : dollarFormat(de.amount)}
-              </p>
-              <p>
-                {de.startMonth}/{de.startYear}
-                {de.endMonth ? ` - ${de.endMonth}/${de.endYear}` : ' onward'}
-              </p>
-            </div>
-          ))
-        ) : (
-          <h2>You don't have any yearly expenses yet!</h2>
-        )}
-      </div>
-      <Link to="/edit/yearly-expenses">
-        <button type="button">Edit my Yearly Expenses</button>
-      </Link>
       <div className="user-story">
         <h1>After expenses, I make {dollarFormat(afterDeducts)} a year.</h1>
         <h1>That's {dollarFormat(monthlyNet)} a month.</h1>

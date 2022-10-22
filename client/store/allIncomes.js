@@ -44,12 +44,12 @@ export const deleteIncome = (income) => {
 export const postIncome = (income) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    await axios.post(`/api/all-incomes/`, income, {
+    const { data } = await axios.post(`/api/all-incomes/`, income, {
       headers: {
         authorization: token,
       },
     });
-    dispatch(addIncome(income));
+    dispatch(addIncome(data));
   };
 };
 
