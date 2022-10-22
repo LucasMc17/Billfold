@@ -21,6 +21,7 @@ import loading from './loading';
 import allIncomes from './allIncomes';
 import allDeducts from './allDeducts';
 import allExpenses from './allExpenses';
+import singleIncome from './singleIncome';
 
 const reducer = combineReducers({
   auth,
@@ -42,6 +43,7 @@ const reducer = combineReducers({
   allIncomes,
   allDeducts,
   allExpenses,
+  singleIncome,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
@@ -68,3 +70,4 @@ export * from './loading';
 export * from './allIncomes';
 export * from './allDeducts';
 export * from './allExpenses';
+export * from './singleIncome';

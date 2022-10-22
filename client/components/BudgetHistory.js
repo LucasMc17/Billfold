@@ -8,6 +8,7 @@ import {
   fetchAllExpenses,
 } from '../store';
 import { useParams, Link } from 'react-router-dom';
+import income from '../store/income';
 
 export default function BudgetHistory() {
   const { year } = useParams();
@@ -90,7 +91,9 @@ export default function BudgetHistory() {
             <th colspan="12">INCOMES</th>
           </tr>
         </thead>
-        <ExpenseTrack income={true} data={incomes} />
+        {incomes.map((inc, i) => (
+          <ExpenseTrack key={i} data={[inc]} />
+        ))}
         <thead>
           {deducts.length ? (
             <tr>

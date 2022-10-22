@@ -19,18 +19,6 @@ export const fetchIncome = (year, month) => {
   };
 };
 
-export const patchIncome = (income) => {
-  return async (dispatch) => {
-    const token = window.localStorage.getItem('token');
-    await axios.post(`/api/incomes/new-income`, income, {
-      headers: {
-        authorization: token,
-      },
-    });
-    dispatch(setIncome(income.income));
-  };
-};
-
 // REDUCER
 export default function income(state = 40000, action) {
   switch (action.type) {

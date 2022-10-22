@@ -6,6 +6,7 @@ import axios from 'axios';
 const SET_ALL_INCOMES = 'SET_ALL_INCOMES';
 const DEL_INCOME = 'DEL_INCOME';
 const ADD_INCOME = 'ADD_INCOME';
+const UPDATE_INCOME = 'UPDATE_INCOME';
 
 /**
  * ACTION CREATORS
@@ -13,6 +14,7 @@ const ADD_INCOME = 'ADD_INCOME';
 const setAllIncomes = (incomes) => ({ type: SET_ALL_INCOMES, incomes });
 const addIncome = (income) => ({ type: ADD_INCOME, income });
 const delIncome = (id) => ({ type: DEL_INCOME, id });
+const updateIncome = (income) => ({ type: UPDATE_INCOME, income });
 
 /**
  * THUNK CREATORS
@@ -38,6 +40,18 @@ export const deleteIncome = (income) => {
       },
     });
     dispatch(delIncome(income.id));
+  };
+};
+
+export const patchIncome = (income) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(`/api/all-incomes/${income.id}`, income, {
+      headers: {
+        authorization: token,
+      },
+    });
+    dispatch(updateIncome(data));
   };
 };
 

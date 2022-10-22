@@ -5,6 +5,16 @@ const {
 module.exports = router;
 const { requireToken } = require('./requireToken');
 
+router.get('/:id', requireToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const income = await Income.findByPk(id);
+    res.json(income);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/', requireToken, async (req, res, next) => {
   try {
     const incomes = await Income.findAll({
@@ -40,6 +50,49 @@ router.post('/', requireToken, async (req, res, next) => {
         : null,
     });
     res.json(income);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/:id', requireToken, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const income = await Income.findByPk(id);
+    if (req.body.changeDate) {
+      const changeDate = new Date(req.body.changeDate);
+      const month = changeDate.getMonth();
+      const year = changeDate.getFullYear();
+      if (income.startMoth === month + 1 && income.startYear === year) {
+        await income.update(req.body);
+        res.json(income);
+      } else {
+        await income.update({
+          endMonth: month + 1,
+          endYear: year,
+          endDate: new Date(year, month) - 1,
+        });
+        const newIncome = await income.create({
+          ...req.body,
+          id: null,
+          startMonth: month + 1,
+          startYear: year,
+          startDate: new Date(year, month),
+        });
+        res.json(newIncome);
+      }
+    } else {
+      const startDate = new Date(req.body.startYear, req.body.startMonth - 1);
+      const endDate = req.body.endYear
+        ? new Date(req.body.endYear, req.body.endMonth - 1) - 1
+        : null;
+      await income.update({
+        ...req.body,
+        startDate,
+        endDate,
+      });
+      res.json(income);
+    }
   } catch (err) {
     next(err);
   }
