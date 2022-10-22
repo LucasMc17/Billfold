@@ -6,6 +6,7 @@ import axios from 'axios';
 const SET_ALL_EXPENSES = 'SET_ALL_EXPENSES';
 const DEL_EXPENSE = 'DEL_EXPENSE';
 const ADD_EXPENSE = 'ADD_EXPENSE';
+const UPDATE_EXPENSE = 'UPDATE_EXPENSE';
 
 /**
  * ACTION CREATORS
@@ -38,6 +39,20 @@ export default function allExpenses(state = [], action) {
       return [...state, action.expense];
     case DEL_EXPENSE:
       return state.filter((ex) => ex.id !== action.id);
+    case UPDATE_EXPENSE:
+      const [oldEx, newEx] = action.expenses;
+      const newState = state.map((ex) => {
+        if (ex.id === oldEx.id) {
+          return oldEx;
+        } else {
+          return ex;
+        }
+      });
+      if (!newEx) {
+        return newState;
+      } else {
+        return [...newState, newEx];
+      }
     default:
       return state;
   }

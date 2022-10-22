@@ -78,6 +78,14 @@ export default function allIncomes(state = [], action) {
       return [...state, action.income];
     case DEL_INCOME:
       return state.filter((income) => income.id !== action.id);
+    case UPDATE_INCOME:
+      return state.map((income) => {
+        if (income.id === action.income.id) {
+          return action.income;
+        } else {
+          return income;
+        }
+      });
     default:
       return state;
   }

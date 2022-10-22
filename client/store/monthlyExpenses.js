@@ -6,6 +6,7 @@ import axios from 'axios';
 const SET_EXPENSES = 'SET_EXPENSES';
 const DEL_EXPENSE = 'DEL_EXPENSE';
 const ADD_EXPENSE = 'ADD_EXPENSE';
+const UPDATE_EXPENSE = 'UPDATE_EXPENSE';
 
 /**
  * ACTION CREATORS
@@ -13,6 +14,7 @@ const ADD_EXPENSE = 'ADD_EXPENSE';
 const setExpenses = (expenses) => ({ type: SET_EXPENSES, expenses });
 const delExpense = (id) => ({ type: DEL_EXPENSE, id });
 const addExpense = (expense) => ({ type: ADD_EXPENSE, expense });
+const updateExpense = (expenses) => ({ type: UPDATE_EXPENSE, expenses });
 
 /**
  * THUNK CREATORS
@@ -44,20 +46,20 @@ export const deleteExpense = (ex) => {
 export const patchExpense = (ex) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    await axios.put(`/api/monthly-expenses/${ex.id}`, ex, {
+    const { data } = await axios.put(`/api/monthly-expenses/${ex.id}`, ex, {
       headers: {
         authorization: token,
       },
     });
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const { data } = await axios.get(`/api/monthly-expenses/${year}/${month}`, {
-      headers: {
-        authorization: token,
-      },
-    });
-    dispatch(setExpenses(data));
+    // const today = new Date();
+    // const year = today.getFullYear();
+    // const month = today.getMonth();
+    // const { data } = await axios.get(`/api/monthly-expenses/${year}/${month}`, {
+    //   headers: {
+    //     authorization: token,
+    //   },
+    // });
+    dispatch(updateExpense(data));
   };
 };
 
