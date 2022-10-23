@@ -13,7 +13,7 @@ const ADD_DEDUCT = 'ADD_DEDUCT';
  */
 const setDeducts = (deducts) => ({ type: SET_DEDUCTS, deducts });
 const delDeduct = (id) => ({ type: DEL_DEDUCT, id });
-const updateDeduct = (deduct) => ({ type: UPDATE_DEDUCT, deduct });
+const updateDeduct = (deducts) => ({ type: UPDATE_DEDUCT, deducts });
 const addDeduct = (deduct) => ({ type: ADD_DEDUCT, deduct });
 
 /**
@@ -49,21 +49,10 @@ export const deleteDeduct = (de) => {
 export const patchDeduct = (de) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    await axios.put(`/api/yearly-deductions/${de.id}`, de, {
+    const { data } = await axios.put(`/api/yearly-deductions/${de.id}`, de, {
       headers: { authorization: token },
     });
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const { data } = await axios.get(
-      `/api/yearly-deductions/${year}/${month}`,
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    dispatch(setDeducts(data));
+    dispatch(updateDeduct(data));
   };
 };
 
@@ -87,13 +76,19 @@ export default function yearlyDeductions(state = [], action) {
     case DEL_DEDUCT:
       return state.filter((de) => de.id !== action.id);
     case UPDATE_DEDUCT:
-      return state.map((de) => {
-        if (de.id === action.deduct.id) {
-          return action.deduct;
+      const [oldDe, newDe] = action.deducts;
+      const newState = state.map((de) => {
+        if (de.id === oldDe.id) {
+          return oldDe;
         } else {
           return de;
         }
       });
+      if (!newDe) {
+        return newState;
+      } else {
+        return [...newState, newDe];
+      }
     case ADD_DEDUCT:
       return [...state, action.deduct];
     default:

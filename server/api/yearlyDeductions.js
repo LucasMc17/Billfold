@@ -63,7 +63,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
       const year = changeDate.getFullYear();
       if (oldDeduct.startMonth === month + 1 && oldDeduct.startYear === year) {
         await oldDeduct.update(req.body);
-        res.json(oldDeduct);
+        res.json([oldDeduct, null]);
       } else {
         await oldDeduct.update({
           endMonth: month + 1,
@@ -77,7 +77,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
           startYear: year,
           startDate: new Date(year, month),
         });
-        res.json(newDeduct);
+        res.json([oldDeduct, newDeduct]);
       }
     } else {
       await oldDeduct.update({
@@ -87,7 +87,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
           ? new Date(req.body.endYear, req.body.endMonth - 1) - 1
           : null,
       });
-      res.json(oldDeduct);
+      res.json([oldDeduct, null]);
     }
   } catch (err) {
     next(err);
