@@ -6,6 +6,7 @@ import axios from 'axios';
 const SET_CATS = 'SET_CATS';
 const DEL_CAT = 'DEL_CAT';
 const ADD_CAT = 'ADD_CAT';
+const UPDATE_CAT = 'UPDATE_CAT';
 
 /**
  * ACTION CREATORS
@@ -13,6 +14,7 @@ const ADD_CAT = 'ADD_CAT';
 const setCategories = (cats) => ({ type: SET_CATS, cats });
 const delCategory = (id) => ({ type: DEL_CAT, id });
 const addCategory = (category) => ({ type: ADD_CAT, category });
+const updateCategory = (categories) => ({ type: UPDATE_CAT, categories });
 
 /**
  * THUNK CREATORS
@@ -44,18 +46,10 @@ export const deleteCategory = (cat) => {
 export const patchCategory = (cat) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    await axios.put(`/api/categories/${cat.id}`, cat, {
+    const { data } = await axios.put(`/api/categories/${cat.id}`, cat, {
       headers: { authorization: token },
     });
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const { data } = await axios.get(`/api/categories/${year}/${month}`, {
-      headers: {
-        authorization: token,
-      },
-    });
-    dispatch(setCategories(data));
+    dispatch(updateCategory(data));
   };
 };
 
@@ -80,6 +74,20 @@ export default function categories(state = [], action) {
       return state.filter((cat) => cat.id !== action.id);
     case ADD_CAT:
       return [...state, action.category];
+    case UPDATE_CAT:
+      const [oldCat, newCat] = action.categories;
+      const newState = state.map((cat) => {
+        if (cat.id === oldCat.id) {
+          return oldCat;
+        } else {
+          return cat;
+        }
+      });
+      if (!newCat) {
+        return newState;
+      } else {
+        return [...newState, newCat];
+      }
     default:
       return state;
   }

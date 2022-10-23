@@ -63,7 +63,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
       const year = changeDate.getFullYear();
       if (oldCat.startMonth === month + 1 && oldCat.startYear === year) {
         await oldCat.update(req.body);
-        res.json(oldCat);
+        res.json([oldCat, null]);
       } else {
         await oldCat.update({
           endMonth: month + 1,
@@ -87,7 +87,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
             daily.setCategory(newCat);
           }
         });
-        res.json(newCat);
+        res.json([oldCat, newCat]);
       }
     } else {
       const startDate = new Date(req.body.startYear, req.body.startMonth - 1);
@@ -109,7 +109,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
           daily.setCategory(null);
         }
       });
-      res.json(oldCat);
+      res.json([oldCat, null]);
     }
   } catch (err) {
     next(err);
