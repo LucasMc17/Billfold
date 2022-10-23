@@ -3,21 +3,34 @@ const month = new Date().getMonth() + 1;
 const year = new Date().getFullYear();
 const day = new Date().getDate();
 
-export default function useData() {
+import useFormatters from './useFormatters';
+
+const { seperateActive } = useFormatters();
+
+export default function useData(date = new Date()) {
   const username = useSelector((state) => state.auth.username);
   const income = useSelector((state) => state.income);
-  const deducts = useSelector((state) => state.yearlyDeductions);
+  const deducts = seperateActive(
+    useSelector((state) => state.allDeducts),
+    date
+  )[0];
   const afterDeducts = deducts.reduce(
     (acc, de) => acc - (de.amount || de.percent * acc),
     income
   );
   const monthlyNet = afterDeducts / 12;
-  const expenses = useSelector((state) => state.monthlyExpenses);
+  const expenses = seperateActive(
+    useSelector((state) => state.allExpenses),
+    date
+  )[0];
   const afterExpenses = expenses.reduce(
     (acc, ex) => acc - (ex.amount || ex.percent * acc),
     monthlyNet
   );
-  const categories = useSelector((state) => state.categories);
+  const categories = seperateActive(
+    useSelector((state) => state.allCategories),
+    date
+  )[0];
   const fixedCats = categories.filter((cat) => cat.rule === 'FIXED');
   const afterFixedCats =
     afterExpenses - fixedCats.reduce((acc, cat) => acc + cat.amount, 0);

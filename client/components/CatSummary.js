@@ -4,7 +4,7 @@ import useFormatters from './custom_hooks/useFormatters';
 
 export default function CatSummary(props) {
   const { dollarFormat, fixedDec } = useFormatters();
-  const data = useData();
+  const data = useData(new Date(props.year, props.month - 1, 15));
   const { cat } = props;
   const dailies = data.dailies.filter(
     (daily) =>

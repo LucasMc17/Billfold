@@ -74,6 +74,7 @@ export default function MonthlySummary() {
     },
     100,
   ]);
+  const [date, setDate] = useState(new Date());
   const [metric, setMetric] = useState('PERCENT');
   const [filter, setFilter] = useState({
     filterCat: '#special#billfold#all#',
@@ -82,7 +83,7 @@ export default function MonthlySummary() {
     },
   });
   const { dollarFormat, fixedDec } = useFormatters();
-  const data = useData();
+  const data = useData(date);
   const { year, month } = useParams();
   const dailyExpenses = useSelector((state) => state.dailyExpenses);
   const dailies = dailyExpenses.filter(
@@ -160,6 +161,7 @@ export default function MonthlySummary() {
     dispatch(fetchDeducts(year, month - 1));
     dispatch(fetchExpenses(year, month - 1));
     dispatch(fetchIncome(year, month - 1));
+    setDate(new Date(year, month - 1, 15));
   }, [year, month]);
 
   return (
