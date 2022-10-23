@@ -12,6 +12,9 @@ const UPDATE_CAT = 'UPDATE_CAT';
  * ACTION CREATORS
  */
 const setAllCategories = (cats) => ({ type: SET_ALL_CATS, cats });
+const addCategory = (category) => ({ type: ADD_CAT, category });
+const delCategory = (id) => ({ type: DEL_CAT, id });
+const updateCategory = (categories) => ({ type: UPDATE_CAT, categories });
 
 /**
  * THUNK CREATORS
@@ -25,6 +28,38 @@ export const fetchAllCategories = () => {
       },
     });
     dispatch(setAllCategories(data));
+  };
+};
+
+export const postCategory = (cat) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.post('/api/categories', cat, {
+      headers: { authorization: token },
+    });
+    dispatch(addCategory(data));
+  };
+};
+
+export const deleteCategory = (cat) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    await axios.delete(`/api/categories/${cat.id}`, {
+      headers: {
+        authorization: token,
+      },
+    });
+    dispatch(delCategory(cat.id));
+  };
+};
+
+export const patchCategory = (cat) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(`/api/categories/${cat.id}`, cat, {
+      headers: { authorization: token },
+    });
+    dispatch(updateCategory(data));
   };
 };
 

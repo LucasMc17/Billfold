@@ -23,13 +23,7 @@ import EditSingleMonthlyExpenseDates from './components/EditSingleMonthlyExpense
 import EditSingleCategoryDates from './components/EditSingleCategoryDates';
 import EditIncomes from './components/EditIncomes';
 import EditSingleIncomeDates from './components/EditSingleIncomeDates';
-import {
-  fetchDeducts,
-  fetchExpenses,
-  me,
-  fetchCategories,
-  fetchDailies,
-} from './store';
+import { me } from './store';
 
 /**
  * COMPONENT
