@@ -12,7 +12,6 @@ import {
   fetchAllIncomes,
   fetchDailies,
 } from '../store';
-import { fetchIncome } from '../store/income';
 
 /**
  * COMPONENT
@@ -27,7 +26,6 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(fetchDailies());
-    dispatch(fetchIncome(year, month - 1));
     dispatch(fetchAllCategories());
     dispatch(fetchAllDeducts());
     dispatch(fetchAllExpenses());

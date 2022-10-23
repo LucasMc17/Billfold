@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { updateUser } from '../store';
-import { patchIncome } from '../store/income';
 
 export default function EditBasicInfo() {
   const dispatch = useDispatch();

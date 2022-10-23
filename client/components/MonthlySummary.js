@@ -7,7 +7,7 @@ import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import DailyExpense from './DailyExpense';
 import { Link } from 'react-router-dom';
-import { fetchMonthChartData, fetchIncome, monthSetLoading } from '../store';
+import { fetchMonthChartData, monthSetLoading } from '../store';
 
 import { Chart } from 'react-chartjs-2';
 import {
@@ -150,7 +150,6 @@ export default function MonthlySummary() {
   }, [rawData]);
 
   useEffect(() => {
-    dispatch(fetchIncome(year, month - 1));
     setDate(new Date(year, month - 1, 15));
   }, [year, month]);
 
