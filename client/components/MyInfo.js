@@ -18,22 +18,22 @@ export default function MyInfo() {
   const dispatch = useDispatch();
   const { dollarFormat, fixedDec, seperateActive } = useFormatters();
   const data = useData();
-  const incomes = seperateActive(useSelector((state) => state.allIncomes))[0];
-  const activeYearlies = seperateActive(
-    useSelector((state) => state.allDeducts)
-  )[0];
-  const activeMonthlies = seperateActive(
-    useSelector((state) => state.allExpenses)
-  )[0];
-  const activeCategories = seperateActive(
-    useSelector((state) => state.allCategories)
-  )[0];
-  const activeFixedCategories = activeCategories.filter(
-    (cat) => cat.rule === 'FIXED'
-  );
-  const activeFlexibleCategories = activeCategories.filter(
-    (cat) => cat.rule === 'PERCENT'
-  );
+  // const incomes = seperateActive(useSelector((state) => state.allIncomes))[0];
+  // const activeYearlies = seperateActive(
+  //   useSelector((state) => state.allDeducts)
+  // )[0];
+  // const activeMonthlies = seperateActive(
+  //   useSelector((state) => state.allExpenses)
+  // )[0];
+  // const activeCategories = seperateActive(
+  //   useSelector((state) => state.allCategories)
+  // )[0];
+  // const activeFixedCategories = activeCategories.filter(
+  //   (cat) => cat.rule === 'FIXED'
+  // );
+  // const activeFlexibleCategories = activeCategories.filter(
+  //   (cat) => cat.rule === 'PERCENT'
+  // );
 
   useEffect(() => {
     dispatch(fetchAllIncomes());
@@ -45,6 +45,7 @@ export default function MyInfo() {
   const {
     username,
     income,
+    incomes,
     deducts,
     afterDeducts,
     monthlyNet,
@@ -115,8 +116,8 @@ export default function MyInfo() {
           prior expenses
         </p>
         <div className="user-items">
-          {activeYearlies.length ? (
-            activeYearlies.map((de) => (
+          {deducts.length ? (
+            deducts.map((de) => (
               <div key={de.id}>
                 <h3>{de.name}</h3>
                 <p>
@@ -149,8 +150,8 @@ export default function MyInfo() {
         </p>
       </div>
       <div className="user-items">
-        {activeMonthlies.length ? (
-          activeMonthlies.map((ex) => (
+        {expenses.length ? (
+          expenses.map((ex) => (
             <div key={ex.id}>
               <h3>{ex.name}</h3>
               <p>
@@ -178,8 +179,8 @@ export default function MyInfo() {
         <h1>These are my fixed spending categories each month:</h1>
       </div>
       <div className="user-items">
-        {activeFixedCategories.length ? (
-          activeFixedCategories.map((cat) => (
+        {fixedCats.length ? (
+          fixedCats.map((cat) => (
             <div key={cat.id}>
               <h3>{cat.name}</h3>
               <p>
@@ -206,8 +207,8 @@ export default function MyInfo() {
         </h1>
       </div>
       <div className="user-items">
-        {activeFlexibleCategories.length ? (
-          activeFlexibleCategories.map((cat) => (
+        {unfixedCats.length ? (
+          unfixedCats.map((cat) => (
             <div key={cat.id}>
               <h3>{cat.name}</h3>
               <p>
@@ -284,31 +285,29 @@ export default function MyInfo() {
             ref={chartRef}
             data={{
               labels: [
-                ...activeYearlies.map((de) => de.name),
-                ...activeMonthlies.map((ex) => ex.name),
-                ...activeFixedCategories.map((cat) => cat.name),
-                ...activeFlexibleCategories.map((cat) => cat.name),
+                ...deducts.map((de) => de.name),
+                ...expenses.map((ex) => ex.name),
+                ...fixedCats.map((cat) => cat.name),
+                ...unfixedCats.map((cat) => cat.name),
               ],
               datasets: [
                 {
                   label: 'Dollars spent each year: ',
                   data: [
-                    ...activeYearlies.map(
-                      (de) => de.amount || de.percent * income
-                    ),
-                    ...activeMonthlies.map(
+                    ...deducts.map((de) => de.amount || de.percent * income),
+                    ...expenses.map(
                       (ex) => (ex.amount || ex.percent * monthlyNet) * 12
                     ),
-                    ...activeFixedCategories.map((cat) => cat.amount * 12),
-                    ...activeFlexibleCategories.map(
+                    ...fixedCats.map((cat) => cat.amount * 12),
+                    ...unfixedCats.map(
                       (cat) => cat.percent * afterFixedCats * 12
                     ),
                   ],
                   backgroundColor: [
-                    ...activeYearlies.map((de) => '#01161E'),
-                    ...activeMonthlies.map((ex) => '#124559'),
-                    ...activeFixedCategories.map((cat) => '#598392'),
-                    ...activeFlexibleCategories.map((cat) => '#AEC3B0'),
+                    ...deducts.map((de) => '#01161E'),
+                    ...expenses.map((ex) => '#124559'),
+                    ...fixedCats.map((cat) => '#598392'),
+                    ...unfixedCats.map((cat) => '#AEC3B0'),
                   ],
                   borderColor: 'black',
                   borderWidth: 3,

@@ -9,7 +9,11 @@ const { seperateActive } = useFormatters();
 
 export default function useData(date = new Date()) {
   const username = useSelector((state) => state.auth.username);
-  const income = useSelector((state) => state.income);
+  const incomes = seperateActive(
+    useSelector((state) => state.allIncomes),
+    date
+  )[0];
+  const income = incomes.reduce((acc, inc) => acc + inc.amount, 0);
   const deducts = seperateActive(
     useSelector((state) => state.allDeducts),
     date
@@ -51,6 +55,7 @@ export default function useData(date = new Date()) {
   return {
     username,
     income,
+    incomes,
     deducts,
     afterDeducts,
     monthlyNet,

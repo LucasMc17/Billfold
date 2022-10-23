@@ -8,7 +8,6 @@ import {
   fetchAllExpenses,
 } from '../store';
 import { useParams, Link } from 'react-router-dom';
-import income from '../store/income';
 
 export default function BudgetHistory() {
   const { year } = useParams();

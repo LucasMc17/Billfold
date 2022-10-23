@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAvailableCategories, postDaily } from '../store';
+import useFormatters from './custom_hooks/useFormatters';
+const { seperateActive } = useFormatters();
 
 export default function NewDailyForm(props) {
-  const categories = useSelector((state) => state.availableCategories);
+  const allCategories = useSelector((state) => state.allCategories);
+  const [categories, setCategories] = useState(
+    seperateActive(allCategories)[0]
+  );
   const dispatch = useDispatch();
   const { defaultDate } = props;
   const [daily, setDaily] = useState({
@@ -28,7 +33,7 @@ export default function NewDailyForm(props) {
   useEffect(() => {
     if (daily.date) {
       const date = new Date(daily.date);
-      dispatch(fetchAvailableCategories(date.getFullYear(), date.getMonth()));
+      setCategories(seperateActive(allCategories, date)[0]);
     }
   }, [daily.date]);
 
