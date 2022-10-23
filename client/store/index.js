@@ -25,9 +25,9 @@ import singleIncome from './singleIncome';
 
 const reducer = combineReducers({
   auth,
-  yearlyDeductions,
-  monthlyExpenses,
-  categories,
+  // yearlyDeductions,
+  // monthlyExpenses,
+  // categories,
   dailyExpenses,
   singleYearlyDeduction,
   singleMonthlyExpense,
