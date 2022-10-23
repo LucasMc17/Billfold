@@ -284,29 +284,31 @@ export default function MyInfo() {
             ref={chartRef}
             data={{
               labels: [
-                ...deducts.map((de) => de.name),
-                ...expenses.map((ex) => ex.name),
-                ...fixedCats.map((cat) => cat.name),
-                ...unfixedCats.map((cat) => cat.name),
+                ...activeYearlies.map((de) => de.name),
+                ...activeMonthlies.map((ex) => ex.name),
+                ...activeFixedCategories.map((cat) => cat.name),
+                ...activeFlexibleCategories.map((cat) => cat.name),
               ],
               datasets: [
                 {
                   label: 'Dollars spent each year: ',
                   data: [
-                    ...deducts.map((de) => de.amount || de.percent * income),
-                    ...expenses.map(
+                    ...activeYearlies.map(
+                      (de) => de.amount || de.percent * income
+                    ),
+                    ...activeMonthlies.map(
                       (ex) => (ex.amount || ex.percent * monthlyNet) * 12
                     ),
-                    ...fixedCats.map((cat) => cat.amount * 12),
-                    ...unfixedCats.map(
+                    ...activeFixedCategories.map((cat) => cat.amount * 12),
+                    ...activeFlexibleCategories.map(
                       (cat) => cat.percent * afterFixedCats * 12
                     ),
                   ],
                   backgroundColor: [
-                    ...deducts.map((de) => '#01161E'),
-                    ...expenses.map((ex) => '#124559'),
-                    ...fixedCats.map((cat) => '#598392'),
-                    ...unfixedCats.map((cat) => '#AEC3B0'),
+                    ...activeYearlies.map((de) => '#01161E'),
+                    ...activeMonthlies.map((ex) => '#124559'),
+                    ...activeFixedCategories.map((cat) => '#598392'),
+                    ...activeFlexibleCategories.map((cat) => '#AEC3B0'),
                   ],
                   borderColor: 'black',
                   borderWidth: 3,
