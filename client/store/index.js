@@ -36,7 +36,7 @@ const reducer = combineReducers({
   unassigned,
   // income,
   homeChartData,
-  availableCategories,
+  // availableCategories,
   monthChartData,
   allCategories,
   loading,

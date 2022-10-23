@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAvailableCategories, postDaily } from '../store';
+import { postDaily } from '../store';
 import useFormatters from './custom_hooks/useFormatters';
 const { seperateActive } = useFormatters();
 

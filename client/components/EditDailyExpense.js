@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  patchDaily,
-  fetchDaily,
-  fetchCategories,
-  fetchAvailableCategories,
-} from '../store';
+import { patchDaily, fetchDaily } from '../store';
 import { useParams, useHistory } from 'react-router-dom';
+import useFormatters from './custom_hooks/useFormatters';
+const { seperateActive } = useFormatters();
 
 export default function EditDailyExpense() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
   const dailyExpense = useSelector((state) => state.singleDailyExpense);
-  const categories = useSelector((state) => state.availableCategories);
+  const allCategories = useSelector((state) => state.allCategories);
+  const [categories, setCategories] = useState(
+    seperateActive(allCategories)[0]
+  );
 
   const [daily, setDaily] = useState({
     name: '',
@@ -36,7 +36,7 @@ export default function EditDailyExpense() {
   useEffect(() => {
     if (daily.date) {
       const date = new Date(daily.date);
-      dispatch(fetchAvailableCategories(date.getFullYear(), date.getMonth()));
+      setCategories(seperateActive(allCategories, date)[0]);
     }
   }, [daily.date]);
 
