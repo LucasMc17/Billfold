@@ -419,6 +419,7 @@ form>div {
   width: 80%;
   margin: auto;
   display: flex;
+  margin-top: 10px;
 }
 
 .add-daily-form h1 {

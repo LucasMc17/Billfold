@@ -84,6 +84,7 @@ export default function Home() {
       </div>
       <div id="recent-purchases">
         <h2>Recent purchases</h2>
+        {categories.length ? <NewDailyForm /> : <div />}
         {dailies
           .slice()
           .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -91,7 +92,6 @@ export default function Home() {
           .map((daily) => (
             <DailyExpense key={daily.id} daily={daily} />
           ))}
-        {categories.length ? <NewDailyForm /> : <div />}
       </div>
       <HomeChart year={year} month={month} afterExpenses={afterExpenses} />
     </div>
