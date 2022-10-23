@@ -3,7 +3,6 @@ import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import auth from './auth';
-import yearlyDeductions from './yearlyDeductions';
 import monthlyExpenses from './monthlyExpenses';
 import dailyExpenses from './DailyExpenses';
 import singleYearlyDeduction from './singleYearlyDeduction';
@@ -22,7 +21,6 @@ import singleIncome from './singleIncome';
 
 const reducer = combineReducers({
   auth,
-  // yearlyDeductions,
   // monthlyExpenses,
   dailyExpenses,
   singleYearlyDeduction,
@@ -46,7 +44,6 @@ const store = createStore(reducer, middleware);
 
 export default store;
 export * from './auth';
-export * from './yearlyDeductions';
 export * from './monthlyExpenses';
 export * from './DailyExpenses';
 export * from './singleYearlyDeduction';
