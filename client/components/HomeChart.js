@@ -23,7 +23,6 @@ ChartJS.register(
 );
 
 export default function HomeChart({ year, month, afterExpenses }) {
-  const categories = useSelector((state) => state.categories);
   const dailies = useSelector((state) => state.dailyExpenses);
   const rawData = useSelector((state) => state.homeChartData);
   const loading = useSelector((state) => state.loading.homeChart);
@@ -99,14 +98,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
   useEffect(() => {
     dispatch(homeSetLoading(true));
     dispatch(fetchChartData(view));
-  }, [
-    view.startMonth,
-    view.startYear,
-    view.endMonth,
-    view.endYear,
-    categories,
-    dailies,
-  ]);
+  }, [view.startMonth, view.startYear, view.endMonth, view.endYear, dailies]);
 
   useEffect(() => {
     setData(getReactChartData());

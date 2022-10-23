@@ -7,14 +7,7 @@ import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import DailyExpense from './DailyExpense';
 import { Link } from 'react-router-dom';
-import {
-  fetchMonthChartData,
-  fetchCategories,
-  fetchDeducts,
-  fetchExpenses,
-  fetchIncome,
-  monthSetLoading,
-} from '../store';
+import { fetchMonthChartData, fetchIncome, monthSetLoading } from '../store';
 
 import { Chart } from 'react-chartjs-2';
 import {
@@ -90,7 +83,7 @@ export default function MonthlySummary() {
     (ex) => ex.month === Number(month) && ex.year === Number(year)
   );
   const totalSpent = dailies.reduce((acc, daily) => acc + daily.amount, 0);
-  const categories = useSelector((state) => state.categories);
+  const { categories } = data;
   const rawData = useSelector((state) => state.monthChartData);
   const loading = useSelector((state) => state.loading.monthChart);
 
@@ -150,16 +143,13 @@ export default function MonthlySummary() {
   useEffect(() => {
     dispatch(monthSetLoading(true));
     dispatch(fetchMonthChartData(year, month, metric));
-  }, [categories, dailyExpenses, month, year, metric]);
+  }, [dailyExpenses, month, year, metric]);
 
   useEffect(() => {
     setReactChartData(reactGetChartData());
   }, [rawData]);
 
   useEffect(() => {
-    dispatch(fetchCategories(year, month - 1));
-    dispatch(fetchDeducts(year, month - 1));
-    dispatch(fetchExpenses(year, month - 1));
     dispatch(fetchIncome(year, month - 1));
     setDate(new Date(year, month - 1, 15));
   }, [year, month]);
@@ -202,8 +192,8 @@ export default function MonthlySummary() {
               {fixedDec((totalSpent / data.afterExpenses) * 100)}%
             </h3>
           </div>
-          {data.categories.length ? (
-            data.categories.map((cat) => (
+          {categories.length ? (
+            categories.map((cat) => (
               <div className="summary" key={cat.id}>
                 <CatSummary cat={cat} month={month} year={year} />
               </div>

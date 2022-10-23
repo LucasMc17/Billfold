@@ -16,10 +16,6 @@ export default function EditFixedCategories() {
     dispatch(deleteCategory(cat));
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchAllCategories());
-  // }, []);
-
   const [active, inactive] = seperateActive(categories);
 
   return (

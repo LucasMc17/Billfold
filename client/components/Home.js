@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import useData from './custom_hooks/useData';
-import useFormatters from './custom_hooks/useFormatters';
 import NewDailyForm from './NewDailyForm';
 import DailyExpense from './DailyExpense';
 import HomeChart from './HomeChart';
 import {
-  fetchCategories,
+  fetchAllCategories,
+  fetchAllDeducts,
+  fetchAllExpenses,
+  fetchAllIncomes,
   fetchDailies,
-  fetchExpenses,
-  fetchDeducts,
 } from '../store';
 import { fetchIncome } from '../store/income';
 
@@ -19,19 +19,19 @@ import { fetchIncome } from '../store/income';
  */
 export default function Home() {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories);
   const dailies = useSelector((state) => state.dailyExpenses);
-  const { username, budgetGap, afterExpenses, unassigned, onTrack } = useData();
+  const { categories, username, budgetGap, afterExpenses, onTrack } = useData();
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
 
   useEffect(() => {
-    dispatch(fetchDeducts(year, month - 1));
-    dispatch(fetchExpenses(year, month - 1));
-    dispatch(fetchCategories(year, month - 1));
     dispatch(fetchDailies());
     dispatch(fetchIncome(year, month - 1));
+    dispatch(fetchAllCategories());
+    dispatch(fetchAllDeducts());
+    dispatch(fetchAllExpenses());
+    dispatch(fetchAllIncomes());
   }, []);
 
   let lastMonthYear, lastMonth;
