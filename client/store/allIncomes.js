@@ -14,7 +14,7 @@ const UPDATE_INCOME = 'UPDATE_INCOME';
 const setAllIncomes = (incomes) => ({ type: SET_ALL_INCOMES, incomes });
 const addIncome = (income) => ({ type: ADD_INCOME, income });
 const delIncome = (id) => ({ type: DEL_INCOME, id });
-const updateIncome = (income) => ({ type: UPDATE_INCOME, income });
+const updateIncome = (incomes) => ({ type: UPDATE_INCOME, incomes });
 
 /**
  * THUNK CREATORS
@@ -79,13 +79,19 @@ export default function allIncomes(state = [], action) {
     case DEL_INCOME:
       return state.filter((income) => income.id !== action.id);
     case UPDATE_INCOME:
-      return state.map((income) => {
-        if (income.id === action.income.id) {
-          return action.income;
+      const [oldInc, newInc] = action.incomes;
+      const newState = state.map((inc) => {
+        if (inc.id === oldInc.id) {
+          return oldInc;
         } else {
-          return income;
+          return inc;
         }
       });
+      if (!newInc) {
+        return newState;
+      } else {
+        return [...newState, newInc];
+      }
     default:
       return state;
   }

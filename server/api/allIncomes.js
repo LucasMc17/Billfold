@@ -65,7 +65,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
       const year = changeDate.getFullYear();
       if (income.startMoth === month + 1 && income.startYear === year) {
         await income.update(req.body);
-        res.json(income);
+        res.json([income, null]);
       } else {
         await income.update({
           endMonth: month + 1,
@@ -79,7 +79,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
           startYear: year,
           startDate: new Date(year, month),
         });
-        res.json(newIncome);
+        res.json([income, newIncome]);
       }
     } else {
       const startDate = new Date(req.body.startYear, req.body.startMonth - 1);
@@ -91,7 +91,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
         startDate,
         endDate,
       });
-      res.json(income);
+      res.json([income, null]);
     }
   } catch (err) {
     next(err);
