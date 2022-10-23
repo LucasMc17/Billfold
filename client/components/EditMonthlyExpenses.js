@@ -17,9 +17,9 @@ export default function EditMonthlyExpenses() {
     dispatch(deleteExpense(ex));
   };
 
-  useEffect(() => {
-    dispatch(fetchAllExpenses());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchAllExpenses());
+  // }, []);
 
   const [active, inactive] = seperateActive(expenses);
 

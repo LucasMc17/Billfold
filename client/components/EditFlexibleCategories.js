@@ -19,9 +19,9 @@ export default function EditFlexibleCategories() {
     dispatch(deleteCategory(cat));
   };
 
-  useEffect(() => {
-    dispatch(fetchAllCategories());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchAllCategories());
+  // }, []);
 
   const [active, inactive] = seperateActive(categories);
 

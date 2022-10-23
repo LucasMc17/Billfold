@@ -6,6 +6,7 @@ import axios from 'axios';
 const SET_ALL_CATS = 'SET_ALL_CATS';
 const ADD_CAT = 'ADD_CAT';
 const DEL_CAT = 'DEL_CAT';
+const UPDATE_CAT = 'UPDATE_CAT';
 
 /**
  * ACTION CREATORS
@@ -38,6 +39,20 @@ export default function allCategories(state = [], action) {
       return [...state, action.category];
     case DEL_CAT:
       return state.filter((cat) => cat.id !== action.id);
+    case UPDATE_CAT:
+      const [oldCat, newCat] = action.categories;
+      const newState = state.map((cat) => {
+        if (cat.id === oldCat.id) {
+          return oldCat;
+        } else {
+          return cat;
+        }
+      });
+      if (!newCat) {
+        return newState;
+      } else {
+        return [...newState, newCat];
+      }
     default:
       return state;
   }

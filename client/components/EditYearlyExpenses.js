@@ -15,9 +15,9 @@ export default function EditYearlyExpenses() {
     dispatch(deleteDeduct(de));
   };
 
-  useEffect(() => {
-    dispatch(fetchAllDeducts());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchAllDeducts());
+  // }, []);
 
   const [active, inactive] = seperateActive(deducts);
 

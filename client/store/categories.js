@@ -74,20 +74,6 @@ export default function categories(state = [], action) {
       return state.filter((cat) => cat.id !== action.id);
     case ADD_CAT:
       return [...state, action.category];
-    case UPDATE_CAT:
-      const [oldCat, newCat] = action.categories;
-      const newState = state.map((cat) => {
-        if (cat.id === oldCat.id) {
-          return oldCat;
-        } else {
-          return cat;
-        }
-      });
-      if (!newCat) {
-        return newState;
-      } else {
-        return [...newState, newCat];
-      }
     default:
       return state;
   }

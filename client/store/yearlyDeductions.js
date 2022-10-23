@@ -75,20 +75,6 @@ export default function yearlyDeductions(state = [], action) {
       return action.deducts;
     case DEL_DEDUCT:
       return state.filter((de) => de.id !== action.id);
-    case UPDATE_DEDUCT:
-      const [oldDe, newDe] = action.deducts;
-      const newState = state.map((de) => {
-        if (de.id === oldDe.id) {
-          return oldDe;
-        } else {
-          return de;
-        }
-      });
-      if (!newDe) {
-        return newState;
-      } else {
-        return [...newState, newDe];
-      }
     case ADD_DEDUCT:
       return [...state, action.deduct];
     default:

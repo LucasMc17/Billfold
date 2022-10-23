@@ -15,9 +15,9 @@ export default function EditIncomes() {
     dispatch(deleteIncome(inc));
   };
 
-  useEffect(() => {
-    dispatch(fetchAllIncomes());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchAllIncomes());
+  // }, []);
 
   const [active, inactive] = seperateActive(incomes);
 

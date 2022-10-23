@@ -3,7 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import useData from './custom_hooks/useData';
 import useFormatters from './custom_hooks/useFormatters';
 import { Link } from 'react-router-dom';
-import { updateUnassigned, fetchAllIncomes } from '../store';
+import {
+  updateUnassigned,
+  fetchAllIncomes,
+  fetchAllCategories,
+  fetchAllDeducts,
+  fetchAllExpenses,
+} from '../store';
 import { Chart, getElementAtEvent } from 'react-chartjs-2';
 import { ArcElement, Chart as ChartJS, Tooltip, PieController } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, PieController);
@@ -13,9 +19,27 @@ export default function MyInfo() {
   const { dollarFormat, fixedDec, seperateActive } = useFormatters();
   const data = useData();
   const incomes = seperateActive(useSelector((state) => state.allIncomes))[0];
+  const activeYearlies = seperateActive(
+    useSelector((state) => state.allDeducts)
+  )[0];
+  const activeMonthlies = seperateActive(
+    useSelector((state) => state.allExpenses)
+  )[0];
+  const activeCategories = seperateActive(
+    useSelector((state) => state.allCategories)
+  )[0];
+  const activeFixedCategories = activeCategories.filter(
+    (cat) => cat.rule === 'FIXED'
+  );
+  const activeFlexibleCategories = activeCategories.filter(
+    (cat) => cat.rule === 'PERCENT'
+  );
 
   useEffect(() => {
     dispatch(fetchAllIncomes());
+    dispatch(fetchAllCategories());
+    dispatch(fetchAllDeducts());
+    dispatch(fetchAllExpenses());
   }, []);
 
   const {
@@ -91,8 +115,8 @@ export default function MyInfo() {
           prior expenses
         </p>
         <div className="user-items">
-          {deducts.length ? (
-            deducts.map((de) => (
+          {activeYearlies.length ? (
+            activeYearlies.map((de) => (
               <div key={de.id}>
                 <h3>{de.name}</h3>
                 <p>
@@ -125,8 +149,8 @@ export default function MyInfo() {
         </p>
       </div>
       <div className="user-items">
-        {expenses.length ? (
-          expenses.map((ex) => (
+        {activeMonthlies.length ? (
+          activeMonthlies.map((ex) => (
             <div key={ex.id}>
               <h3>{ex.name}</h3>
               <p>
@@ -154,8 +178,8 @@ export default function MyInfo() {
         <h1>These are my fixed spending categories each month:</h1>
       </div>
       <div className="user-items">
-        {fixedCats.length ? (
-          fixedCats.map((cat) => (
+        {activeFixedCategories.length ? (
+          activeFixedCategories.map((cat) => (
             <div key={cat.id}>
               <h3>{cat.name}</h3>
               <p>
@@ -182,8 +206,8 @@ export default function MyInfo() {
         </h1>
       </div>
       <div className="user-items">
-        {unfixedCats.length ? (
-          unfixedCats.map((cat) => (
+        {activeFlexibleCategories.length ? (
+          activeFlexibleCategories.map((cat) => (
             <div key={cat.id}>
               <h3>{cat.name}</h3>
               <p>
