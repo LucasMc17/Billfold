@@ -23,6 +23,7 @@ import EditSingleMonthlyExpenseDates from './components/EditSingleMonthlyExpense
 import EditSingleCategoryDates from './components/EditSingleCategoryDates';
 import EditIncomes from './components/EditIncomes';
 import EditSingleIncomeDates from './components/EditSingleIncomeDates';
+import EditSingleIncome from './components/EditSingleIncome';
 import { me } from './store';
 
 /**
@@ -53,6 +54,11 @@ class Routes extends Component {
               exact
               path="/edit/incomes/dates/:id"
               component={EditSingleIncomeDates}
+            />
+            <Route
+              exact
+              path="/edit/incomes/:id"
+              component={EditSingleIncome}
             />
             <Route
               exact
