@@ -77,10 +77,10 @@ export default function EditSingleYearlyExpense() {
 
   return (
     <div>
-      <h1>Edit this Monthly Expense</h1>
+      <h1>Edit this Category</h1>
       <div id="edit-form">
         <div className="edit-card">
-          <p className="edit-card-header">Current expense</p>
+          <p className="edit-card-header">Current category</p>
           <div className="edit-card-field">
             <p>{category.name}</p>
           </div>
@@ -102,7 +102,7 @@ export default function EditSingleYearlyExpense() {
         </div>
         <h1>{'>'}</h1>
         <form onSubmit={handleSubmit} className="edit-card">
-          <p className="edit-card-header">Expense after edits</p>
+          <p className="edit-card-header">Category after edits</p>
           <div className="edit-card-field">
             <input
               name="name"
@@ -157,7 +157,7 @@ export default function EditSingleYearlyExpense() {
       <p>
         {cat.changeDate.getMonth() + 1 === cat.startMonth &&
         cat.changeDate.getFullYear() === cat.startYear
-          ? 'WARNING: This will overwrite the expense'
+          ? 'WARNING: This will overwrite the category'
           : ''}
       </p>
       <p>

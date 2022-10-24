@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { postCategory } from '../store';
-import singleCategory from '../store/singleCategory';
 
 export default function NewCategoryForm(props) {
   const dispatch = useDispatch();
@@ -98,7 +97,7 @@ export default function NewCategoryForm(props) {
           </div>
         )}
         <p>
-          This expense begins/began at the start of{' '}
+          This category begins/began at the start of{' '}
           <input
             name="start"
             type="month"
