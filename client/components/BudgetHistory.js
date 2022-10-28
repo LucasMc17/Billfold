@@ -8,6 +8,8 @@ import {
   fetchAllExpenses,
 } from '../store';
 import { useParams, Link } from 'react-router-dom';
+import useFormatters from './custom_hooks/useFormatters';
+const { condenseTracks } = useFormatters();
 
 export default function BudgetHistory() {
   const { year } = useParams();
@@ -57,8 +59,6 @@ export default function BudgetHistory() {
     )
   );
 
-  console.log(today.getDate());
-
   return (
     <>
       <div id="budget-history-header">
@@ -90,8 +90,8 @@ export default function BudgetHistory() {
             <th colspan="12">INCOMES</th>
           </tr>
         </thead>
-        {incomes.map((inc, i) => (
-          <ExpenseTrack key={i} data={[inc]} />
+        {condenseTracks(incomes, Number(year)).map((inc, i) => (
+          <ExpenseTrack key={i} data={inc} />
         ))}
         <thead>
           {deducts.length ? (
@@ -102,8 +102,8 @@ export default function BudgetHistory() {
             <></>
           )}
         </thead>
-        {deducts.map((de, i) => (
-          <ExpenseTrack key={i} data={[de]} />
+        {condenseTracks(deducts, Number(year)).map((de, i) => (
+          <ExpenseTrack key={i} data={de} />
         ))}
         <thead>
           {expenses.length ? (
@@ -114,8 +114,8 @@ export default function BudgetHistory() {
             <></>
           )}
         </thead>
-        {expenses.map((ex, i) => (
-          <ExpenseTrack key={i} data={[ex]} />
+        {condenseTracks(expenses, Number(year)).map((ex, i) => (
+          <ExpenseTrack key={i} data={ex} />
         ))}
         <thead>
           {categories.length ? (
@@ -126,8 +126,8 @@ export default function BudgetHistory() {
             <></>
           )}
         </thead>
-        {categories.map((cat, i) => (
-          <ExpenseTrack key={i} data={[cat]} />
+        {condenseTracks(categories, Number(year)).map((cat, i) => (
+          <ExpenseTrack key={i} data={cat} />
         ))}
         {year == Number(today.getFullYear()) ? (
           <div
