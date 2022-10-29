@@ -8,6 +8,7 @@ const MonthlyExpense = require('./models/MonthlyExpense');
 const Category = require('./models/Category');
 const DailyExpense = require('./models/DailyExpense');
 const Income = require('./models/Income');
+const InsightIgnore = require('./models/InsightIgnore');
 
 //associations could go here!
 User.hasMany(Income);
@@ -25,6 +26,9 @@ Category.belongsTo(User);
 User.hasMany(DailyExpense);
 DailyExpense.belongsTo(User);
 
+User.hasMany(InsightIgnore);
+InsightIgnore.belongsTo(User);
+
 Category.hasMany(DailyExpense);
 DailyExpense.belongsTo(Category);
 
@@ -37,5 +41,6 @@ module.exports = {
     Category,
     DailyExpense,
     Income,
+    InsightIgnore,
   },
 };

@@ -35,6 +35,9 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
               >
                 Budget History
               </Link>
+              <Link className="nav-button" to="/insights">
+                Billfold Insights
+              </Link>
             </div>
             <div id="logout-button">
               <a className="nav-button" href="#" onClick={handleClick}>

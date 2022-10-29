@@ -25,6 +25,7 @@ import EditIncomes from './components/EditIncomes';
 import EditSingleIncomeDates from './components/EditSingleIncomeDates';
 import EditSingleIncome from './components/EditSingleIncome';
 import { me } from './store';
+import BillfoldInsights from './components/BillfoldInsights';
 
 /**
  * COMPONENT
@@ -42,6 +43,7 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/all-months" component={AllMonths} />
+            <Route path="/insights" component={BillfoldInsights} />
             <Route exact path="/home" component={Home} />
             <Route path="/year/:year/month/:month" component={MonthlySummary} />
             <Route path="/myinfo" component={MyInfo} />
