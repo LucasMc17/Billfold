@@ -1,0 +1,5 @@
+<svg height="100" width="100">
+  <circle fill="#ff4747" cx="50" cy="50" r="45" />
+  <path d="M 15 65 50 30 85 65 75 65 50 40 25 65" style="stroke:rgb(256,256,256);stroke-width:0" fill="white" />
+  Sorry, your browser does not support inline SVG.
+</svg>

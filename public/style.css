@@ -796,3 +796,18 @@ button:hover {
   display: flex;
   align-items: center;
 }
+
+.insight {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.insight>h2 {
+  margin: 0;
+}
+
+.insight>img {
+  width: 5vw;
+  height: 5vw;
+}
