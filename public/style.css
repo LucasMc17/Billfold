@@ -44,6 +44,23 @@ nav {
   cursor: pointer;
 }
 
+.insight-button {
+  display: flex;
+  gap: 6px
+}
+
+.insight-button>div {
+  color: #93e9be;
+  background-color: white;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+}
+
+.insight-button>div>h3 {
+  margin: 0 auto;
+}
+
 .nav-button:hover {
   border: 1px solid white;
   border-radius: 10px;

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { logout } from '../store';
 import Logo from './Logo';
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
+const Navbar = ({ handleClick, isLoggedIn, insights }) => (
   <div>
     {isLoggedIn ? (
       <div id="nav">
@@ -35,8 +35,15 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
               >
                 Budget History
               </Link>
-              <Link className="nav-button" to="/insights">
+              <Link className="nav-button insight-button" to="/insights">
                 Billfold Insights
+                {insights.length ? (
+                  <div>
+                    <h3>{insights.length}</h3>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </Link>
             </div>
             <div id="logout-button">
@@ -59,6 +66,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
+    insights: state.insights,
   };
 };
 

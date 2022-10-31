@@ -5,18 +5,21 @@ import useData from './custom_hooks/useData';
 import NewDailyForm from './NewDailyForm';
 import DailyExpense from './DailyExpense';
 import HomeChart from './HomeChart';
+import getInsightGrabber from './custom_hooks/getInsights';
 import {
   fetchAllCategories,
   fetchAllDeducts,
   fetchAllExpenses,
   fetchAllIncomes,
   fetchDailies,
+  setInsights,
 } from '../store';
 
 /**
  * COMPONENT
  */
 export default function Home() {
+  const getInsights = getInsightGrabber();
   const dispatch = useDispatch();
   const dailies = useSelector((state) => state.dailyExpenses);
   const { categories, username, budgetGap, afterExpenses, onTrack } = useData();
@@ -31,6 +34,10 @@ export default function Home() {
     dispatch(fetchAllExpenses());
     dispatch(fetchAllIncomes());
   }, []);
+
+  useEffect(() => {
+    dispatch(setInsights(getInsights()));
+  }, [categories, dailies]);
 
   let lastMonthYear, lastMonth;
   if (month === 1) {

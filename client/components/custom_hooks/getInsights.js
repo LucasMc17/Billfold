@@ -1,16 +1,13 @@
-import React from 'react';
-import useFormaters from './custom_hooks/useFormatters';
+import useFormaters from './useFormatters';
 import { useSelector } from 'react-redux';
 const { seperateActive } = useFormaters();
-import useData from './custom_hooks/useData';
+import useData from './useData';
 const today = new Date();
 const month = today.getMonth() + 1;
 const year = today.getFullYear();
-import Insight from './Insight';
+import { uid } from 'uid';
 
-// const year = today.getFullYear();
-
-export default function BillfoldInsights() {
+export default function getInsights() {
   const incomes = useSelector((state) => state.allIncomes);
   const deducts = useSelector((state) => state.allDeducts);
   const expenses = useSelector((state) => state.allExpenses);
@@ -90,8 +87,9 @@ export default function BillfoldInsights() {
     };
   }
 
-  function getInsights(array) {
+  function formatInsights(array) {
     array.forEach((item) => {
+      item.id = uid();
       let suggestion;
       if (item.lastMonths[0].ratio <= 0.85) {
         suggestion = 'UNDERSPENT';
@@ -128,34 +126,8 @@ export default function BillfoldInsights() {
   const extantCategories = categories.filter(
     (cat) => today.getTime() - new Date(cat.startDate).getTime() > 7776000000
   );
-  const fullData = extantCategories.map((cat) => getData(cat, dailies));
-  const insights = getInsights(fullData);
-  console.log(insights);
-
-  return (
-    <>
-      <div>
-        <p>
-          These are the categories you have consistently overspent on. Consider
-          allocating some extra budget to them, or reducing spending.
-        </p>
-        {insights
-          .filter((insight) => insight.suggestion === 'OVERSPENT')
-          .map((insight) => (
-            <Insight data={insight} />
-          ))}
-      </div>
-      <div>
-        <p>
-          These are the categories you have consistently underspent on. Consider
-          moving some of their budget to one of your other categories.
-        </p>
-        {insights
-          .filter((insight) => insight.suggestion === 'UNDERSPENT')
-          .map((insight) => (
-            <Insight data={insight} />
-          ))}
-      </div>
-    </>
-  );
+  const masterFunction = () => {
+    return formatInsights(extantCategories.map((cat) => getData(cat, dailies)));
+  };
+  return masterFunction;
 }
