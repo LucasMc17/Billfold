@@ -2,8 +2,6 @@ import React from 'react';
 import Insight from './Insight';
 import { useSelector } from 'react-redux';
 
-// const year = today.getFullYear();
-
 export default function BillfoldInsights() {
   const insights = useSelector((state) => state.insights);
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { removeInsight } from '../store/insights';
+import { removeInsight, postIgnore } from '../store';
 
 export default function Insight(props) {
   const dispatch = useDispatch();
@@ -8,6 +8,13 @@ export default function Insight(props) {
 
   function handleIgnore(ins) {
     dispatch(removeInsight(ins.id));
+    dispatch(
+      postIgnore({
+        catName: ins.name,
+        suggestion: ins.suggestion,
+        ignoredDate: new Date(),
+      })
+    );
   }
 
   return (

@@ -1,21 +1,29 @@
 import useFormaters from './useFormatters';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 const { seperateActive } = useFormaters();
 import useData from './useData';
 const today = new Date();
 const month = today.getMonth() + 1;
 const year = today.getFullYear();
 import { uid } from 'uid';
+import { useEffect } from 'react';
+import { fetchIgnores } from '../../store';
 
 export default function getInsights() {
+  const dispatch = useDispatch();
   const incomes = useSelector((state) => state.allIncomes);
   const deducts = useSelector((state) => state.allDeducts);
   const expenses = useSelector((state) => state.allExpenses);
   const fixedCats = useSelector((state) => state.allCategories).filter(
     (cat) => cat.rule === 'FIXED'
   );
+  const ignores = useSelector((state) => state.insightIgnores);
   const data = useData();
   const { categories, dailies } = data;
+  useEffect(() => {
+    console.log('TEST FIRE');
+    dispatch(fetchIgnores());
+  }, []);
 
   function getData(cat, dailyExpenses) {
     const monthsActive = month - cat.startMonth + (year - cat.startYear) * 12;
@@ -120,7 +128,14 @@ export default function getInsights() {
         }
       }
     });
-    return array.filter((item) => item.lastMonths.length >= 3);
+    const result = array.filter((item) => item.lastMonths.length >= 3);
+
+    return result.filter(
+      (ins) =>
+        !ignores.some(
+          (ign) => ign.catName === ins.name && ign.suggestion === ins.suggestion
+        )
+    );
   }
 
   const extantCategories = categories.filter(

@@ -13,6 +13,7 @@ router.use('/all-categories', require('./allCategories'));
 router.use('/all-incomes', require('./allIncomes'));
 router.use('/all-deducts', require('./allDeducts'));
 router.use('/all-expenses', require('./allExpenses'));
+router.use('/insight-ignores', require('./insightIgnores'));
 
 router.use((req, res, next) => {
   const error = new Error('Not Found');
