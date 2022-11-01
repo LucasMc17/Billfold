@@ -814,16 +814,16 @@ button:hover {
   align-items: center;
 }
 
-.overspent, .underspent {
+.insight-headline {
   display: flex;
   align-items: center;
 }
 
-.overspent>h2, .underspent>h2 {
+.insight-headline>h2 {
   margin: 0;
 }
 
-.overspent>img, .underspent>img {
+.insight-headline>img {
   width: 5vw;
   height: 5vw;
 }
@@ -866,4 +866,16 @@ button:hover {
   border-radius: 15px;
   background-image: linear-gradient(to bottom, white, #fc9797);
   margin: 8px;
+}
+
+.insight-details {
+  width: 100%;
+}
+
+.insight-details th {
+  width: 25%;
+}
+
+.insight-details td {
+  text-align: center;
 }

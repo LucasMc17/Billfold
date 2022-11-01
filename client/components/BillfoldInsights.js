@@ -14,7 +14,7 @@ export default function BillfoldInsights() {
         {insights
           .filter((insight) => insight.suggestion === 'OVERSPENT')
           .map((insight) => (
-            <Insight data={insight} />
+            <Insight data={insight} key={insight.id} />
           ))}
       </div>
       <div id="underspents">
@@ -25,7 +25,7 @@ export default function BillfoldInsights() {
         {insights
           .filter((insight) => insight.suggestion === 'UNDERSPENT')
           .map((insight) => (
-            <Insight data={insight} />
+            <Insight data={insight} key={insight.id} />
           ))}
       </div>
     </>
