@@ -18,7 +18,10 @@ export default function Insight(props) {
   }
 
   return (
-    <div key={data.id} className="insight">
+    <div
+      key={data.id}
+      className={data.suggestion === 'OVERSPENT' ? 'overspent' : 'underspent'}
+    >
       <img
         src={
           data.suggestion === 'OVERSPENT'

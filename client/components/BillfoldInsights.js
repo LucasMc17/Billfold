@@ -6,7 +6,7 @@ export default function BillfoldInsights() {
   const insights = useSelector((state) => state.insights);
   return (
     <>
-      <div>
+      <div id="overspents">
         <p>
           These are the categories you have consistently overspent on. Consider
           allocating some extra budget to them, or reducing spending.
@@ -17,7 +17,7 @@ export default function BillfoldInsights() {
             <Insight data={insight} />
           ))}
       </div>
-      <div>
+      <div id="underspents">
         <p>
           These are the categories you have consistently underspent on. Consider
           moving some of their budget to one of your other categories.

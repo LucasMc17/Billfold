@@ -814,17 +814,56 @@ button:hover {
   align-items: center;
 }
 
-.insight {
+.overspent, .underspent {
   display: flex;
-  width: 100%;
   align-items: center;
 }
 
-.insight>h2 {
+.overspent>h2, .underspent>h2 {
   margin: 0;
 }
 
-.insight>img {
+.overspent>img, .underspent>img {
   width: 5vw;
   height: 5vw;
+}
+
+#overspents {
+  border: 4px solid #ff4747;
+  border-radius: 15px;
+  margin: 10px;
+}
+
+#overspents>p {
+  color: white;
+  background-color: #ff4747;
+  margin-top: 0px;
+  font-weight: bold;
+  padding: 7px 0;
+}
+
+#underspents {
+  border: 4px solid #93e9be;
+  border-radius: 15px;
+  margin: 10px;
+}
+
+#underspents>p {
+  color: white;
+  background-color: #93e9be;
+  margin-top: 0px;
+  font-weight: bold;
+  padding: 7px 0;
+}
+
+.underspent {
+  border-radius: 15px;
+  background-image: linear-gradient(to bottom, white, #c8f6df);
+  margin: 8px;
+}
+
+.overspent {
+  border-radius: 15px;
+  background-image: linear-gradient(to bottom, white, #fc9797);
+  margin: 8px;
 }
