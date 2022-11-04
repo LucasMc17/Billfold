@@ -21,7 +21,6 @@ export default function getInsights() {
   const data = useData();
   const { categories, dailies } = data;
   useEffect(() => {
-    console.log('TEST FIRE');
     dispatch(fetchIgnores());
   }, []);
 
@@ -142,7 +141,13 @@ export default function getInsights() {
     (cat) => today.getTime() - new Date(cat.startDate).getTime() > 7776000000
   );
   const masterFunction = () => {
-    return formatInsights(extantCategories.map((cat) => getData(cat, dailies)));
+    const result = formatInsights(
+      extantCategories.map((cat) => getData(cat, dailies))
+    );
+    if (!extantCategories.length) {
+      result.alert = 'NO EXTANT';
+    }
+    return result;
   };
   return masterFunction;
 }

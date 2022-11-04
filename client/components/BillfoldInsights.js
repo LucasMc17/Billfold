@@ -12,30 +12,56 @@ export default function BillfoldInsights() {
     dispatch(setInsights(getInsights()));
   }, []);
   const insights = useSelector((state) => state.insights);
-  return (
+
+  const overspents = insights.filter(
+    (insight) => insight.suggestion === 'OVERSPENT'
+  );
+
+  const underspents = insights.filter(
+    (insight) => insight.suggestion === 'UNDERSPENT'
+  );
+
+  return insights.alert === 'NO EXTANT' ? (
+    <h1>
+      Your categories are all fairly new! Billfold needs time to gather data
+      before we make any recommendations. Check back in a bit!
+    </h1>
+  ) : (
     <>
-      <div id="overspents">
-        <p>
-          These are the categories you have consistently overspent on. Consider
-          allocating some extra budget to them, or reducing spending.
-        </p>
-        {insights
-          .filter((insight) => insight.suggestion === 'OVERSPENT')
-          .map((insight) => (
+      {overspents.length ? (
+        <div id="overspents">
+          <p>
+            These are the categories you have consistently overspent on.
+            Consider allocating some extra budget to them, or reducing spending.
+          </p>
+          {overspents.map((insight) => (
             <Insight data={insight} key={insight.id} />
           ))}
-      </div>
-      <div id="underspents">
-        <p>
-          These are the categories you have consistently underspent on. Consider
-          moving some of their budget to one of your other categories.
-        </p>
-        {insights
-          .filter((insight) => insight.suggestion === 'UNDERSPENT')
-          .map((insight) => (
+        </div>
+      ) : (
+        <></>
+      )}
+      {underspents.length ? (
+        <div id="underspents">
+          <p>
+            These are the categories you have consistently underspent on.
+            Consider moving some of their budget to one of your other
+            categories.
+          </p>
+          {underspents.map((insight) => (
             <Insight data={insight} key={insight.id} />
           ))}
-      </div>
+        </div>
+      ) : (
+        <></>
+      )}
+      {insights.length ? (
+        <></>
+      ) : (
+        <h2>
+          Billfold has no recommendations for you! Keep up the good budgeting!
+        </h2>
+      )}
     </>
   );
 }
