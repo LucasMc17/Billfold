@@ -5,9 +5,12 @@ import useFormatters from './custom_hooks/useFormatters';
 import { deleteDeduct, fetchAllDeducts } from '../store';
 import { Link } from 'react-router-dom';
 import NewYearlyForm from './NewYearlyForm';
+import getInsightGrabber from './custom_hooks/getInsights';
+import { setInsights } from '../store';
 
 export default function EditYearlyExpenses() {
   const dispatch = useDispatch();
+  const getInsights = getInsightGrabber();
   const deducts = useSelector((state) => state.allDeducts);
   const { dollarFormat, seperateActive } = useFormatters();
 
@@ -15,11 +18,11 @@ export default function EditYearlyExpenses() {
     dispatch(deleteDeduct(de));
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchAllDeducts());
-  // }, []);
-
   const [active, inactive] = seperateActive(deducts);
+
+  useEffect(() => {
+    dispatch(setInsights(getInsights()));
+  }, [active.length, inactive.length]);
 
   return (
     <div>

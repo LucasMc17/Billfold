@@ -5,9 +5,12 @@ import useFormatters from './custom_hooks/useFormatters';
 import { deleteExpense, fetchAllExpenses } from '../store';
 import { Link } from 'react-router-dom';
 import NewMonthlyForm from './NewMonthlyForm';
+import getInsightGrabber from './custom_hooks/getInsights';
+import { setInsights } from '../store';
 
 export default function EditMonthlyExpenses() {
   const data = useData();
+  const getInsights = getInsightGrabber();
   const { monthlyNet } = data;
   const dispatch = useDispatch();
   const expenses = useSelector((state) => state.allExpenses);
@@ -17,11 +20,11 @@ export default function EditMonthlyExpenses() {
     dispatch(deleteExpense(ex));
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchAllExpenses());
-  // }, []);
-
   const [active, inactive] = seperateActive(expenses);
+
+  useEffect(() => {
+    dispatch(setInsights(getInsights()));
+  }, [active.length, inactive.length]);
 
   return (
     <div>

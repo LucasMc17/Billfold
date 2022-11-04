@@ -5,10 +5,13 @@ import useFormatters from './custom_hooks/useFormatters';
 import { deleteCategory, fetchAllCategories } from '../store';
 import { Link } from 'react-router-dom';
 import NewCategoryForm from './NewCategoryForm';
+import getInsightGrabber from './custom_hooks/getInsights';
+import { setInsights } from '../store';
 
 export default function EditFlexibleCategories() {
   const data = useData();
   const { afterFixedCats } = data;
+  const getInsights = getInsightGrabber();
   const dispatch = useDispatch();
   const categories = useSelector((state) =>
     state.allCategories.filter((cat) => cat.rule === 'PERCENT')
@@ -19,11 +22,11 @@ export default function EditFlexibleCategories() {
     dispatch(deleteCategory(cat));
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchAllCategories());
-  // }, []);
-
   const [active, inactive] = seperateActive(categories);
+
+  useEffect(() => {
+    dispatch(setInsights(getInsights()));
+  }, [active.length, inactive.length]);
 
   return (
     <div>

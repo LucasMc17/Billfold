@@ -4,9 +4,12 @@ import useFormatters from './custom_hooks/useFormatters';
 import { deleteCategory, fetchAllCategories } from '../store';
 import { Link } from 'react-router-dom';
 import NewCategoryForm from './NewCategoryForm';
+import getInsightGrabber from './custom_hooks/getInsights';
+import { setInsights } from '../store';
 
 export default function EditFixedCategories() {
   const dispatch = useDispatch();
+  const getInsights = getInsightGrabber();
   const categories = useSelector((state) =>
     state.allCategories.filter((cat) => cat.rule === 'FIXED')
   );
@@ -17,6 +20,10 @@ export default function EditFixedCategories() {
   };
 
   const [active, inactive] = seperateActive(categories);
+
+  useEffect(() => {
+    dispatch(setInsights(getInsights()));
+  }, [active.length, inactive.length]);
 
   return (
     <div>

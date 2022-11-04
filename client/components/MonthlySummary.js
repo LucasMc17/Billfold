@@ -9,6 +9,9 @@ import DailyExpense from './DailyExpense';
 import { Link } from 'react-router-dom';
 import { fetchMonthChartData, monthSetLoading } from '../store';
 
+import getInsightGrabber from './custom_hooks/getInsights';
+import { setInsights } from '../store';
+
 import { Chart } from 'react-chartjs-2';
 import {
   BarElement,
@@ -47,6 +50,8 @@ const monthTable = {
 
 export default function MonthlySummary() {
   const dispatch = useDispatch();
+
+  const getInsights = getInsightGrabber();
   const [reactChartData, setReactChartData] = useState([
     {
       labels: ['Total'],
@@ -152,6 +157,10 @@ export default function MonthlySummary() {
   useEffect(() => {
     setDate(new Date(year, month - 1, 15));
   }, [year, month]);
+
+  useEffect(() => {
+    dispatch(setInsights(getInsights()));
+  }, [dailyExpenses]);
 
   return (
     <div>

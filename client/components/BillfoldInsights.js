@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Insight from './Insight';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import getInsightGrabber from './custom_hooks/getInsights';
+import { setInsights } from '../store';
 
 export default function BillfoldInsights() {
+  const dispatch = useDispatch();
+  const getInsights = getInsightGrabber();
+  useEffect(() => {
+    dispatch(setInsights(getInsights()));
+  }, []);
   const insights = useSelector((state) => state.insights);
   return (
     <>

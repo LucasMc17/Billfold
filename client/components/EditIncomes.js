@@ -5,9 +5,12 @@ import useFormatters from './custom_hooks/useFormatters';
 import { deleteIncome, fetchAllIncomes } from '../store';
 import { Link } from 'react-router-dom';
 import NewIncomeForm from './NewIncomeForm';
+import getInsightGrabber from './custom_hooks/getInsights';
+import { setInsights } from '../store';
 
 export default function EditIncomes() {
   const dispatch = useDispatch();
+  const getInsights = getInsightGrabber();
   const incomes = useSelector((state) => state.allIncomes);
   const { dollarFormat, seperateActive } = useFormatters();
 
@@ -15,11 +18,11 @@ export default function EditIncomes() {
     dispatch(deleteIncome(inc));
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchAllIncomes());
-  // }, []);
-
   const [active, inactive] = seperateActive(incomes);
+
+  useEffect(() => {
+    dispatch(setInsights(getInsights()));
+  }, [active.length, inactive.length]);
 
   return (
     <div>
