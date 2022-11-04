@@ -63,11 +63,8 @@ export default function MyInfo() {
   });
 
   const handleHover = (e) => {
-    console.log(chartRef);
     const currentSlice = getElementAtEvent(chartRef.current, e)[0];
-    console.log(currentSlice);
     const list = [...deducts, ...expenses, ...fixedCats, ...unfixedCats];
-    console.log(list[currentSlice.index]);
     setState({
       name: list[currentSlice.index].name,
       perYear: currentSlice.element.$context.parsed,

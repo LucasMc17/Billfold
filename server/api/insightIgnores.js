@@ -26,9 +26,7 @@ router.get('/', requireToken, async (req, res, next) => {
     const ignores = await InsightIgnore.findAll({
       where: { userId: req.user.id },
     });
-    console.log(ignores);
     const [toSend, toDel] = seperateOld(ignores);
-    console.log(toSend, toDel);
     await InsightIgnore.destroy({
       where: {
         id: {

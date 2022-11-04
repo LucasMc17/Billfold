@@ -71,9 +71,6 @@ export default function EditSingleYearlyExpense() {
 
   const error = de.changeDate < new Date(de.startYear, de.startMonth - 1);
 
-  console.log(new Date(de.startYear, de.startMonth - 1));
-  console.log(de.changeDate);
-
   return (
     <div>
       <h1>Edit this Yearly Expense</h1>

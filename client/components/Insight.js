@@ -7,7 +7,6 @@ const currMonth = new Date().getMonth();
 export default function Insight(props) {
   const dispatch = useDispatch();
   const { data } = props;
-  console.log(currMonth);
   const [detailed, setDetailed] = useState(false);
   const { dollarFormat, fixedDec } = useFormatters();
 

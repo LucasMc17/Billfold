@@ -33,7 +33,6 @@ router.get(
         startMonth = 12;
         startYear--;
       }
-      console.log(startMonth);
       endYear = Number(endYear);
       endMonth = Number(endMonth);
       const result = { spents: [], budgets: [], labels: [] };

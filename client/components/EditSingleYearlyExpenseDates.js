@@ -41,7 +41,6 @@ export default function EditSingleYearlyExpenseDates() {
 
   const handleChange = (evt) => {
     const { value, name } = evt.target;
-    console.log(de);
     if (name === 'start') {
       if (value) {
         setDe({

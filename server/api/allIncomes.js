@@ -59,7 +59,6 @@ router.put('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
     const income = await Income.findByPk(id);
-    console.log(income);
     if (req.body.changeDate) {
       const changeDate = new Date(req.body.changeDate);
       const month = changeDate.getMonth();

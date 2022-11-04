@@ -149,7 +149,6 @@ export default function HomeChart({ year, month, afterExpenses }) {
   function handleDateRangeChange(evt) {
     let { name, value } = evt.target;
     value = new Date(value);
-    console.log(name, value);
     value.setDate(value.getDate() + 15);
     const newVal = new Date(value);
     if (name === 'start') {
