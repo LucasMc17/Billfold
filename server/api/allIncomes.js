@@ -63,7 +63,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
       const changeDate = new Date(req.body.changeDate);
       const month = changeDate.getMonth();
       const year = changeDate.getFullYear();
-      if (income.startMoth === month + 1 && income.startYear === year) {
+      if (income.startMonth === month + 1 && income.startYear === year) {
         await income.update(req.body);
         res.json([income, null]);
       } else {
