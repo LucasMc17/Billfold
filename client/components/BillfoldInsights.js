@@ -12,12 +12,13 @@ export default function BillfoldInsights() {
     dispatch(setInsights(getInsights()));
   }, []);
   const insights = useSelector((state) => state.insights);
+  const { recommendations } = insights;
 
-  const overspents = insights.filter(
+  const overspents = recommendations.filter(
     (insight) => insight.suggestion === 'OVERSPENT'
   );
 
-  const underspents = insights.filter(
+  const underspents = recommendations.filter(
     (insight) => insight.suggestion === 'UNDERSPENT'
   );
 
@@ -55,7 +56,7 @@ export default function BillfoldInsights() {
       ) : (
         <></>
       )}
-      {insights.length ? (
+      {recommendations.length ? (
         <></>
       ) : (
         <h2>

@@ -141,7 +141,8 @@ export default function getInsights() {
     (cat) => today.getTime() - new Date(cat.startDate).getTime() > 7776000000
   );
   const masterFunction = () => {
-    const result = formatInsights(
+    const result = {};
+    result.recommendations = formatInsights(
       extantCategories.map((cat) => getData(cat, dailies))
     );
     if (!extantCategories.length) {

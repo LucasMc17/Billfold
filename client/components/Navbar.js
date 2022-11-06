@@ -66,7 +66,7 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => (
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
-    insights: state.insights,
+    insights: state.insights.recommendations,
   };
 };
 
