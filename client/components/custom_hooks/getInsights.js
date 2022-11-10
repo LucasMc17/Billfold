@@ -87,15 +87,23 @@ export default function getInsights() {
       budgetPerMonth: cat.amount || cat.percent,
     };
     return {
+      date: cat.startDate,
       name: cat.name,
       lastMonths,
       averages,
       monthsActive,
+      avg:
+        (lastMonths.reduce((acc, month) => acc + month.ratio, 0) /
+          lastMonths.length) *
+        100,
     };
   }
 
   function formatInsights(array) {
-    array.forEach((item) => {
+    const insights = array.filter(
+      (cat) => today.getTime() - new Date(cat.date).getTime() > 7776000000
+    );
+    insights.forEach((item) => {
       item.id = uid();
       let suggestion;
       if (item.lastMonths[0].ratio <= 0.85) {
@@ -127,7 +135,7 @@ export default function getInsights() {
         }
       }
     });
-    const result = array.filter((item) => item.lastMonths.length >= 3);
+    const result = insights.filter((item) => item.lastMonths.length >= 3);
 
     return result.filter(
       (ins) =>
@@ -142,9 +150,9 @@ export default function getInsights() {
   );
   const masterFunction = () => {
     const result = {};
-    result.recommendations = formatInsights(
-      extantCategories.map((cat) => getData(cat, dailies))
-    );
+    const fullData = categories.map((cat) => getData(cat, dailies));
+    result.recommendations = formatInsights(fullData);
+    result.averages = fullData;
     if (!extantCategories.length) {
       result.alert = 'NO EXTANT';
     }
