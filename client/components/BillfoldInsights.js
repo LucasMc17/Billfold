@@ -74,12 +74,28 @@ export default function BillfoldInsights() {
         )}
       </div>
       <div id="averages">
-        {insights.averages.map((avg) => (
-          <div>
-            <h2>{avg.name}</h2>
-            <h3>{fixedDec(avg.avg)}</h3>
-          </div>
-        ))}
+        <p>
+          These are your spending averages for all of your active categories.
+        </p>
+        <div id="average-box">
+          {insights.averages.map((avg) => (
+            <div
+              className={`cat-average${
+                avg.avg > 100
+                  ? ' over-average'
+                  : avg.avg <= 95
+                  ? ' under-average'
+                  : ''
+              }`}
+            >
+              <h2>{avg.name}</h2>
+              <h4>Months Active</h4>
+              <h3>{avg.monthsActive}</h3>
+              <h4>Average Percentage Spent</h4>
+              <h3>{fixedDec(avg.avg)}%</h3>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

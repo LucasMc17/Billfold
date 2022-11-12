@@ -150,7 +150,9 @@ export default function getInsights() {
   );
   const masterFunction = () => {
     const result = {};
-    const fullData = categories.map((cat) => getData(cat, dailies));
+    const fullData = categories
+      .map((cat) => getData(cat, dailies))
+      .filter((cat) => cat.monthsActive > 0);
     result.recommendations = formatInsights(fullData);
     result.averages = fullData;
     if (!extantCategories.length) {
