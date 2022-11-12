@@ -901,6 +901,6 @@ button:hover {
 }
 
 .cat-average.over-average {
-  border-color: #93e9be;
+  border-color: #fc9797;
   background-image: linear-gradient(to bottom, white, #fc9797);
 }
