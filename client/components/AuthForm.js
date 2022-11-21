@@ -13,7 +13,7 @@ const AuthForm = (props) => {
   return (
     <div id="login">
       <div id="logo-container">
-        <Logo />
+        <img src="/logo.png" id="main-logo" />
         <h1>illfold</h1>
       </div>
       <div className="form loginForm">

@@ -420,15 +420,10 @@ form>div {
   transition: opacity 500ms;
 }
 
-#logo-container svg {
-  animation: 2s ease-out 0s 1 fadeInAndRiseScootLeft;
-}
-
 #logo-container h1 {
-  display: flex;
   color: #93e9be;
-  margin: 100px 0px auto -10px;
-  font-size: 60px;
+  margin: 7vw 0 0 -1vw;
+  font-size: 5vw;
   animation: 2s ease-out 0s 1 fadeIn;
 }
 
@@ -958,6 +953,12 @@ button:hover {
   font-size: 22px;
 }
 
+#main-logo {
+  width: 15vw;
+  height: 15vw;
+  animation: 2s ease-out 0s 1 fadeInAndRiseScootLeft;
+}
+
 @media only screen and (max-width: 480px) {
   #nav svg {
     height: 75px;
@@ -980,5 +981,20 @@ button:hover {
 
   #page {
     margin-top: 95px;
+  }
+
+  #login {
+    width: 80%;
+    margin: -30px auto 25px auto;
+  }
+
+  #main-logo {
+    width: 30vw;
+    height: 30vw;
+  }
+
+  #logo-container h1 {
+    margin: 14vw 0 0 -2vw;
+    font-size: 10vw;
   }
 }
