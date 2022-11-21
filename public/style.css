@@ -45,7 +45,7 @@ nav {
 }
 
 .insight-button {
-  display: flex;
+  display: flex !important;
   gap: 6px
 }
 
@@ -402,6 +402,15 @@ form>div {
   100% {
     opacity: 100%;
     transform: translate(0%, 0%);
+  }
+}
+
+@keyframes navOpen {
+  0% {
+    height: 0vh;
+  }
+  100% {
+    height: calc(100vh - 96.5px);
   }
 }
 
@@ -911,6 +920,42 @@ button:hover {
 #nav-hamburger {
   height: 50px;
   margin: 12.5px;
+}
+
+#mobile-nav {
+  position: fixed;
+  top: 75px;
+  background-color: #93e9be;
+  width: 100vw;
+  height: calc(100vh - 96.5px);
+  z-index: 1;
+  animation: 0.5s ease-out 0s 1 navOpen;
+}
+
+.mobile-nav-button {
+  display: block;
+  width: 70vw;
+  margin: 5px 15vw 0 15vw;
+  text-align: center;
+  font-size: 22px;
+  border-top: 2px solid white;
+  color: white;
+  font-weight: bold;
+  padding: 3vh 0 3vh 0;
+}
+
+.mobile-nav-button.insight-button {
+  justify-content: center;
+}
+
+.mobile-nav-button.insight-button>div {
+  height: 22px;
+  width: 22px;
+  min-width: 22px;
+}
+
+.mobile-nav-button.insight-button>div>h3 {
+  font-size: 22px;
 }
 
 @media only screen and (max-width: 480px) {
