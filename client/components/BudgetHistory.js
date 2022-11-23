@@ -9,9 +9,13 @@ import {
 } from '../store';
 import { useParams, Link } from 'react-router-dom';
 import useFormatters from './custom_hooks/useFormatters';
+import useWindowSize from './custom_hooks/useWindowSize';
 const { condenseTracks } = useFormatters();
 
 export default function BudgetHistory() {
+  const { dynamicWidth } = useWindowSize();
+  const monthCutoff =
+    dynamicWidth > 1000 ? Infinity : dynamicWidth > 480 ? 3 : 1;
   const { year } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -73,18 +77,18 @@ export default function BudgetHistory() {
       <table className="history-section">
         <thead>
           <tr>
-            <th>January</th>
-            <th>February</th>
-            <th>March</th>
-            <th>April</th>
-            <th>May</th>
-            <th>June</th>
-            <th>July</th>
-            <th>August</th>
-            <th>September</th>
-            <th>October</th>
-            <th>November</th>
-            <th>December</th>
+            <th>{'January'.slice(0, monthCutoff)}</th>
+            <th>{'February'.slice(0, monthCutoff)}</th>
+            <th>{'March'.slice(0, monthCutoff)}</th>
+            <th>{'April'.slice(0, monthCutoff)}</th>
+            <th>{'May'.slice(0, monthCutoff)}</th>
+            <th>{'June'.slice(0, monthCutoff)}</th>
+            <th>{'July'.slice(0, monthCutoff)}</th>
+            <th>{'August'.slice(0, monthCutoff)}</th>
+            <th>{'September'.slice(0, monthCutoff)}</th>
+            <th>{'October'.slice(0, monthCutoff)}</th>
+            <th>{'November'.slice(0, monthCutoff)}</th>
+            <th>{'December'.slice(0, monthCutoff)}</th>
           </tr>
           <tr>
             <th colspan="12">INCOMES</th>

@@ -8,7 +8,7 @@ import useWindowSize from './custom_hooks/useWindowSize';
 const Navbar = ({ handleClick, isLoggedIn, insights }) => {
   const { dynamicWidth } = useWindowSize();
 
-  const [navOpen, toggleNav] = useState(false);
+  const [navOpen, toggleNav] = useState('unopened');
   console.log(navOpen);
   return (
     <div>
@@ -22,7 +22,7 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
               </div>
             </Link>
             <nav>
-              {dynamicWidth > 481 ? (
+              {dynamicWidth > 1001 ? (
                 <div id="links">
                   <div>
                     <Link className="nav-button" to="/myinfo">
@@ -64,13 +64,26 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
                 <img
                   id="nav-hamburger"
                   src="/hamburger.png"
-                  onClick={() => toggleNav(!navOpen)}
+                  onClick={() =>
+                    toggleNav(
+                      navOpen === 'unopened' ? true : navOpen ? false : true
+                    )
+                  }
                 />
               )}
             </nav>
           </div>
-          {navOpen ? (
-            <div id="mobile-nav">
+          <div
+            id="mobile-nav"
+            className={
+              navOpen === 'unopened'
+                ? 'unopened-nav'
+                : navOpen
+                ? 'open-nav'
+                : 'closed-nav'
+            }
+          >
+            <div>
               <Link
                 className="mobile-nav-button"
                 to="/myinfo"
@@ -131,9 +144,7 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
                 Logout
               </Link>
             </div>
-          ) : (
-            <></>
-          )}
+          </div>
         </>
       ) : (
         ''

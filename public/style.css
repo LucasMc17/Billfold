@@ -414,6 +414,15 @@ form>div {
   }
 }
 
+@keyframes navClose {
+  0% {
+    height: calc(100vh - 96.5px);;
+  }
+  100% {
+    height: 0%;
+  }
+}
+
 #logo-container {
   margin-top: 30%;
   display: flex;
@@ -438,6 +447,7 @@ form>div {
   padding: 20px;
   margin-top: 20px;
 }
+
 .form.add-daily-form {
   width: 80%;
   margin: auto;
@@ -449,6 +459,7 @@ form>div {
   margin: auto;
   width: 35%;
 }
+
 .add-daily-form form {
   margin: auto;
   width: 50%;
@@ -922,9 +933,32 @@ button:hover {
   top: 75px;
   background-color: #93e9be;
   width: 100vw;
-  height: calc(100vh - 96.5px);
   z-index: 1;
+}
+
+#mobile-nav.open-nav {
   animation: 0.5s ease-out 0s 1 navOpen;
+  height: calc(100vh - 96.5px);
+}
+
+#mobile-nav.closed-nav, #mobile-nav.unopened-nav {
+  height: 0px;
+}
+
+#mobile-nav.closed-nav {
+  animation: 0.5s ease-out 0s 1 navClose;
+}
+
+.closed-nav .mobile-nav-button, .unopened-nav .mobile-nav-button {
+  display: none !important;
+}
+
+#mobile-nav>div {
+  margin-top: 7vh;
+}
+
+.open-nav .mobile-nav-button {
+  animation: 0.4s ease-out 0s 1 fadeIn;
 }
 
 .mobile-nav-button {
@@ -959,7 +993,43 @@ button:hover {
   animation: 2s ease-out 0s 1 fadeInAndRiseScootLeft;
 }
 
+@media only screen and (max-width: 1000px) and (min-width: 481px) {
+  .mobile-nav-button {
+    margin: 5px 15vw 0 15vw;
+    font-size: 20px;
+    padding: 1vh 0 1vh 0;
+  }
+
+  #nav svg {
+    height: 75px;
+    width: 75px;
+  }
+
+  #name {
+    height: 50px;
+    margin: 12.5px 0 12.5px 0;
+  }
+
+  #nav {
+    height: 75px;
+  }
+
+  #nav nav {
+    display: flex;
+    justify-content: right;
+  }
+
+  #page {
+    margin-top: 95px;
+  }
+
+  #mobile-nav>div {
+    margin-top: 3vh;
+  }
+}
+
 @media only screen and (max-width: 480px) {
+
   #nav svg {
     height: 75px;
     width: 75px;
@@ -996,5 +1066,28 @@ button:hover {
   #logo-container h1 {
     margin: 14vw 0 0 -2vw;
     font-size: 10vw;
+  }
+
+  .form.add-daily-form {
+    flex-direction: column;
+  }
+
+  .add-daily-form h1 {
+    width: 85%;
+  }
+
+  /* .month-chart {
+    padding: 3vh 5vw;
+    gap: 3% 3%;
+  } */
+
+  .month {
+    flex: 0 0 calc(48.5% - 8px);
+    font-size: 15px;
+    /* margin-bottom: 3vh; */
+  }
+
+  #bulk-upload, #bulk-export {
+    width: 93%;
   }
 }
