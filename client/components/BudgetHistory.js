@@ -74,6 +74,13 @@ export default function BudgetHistory() {
           <h1 className="arrow">{'>>'}</h1>
         </Link>
       </div>
+      {dynamicWidth < 481 ? (
+        <p id="landscape-alert">
+          Psst, this screen looks better in landscape mode!
+        </p>
+      ) : (
+        <></>
+      )}
       <table className="history-section">
         <thead>
           <tr>

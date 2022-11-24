@@ -423,6 +423,11 @@ form>div {
   }
 }
 
+#landscape-alert {
+  width: 100%;
+  text-align: center;
+}
+
 #logo-container {
   margin-top: 30%;
   display: flex;
@@ -842,8 +847,14 @@ button:hover {
 }
 
 .insight-headline>img {
-  width: 5vw;
-  height: 5vw;
+  width: 62px;
+  height: 62px;
+}
+
+.insight-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 #overspents {
@@ -961,18 +972,6 @@ button:hover {
   animation: 0.4s ease-out 0s 1 fadeIn;
 }
 
-.mobile-nav-button {
-  display: block;
-  width: 70vw;
-  margin: 5px 15vw 0 15vw;
-  text-align: center;
-  font-size: 22px;
-  border-top: 2px solid white;
-  color: white;
-  font-weight: bold;
-  padding: 3vh 0 3vh 0;
-}
-
 .mobile-nav-button.insight-button {
   justify-content: center;
 }
@@ -993,11 +992,53 @@ button:hover {
   animation: 2s ease-out 0s 1 fadeInAndRiseScootLeft;
 }
 
-@media only screen and (max-width: 1000px) and (min-width: 481px) {
+.insight-buttons {
+  display: flex;
+  position: relative;
+}
+
+.question {
+  width: 20px;
+  height: 20px;
+  color: gray;
+  border: 3px solid gray;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.mobile-nav-button {
+  display: block;
+  width: 70vw;
+  text-align: center;
+  border-top: 2px solid white;
+  color: white;
+  font-weight: bold;
+}
+
+.explanation {
+  position: absolute;
+  top: 100%;
+  right: 0px;
+  background-color: gray;
+  color: white;
+  width: max-content;
+  padding: 2px;
+  border-radius: 2px;
+}
+
+@media only screen and (max-width: 1000px) {
   .mobile-nav-button {
     margin: 5px 15vw 0 15vw;
     font-size: 20px;
     padding: 1vh 0 1vh 0;
+  }
+
+  .cat-average{
+    flex: 0 0 calc(33.33333% - 16px);
+  }
+
+  .question {
+    display: none;
   }
 
   #nav svg {
@@ -1026,68 +1067,114 @@ button:hover {
   #mobile-nav>div {
     margin-top: 3vh;
   }
-}
-
-@media only screen and (max-width: 480px) {
-
-  #nav svg {
-    height: 75px;
-    width: 75px;
-  }
-
-  #name {
-    height: 50px;
-    margin: 12.5px 0 12.5px 0;
-  }
-
-  #nav {
-    height: 75px;
-  }
-
-  #nav nav {
-    display: flex;
-    justify-content: right;
-  }
-
-  #page {
-    margin-top: 95px;
-  }
 
   #login {
     width: 80%;
-    margin: -30px auto 25px auto;
+    margin: -150px auto 25px auto;
   }
 
-  #main-logo {
-    width: 30vw;
-    height: 30vw;
+  .user-items div {
+    flex: 1 0 25%;
   }
-
-  #logo-container h1 {
-    margin: 14vw 0 0 -2vw;
-    font-size: 10vw;
-  }
-
-  .form.add-daily-form {
-    flex-direction: column;
-  }
-
-  .add-daily-form h1 {
-    width: 85%;
-  }
-
-  /* .month-chart {
-    padding: 3vh 5vw;
-    gap: 3% 3%;
-  } */
 
   .month {
-    flex: 0 0 calc(48.5% - 8px);
+    flex: 0 0 calc(31.33333% - 8px);
     font-size: 15px;
     /* margin-bottom: 3vh; */
   }
 
-  #bulk-upload, #bulk-export {
-    width: 93%;
+  .summary {
+    flex: 1 0 30%;
+  }
+
+  @media only screen and (max-width: 480px) {
+    .mobile-nav-button {
+      display: block;
+      width: 70vw;
+      margin: 5px 15vw 0 15vw;
+      text-align: center;
+      font-size: 22px;
+      border-top: 2px solid white;
+      color: white;
+      font-weight: bold;
+      padding: 3vh 0 3vh 0;
+    }
+
+    .summary {
+      flex: 1 0 40%;
+    }
+
+  .user-items div {
+    flex: 1 0 35%;
+  }
+
+    #nav svg {
+      height: 75px;
+      width: 75px;
+    }
+
+    #name {
+      height: 50px;
+      margin: 12.5px 0 12.5px 0;
+    }
+
+    #nav {
+      height: 75px;
+    }
+
+    #nav nav {
+      display: flex;
+      justify-content: right;
+    }
+
+    #page {
+      margin-top: 95px;
+    }
+
+    #login {
+      margin: -30px auto 25px auto;
+    }
+
+    #main-logo {
+      width: 30vw;
+      height: 30vw;
+    }
+
+    #logo-container h1 {
+      margin: 14vw 0 0 -2vw;
+      font-size: 10vw;
+    }
+
+    .form.add-daily-form {
+      flex-direction: column;
+    }
+
+    .add-daily-form h1 {
+      width: 85%;
+    }
+
+    /* .month-chart {
+      padding: 3vh 5vw;
+      gap: 3% 3%;
+    } */
+
+    .month {
+      flex: 0 0 calc(48.5% - 8px);
+      font-size: 15px;
+      /* margin-bottom: 3vh; */
+    }
+
+    #bulk-upload, #bulk-export {
+      width: 93%;
+    }
+
+    .insight-flex {
+      flex-direction: column;
+    }
+
+    .cat-average{
+      flex: 0 0 calc(50% - 16px);
+    }
   }
 }
+

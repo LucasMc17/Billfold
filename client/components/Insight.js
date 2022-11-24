@@ -8,6 +8,7 @@ export default function Insight(props) {
   const dispatch = useDispatch();
   const { data } = props;
   const [detailed, setDetailed] = useState(false);
+  const [explaining, setExplaining] = useState(false);
   const { dollarFormat, fixedDec } = useFormatters();
 
   function handleIgnore(ins) {
@@ -40,22 +41,41 @@ export default function Insight(props) {
     <div
       className={data.suggestion === 'OVERSPENT' ? 'overspent' : 'underspent'}
     >
-      <div className="insight-headline">
-        <img
-          src={
-            data.suggestion === 'OVERSPENT'
-              ? '/up-insight.png'
-              : '/down-insight.png'
-          }
-        />
-        <h2>
-          You've {data.suggestion === 'OVERSPENT' ? 'overspent' : 'underspent'}{' '}
-          on {data.name} for the past {data.lastMonths.length} months!
-        </h2>
-        <button onClick={() => setDetailed((prevDetailed) => !prevDetailed)}>
-          {detailed ? 'HIDE DETAILS' : 'SHOW DETAILS'}
-        </button>
-        <button onClick={() => handleIgnore(data)}>IGNORE</button>
+      <div className="insight-flex">
+        <div className="insight-headline">
+          <img
+            src={
+              data.suggestion === 'OVERSPENT'
+                ? '/up-insight.png'
+                : '/down-insight.png'
+            }
+          />
+          <h2>
+            You've{' '}
+            {data.suggestion === 'OVERSPENT' ? 'overspent' : 'underspent'} on{' '}
+            {data.name} for the past {data.lastMonths.length} months!
+          </h2>
+        </div>
+        <div className="insight-buttons">
+          <button onClick={() => setDetailed((prevDetailed) => !prevDetailed)}>
+            {detailed ? 'HIDE DETAILS' : 'SHOW DETAILS'}
+          </button>
+          <button onClick={() => handleIgnore(data)}>IGNORE</button>
+          <div
+            className="question"
+            onMouseOver={() => setExplaining(true)}
+            onMouseOut={() => setExplaining(false)}
+          >
+            ?
+          </div>
+          {explaining ? (
+            <div className="explanation">
+              Clicking 'ignore' will block this insight for one month
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
       {detailed ? (
         <div>
