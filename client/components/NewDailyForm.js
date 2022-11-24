@@ -62,6 +62,7 @@ export default function NewDailyForm(props) {
           name="amount"
           onChange={handleChange}
           type="number"
+          step="0.01"
           value={daily.amount}
         />
         <label htmlFor="date">Date: </label>
