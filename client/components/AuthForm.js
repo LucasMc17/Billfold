@@ -45,6 +45,16 @@ const AuthForm = (props) => {
             </label>
             <input name="username" type="text" />
           </div>
+          {displayName === 'Login' ? (
+            <></>
+          ) : (
+            <div>
+              <label htmlFor="income">
+                <small>Yearly Income</small>
+              </label>
+              <input name="income" type="number" />
+            </div>
+          )}
           <div>
             <label htmlFor="password">
               <small>Password</small>
@@ -91,7 +101,8 @@ const mapDispatch = (dispatch) => {
       const formName = evt.target.name;
       const username = evt.target.username.value;
       const password = evt.target.password.value;
-      dispatch(authenticate(username, password, formName));
+      const income = evt.target.income ? evt.target.income.value : null;
+      dispatch(authenticate(username, password, income, formName));
     },
   };
 };
