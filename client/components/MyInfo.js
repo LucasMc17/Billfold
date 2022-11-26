@@ -18,6 +18,7 @@ export default function MyInfo() {
   const dispatch = useDispatch();
   const { dollarFormat, fixedDec, seperateActive } = useFormatters();
   const data = useData();
+  const tut = useSelector((state) => state.showTutorial);
   // const incomes = seperateActive(useSelector((state) => state.allIncomes))[0];
   // const activeYearlies = seperateActive(
   //   useSelector((state) => state.allDeducts)
@@ -77,14 +78,19 @@ export default function MyInfo() {
     <div>
       <div className="user-story first">
         <h1>
-          Hi, my name is <span>{username}</span>
+          Hi, my name is <span>{tut ? 'John Doe' : username}</span>
         </h1>
         <Link to="/edit/basic-info">
           <button type="button">Edit My Username</button>
         </Link>
         <h1>Here are my sources of income:</h1>
         <div className="user-items">
-          {incomes.length ? (
+          {tut ? (
+            <div>
+              <h3>$60,000.00</h3>
+              <p>1/2021 onward</p>
+            </div>
+          ) : incomes.length ? (
             incomes.map((inc) => (
               <div key={inc.id}>
                 <h3>{dollarFormat(inc.amount)}</h3>
@@ -100,7 +106,9 @@ export default function MyInfo() {
             <h2>You don't have any incomes at the moment!</h2>
           )}
         </div>
-        <h1>That comes to {dollarFormat(income)} per year.</h1>
+        <h1>
+          That comes to {tut ? '$60,000.00' : dollarFormat(income)} per year.
+        </h1>
         <Link to="/edit/incomes">
           <button type="button">Edit My Incomes</button>
         </Link>
@@ -113,7 +121,20 @@ export default function MyInfo() {
           prior expenses
         </p>
         <div className="user-items">
-          {deducts.length ? (
+          {tut ? (
+            <>
+              <div>
+                <h3>Taxes</h3>
+                <p>15% of my earnings</p>
+                <p>1/2021 onward</p>
+              </div>
+              <div>
+                <h3>Pet Insurance</h3>
+                <p>$250.00</p>
+                <p>7/2021 onward</p>
+              </div>
+            </>
+          ) : deducts.length ? (
             deducts.map((de) => (
               <div key={de.id}>
                 <h3>{de.name}</h3>
@@ -137,8 +158,11 @@ export default function MyInfo() {
         </Link>
       </div>
       <div className="user-story">
-        <h1>After expenses, I make {dollarFormat(afterDeducts)} a year.</h1>
-        <h1>That's {dollarFormat(monthlyNet)} a month.</h1>
+        <h1>
+          After expenses, I make{' '}
+          {tut ? '$50,750.00' : dollarFormat(afterDeducts)} a year.
+        </h1>
+        <h1>That's {tut ? '$4,229.17' : dollarFormat(monthlyNet)} a month.</h1>
         <h1>These are my monthly expenses:</h1>
         <p>
           NOTE: these expenses are calculated in order, meaning a 10% deduction
@@ -147,7 +171,25 @@ export default function MyInfo() {
         </p>
       </div>
       <div className="user-items">
-        {expenses.length ? (
+        {tut ? (
+          <>
+            <div>
+              <h3>Savings</h3>
+              <p>25% of my monthly net</p>
+              <p>1/2021 onward</p>
+            </div>
+            <div>
+              <h3>Rent</h3>
+              <p>$900.00</p>
+              <p>1/2021 onward</p>
+            </div>
+            <div>
+              <h3>Movie streaming</h3>
+              <p>$15.00</p>
+              <p>3/2021 onward</p>
+            </div>
+          </>
+        ) : expenses.length ? (
           expenses.map((ex) => (
             <div key={ex.id}>
               <h3>{ex.name}</h3>
@@ -171,12 +213,26 @@ export default function MyInfo() {
       </Link>
       <div className="user-story">
         <h1>
-          After those expenses, I make {dollarFormat(afterExpenses)} a month.
+          After those expenses, I make{' '}
+          {tut ? '$2256.88' : dollarFormat(afterExpenses)} a month.
         </h1>
         <h1>These are my fixed spending categories each month:</h1>
       </div>
       <div className="user-items">
-        {fixedCats.length ? (
+        {tut ? (
+          <>
+            <div>
+              <h3>Laundry</h3>
+              <p>I want to spend at most $100.00 a month on this.</p>
+              <p>6/2021 onward</p>
+            </div>
+            <div>
+              <h3>Subway</h3>
+              <p>I want to spend at most $50.00 a month on this.</p>
+              <p>1/2021 onward</p>
+            </div>
+          </>
+        ) : fixedCats.length ? (
           fixedCats.map((cat) => (
             <div key={cat.id}>
               <h3>{cat.name}</h3>
@@ -199,12 +255,51 @@ export default function MyInfo() {
       </Link>
       <div className="user-story">
         <h1>
-          That leaves me with {dollarFormat(afterFixedCats)} for my flexible
-          spending categories:
+          That leaves me with {tut ? '$2,106.88' : dollarFormat(afterFixedCats)}{' '}
+          for my flexible spending categories:
         </h1>
       </div>
       <div className="user-items">
-        {unfixedCats.length ? (
+        {tut ? (
+          <>
+            <div>
+              <h3>Food</h3>
+              <p>
+                I aim to spend around 40% of my remaining money on this each
+                month.
+              </p>
+              <p>That means about $842.78.</p>
+              <p>1/2021 onward</p>
+            </div>
+            <div>
+              <h3>Fun</h3>
+              <p>
+                I aim to spend around 25% of my remaining money on this each
+                month.
+              </p>
+              <p>That means about $526.72.</p>
+              <p>1/2021 onward</p>
+            </div>
+            <div>
+              <h3>Home goods</h3>
+              <p>
+                I aim to spend around 20% of my remaining money on this each
+                month.
+              </p>
+              <p>That means about $421.38.</p>
+              <p>1/2021 onward</p>
+            </div>
+            <div>
+              <h3>Self care</h3>
+              <p>
+                I aim to spend around 15% of my remaining money on this each
+                month.
+              </p>
+              <p>That means about $316.03.</p>
+              <p>1/2021 onward</p>
+            </div>
+          </>
+        ) : unfixedCats.length ? (
           unfixedCats.map((cat) => (
             <div key={cat.id}>
               <h3>{cat.name}</h3>
@@ -224,7 +319,7 @@ export default function MyInfo() {
         ) : (
           <h2>You don't have any flexible spending categories yet!</h2>
         )}
-        {unassigned ? (
+        {unassigned && !tut ? (
           <div id="unassigned-cat">
             <h3>Unassigned</h3>
             <p>
@@ -280,37 +375,81 @@ export default function MyInfo() {
             type="pie"
             onClick={handleHover}
             ref={chartRef}
-            data={{
-              labels: [
-                ...deducts.map((de) => de.name),
-                ...expenses.map((ex) => ex.name),
-                ...fixedCats.map((cat) => cat.name),
-                ...unfixedCats.map((cat) => cat.name),
-              ],
-              datasets: [
-                {
-                  label: 'Dollars spent each year: ',
-                  data: [
-                    ...deducts.map((de) => de.amount || de.percent * income),
-                    ...expenses.map(
-                      (ex) => (ex.amount || ex.percent * monthlyNet) * 12
-                    ),
-                    ...fixedCats.map((cat) => cat.amount * 12),
-                    ...unfixedCats.map(
-                      (cat) => cat.percent * afterFixedCats * 12
-                    ),
-                  ],
-                  backgroundColor: [
-                    ...deducts.map((de) => '#01161E'),
-                    ...expenses.map((ex) => '#124559'),
-                    ...fixedCats.map((cat) => '#598392'),
-                    ...unfixedCats.map((cat) => '#AEC3B0'),
-                  ],
-                  borderColor: 'black',
-                  borderWidth: 3,
-                },
-              ],
-            }}
+            data={
+              tut
+                ? {
+                    labels: [
+                      'Taxes',
+                      'Pet Insurance',
+                      'Savings',
+                      'Rent',
+                      'Movie streaming',
+                      'Laundry',
+                      'Subway',
+                      'Food',
+                      'Fun',
+                      'Home goods',
+                      'Self care',
+                    ],
+                    datasets: [
+                      {
+                        label: 'Dollars spent each year: ',
+                        data: [
+                          9000, 250, 12687.51, 10800, 180, 1200, 600, 10113.36,
+                          6320.64, 5056.56, 3792.36,
+                        ],
+                        backgroundColor: [
+                          '#01161E',
+                          '#01161E',
+                          '#124559',
+                          '#124559',
+                          '#124559',
+                          '#598392',
+                          '#598392',
+                          '#AEC3B0',
+                          '#AEC3B0',
+                          '#AEC3B0',
+                          '#AEC3B0',
+                        ],
+                        borderColor: 'black',
+                        borderWidth: 3,
+                      },
+                    ],
+                  }
+                : {
+                    labels: [
+                      ...deducts.map((de) => de.name),
+                      ...expenses.map((ex) => ex.name),
+                      ...fixedCats.map((cat) => cat.name),
+                      ...unfixedCats.map((cat) => cat.name),
+                    ],
+                    datasets: [
+                      {
+                        label: 'Dollars spent each year: ',
+                        data: [
+                          ...deducts.map(
+                            (de) => de.amount || de.percent * income
+                          ),
+                          ...expenses.map(
+                            (ex) => (ex.amount || ex.percent * monthlyNet) * 12
+                          ),
+                          ...fixedCats.map((cat) => cat.amount * 12),
+                          ...unfixedCats.map(
+                            (cat) => cat.percent * afterFixedCats * 12
+                          ),
+                        ],
+                        backgroundColor: [
+                          ...deducts.map((de) => '#01161E'),
+                          ...expenses.map((ex) => '#124559'),
+                          ...fixedCats.map((cat) => '#598392'),
+                          ...unfixedCats.map((cat) => '#AEC3B0'),
+                        ],
+                        borderColor: 'black',
+                        borderWidth: 3,
+                      },
+                    ],
+                  }
+            }
           />
         </div>
       </div>
