@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { authenticate } from '../store';
+import { authenticate, setTutorial } from '../store';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 
@@ -102,6 +102,9 @@ const mapDispatch = (dispatch) => {
       const username = evt.target.username.value;
       const password = evt.target.password.value;
       const income = evt.target.income ? evt.target.income.value : null;
+      if (formName === 'signup') {
+        dispatch(setTutorial(1));
+      }
       dispatch(authenticate(username, password, income, formName));
     },
   };

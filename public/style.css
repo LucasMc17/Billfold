@@ -20,8 +20,58 @@ nav a {
   /* margin: 1em; */
 }
 
+#tut-skip {
+  position: absolute;
+  right: 0px;
+  bottom: 100px;
+  padding: 10px 25px 10px 10px;
+  border-radius: 15px 0 0 15px;
+  background-color: #93e9be;
+  color: white;
+}
+
 nav {
   width: 100%
+}
+
+#tutorial {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(128, 128, 128, 0.5);
+}
+
+#tut-panel {
+  position: absolute;
+  border: 3px solid #93e9be;
+  background-color: white;
+  text-align: center;
+}
+
+.slide-one {
+  top: 40vh;
+  left: 10vw;
+  width: calc(80vw - 6px);
+}
+
+.slide-two {
+  top: 95px;
+  left: 95px;
+}
+
+.tut-highlight {
+  border: 5px solid red;
+  position: absolute;
+  z-index: 2;
+}
+
+.my-info-light {
+  top: 20px;
+  left: 215px;
+  width: 100px;
+  height: 50px;
 }
 
 #links {

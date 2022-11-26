@@ -19,6 +19,7 @@ import allExpenses from './allExpenses';
 import singleIncome from './singleIncome';
 import insights from './insights';
 import insightIgnores from './insightIgnores';
+import showTutorial from './showTutorial';
 
 const reducer = combineReducers({
   auth,
@@ -38,6 +39,7 @@ const reducer = combineReducers({
   singleIncome,
   insights,
   insightIgnores,
+  showTutorial,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
@@ -62,3 +64,4 @@ export * from './allExpenses';
 export * from './singleIncome';
 export * from './insights';
 export * from './insightIgnores';
+export * from './showTutorial';
