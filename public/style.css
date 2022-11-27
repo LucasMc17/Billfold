@@ -68,6 +68,18 @@ nav {
   width: 60vw;
 }
 
+.slide-four, .slide-five {
+  right: 20px;
+  top: 20px;
+  width: 30vw;
+}
+
+.slide-six {
+  width: 40vw;
+  top: 60vh;
+  left: 30vw;
+}
+
 .tut-button {
   color: white;
   background-color: #93e9be;

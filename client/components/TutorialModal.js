@@ -99,7 +99,7 @@ export default function TutorialModal() {
             <h2
               className="tut-button"
               onClick={() => {
-                history.push('/edit/yearly-expenses');
+                history.push('/edit/monthly-expenses');
                 nextSlide();
               }}
             >
@@ -110,10 +110,79 @@ export default function TutorialModal() {
       ) : (
         <></>
       )}
+      {slide === 4 ? (
+        <div id="tut-panel" className="slide-four">
+          <h2>Creating/editing expenses and categories</h2>
+          <p>
+            When you begin to edit any of these fields, you will see three
+            things: a form to add a new item, a list of your currently active
+            items, and a list of all your inactive items. These are any budget
+            items whose end date has already passed, or whose start date is in
+            the future. Here we can see that this user used to have a gym
+            membership and a less expensive streaming service
+          </p>
+          <h2 className="tut-button" onClick={nextSlide}>
+            Move on
+          </h2>
+        </div>
+      ) : (
+        <></>
+      )}
+      {slide === 5 ? (
+        <div id="tut-panel" className="slide-five">
+          <h2>Creating/editing expenses and categories</h2>
+          <p>
+            There are three buttons on each item, one to edit the details of the
+            expense, one to edit the date range for which it is active, and one
+            to delete the expense entirely.
+          </p>
+          <p>
+            <b>NOTE:</b> be very certain before deleting an item, as this will
+            remove it from your entire budget history. If an expense is no
+            longer relevant, it's usually best to give it an end date, rather
+            than retroactively deleting it from your budget
+          </p>
+          <h2
+            className="tut-button"
+            onClick={() => {
+              history.push('/edit/monthly-expenses/0');
+              nextSlide();
+            }}
+          >
+            Move on
+          </h2>
+        </div>
+      ) : (
+        <></>
+      )}
+      {slide === 6 ? (
+        <div id="tut-panel" className="slide-six">
+          <h2>Editing an item's details</h2>
+          <p>
+            From this screen, you can edit the name and amount/percentage of a
+            given budget item. You can also choose when the change goes into
+            effect. If you set the change to go into effect on the same month
+            that the initial item starts, it will overwrite the initial item for
+            it's entire period of effect
+          </p>
+          <h2
+            className="tut-button"
+            onClick={() => {
+              history.push('/edit/monthly-expenses/dates/0');
+              nextSlide();
+            }}
+          >
+            Move on
+          </h2>
+        </div>
+      ) : (
+        <></>
+      )}
       <h2
         id="tut-skip"
         onClick={() => {
           document.body.style.overflow = 'scroll';
+          history.push('/home');
           dispatch(setTutorial(false));
         }}
       >
