@@ -51,7 +51,7 @@ nav {
   padding: 5px;
 }
 
-.slide-one {
+.slide-one, .slide-nine {
   top: 40vh;
   left: 10vw;
   width: calc(80vw - 6px);
@@ -74,10 +74,29 @@ nav {
   width: 30vw;
 }
 
-.slide-six {
+.slide-six, .slide-seven {
   width: 40vw;
   top: 60vh;
   left: 30vw;
+}
+
+.slide-eight {
+  right: 20px;
+  top: 20px;
+  width: 20vw;
+}
+
+.tut-flag {
+  position: relative;
+  border: 3px solid red !important;
+}
+
+.tut-num {
+  color: red;
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  margin: 0;
 }
 
 .tut-button {
@@ -94,6 +113,7 @@ nav {
   border: 5px solid red;
   position: absolute;
   z-index: 2;
+  cursor: pointer;
 }
 
 .my-info-light {
@@ -101,6 +121,13 @@ nav {
   left: 215px;
   width: 100px;
   height: 50px;
+}
+
+.this-month-light {
+  left: 21.5vw;
+  top: 29.5vh;
+  height: 25px;
+  width: 120px;
 }
 
 #links {

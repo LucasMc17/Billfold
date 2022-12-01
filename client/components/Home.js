@@ -26,6 +26,7 @@ export default function Home() {
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
+  const tut = useSelector((state) => state.showTutorial);
 
   useEffect(() => {
     dispatch(fetchDailies());
@@ -64,7 +65,83 @@ export default function Home() {
     warning = `You're trending under budget so far this month!`;
   }
 
-  return (
+  return tut ? (
+    <div>
+      <div id="welcome">
+        <h1>Welcome back to Billfold, John Doe.</h1>
+        <div id="status" className="tut-flag">
+          <div id="exc">!</div>
+          <h2>You're roughly on track to hit your budget this month!</h2>
+          <h1 className="tut-num">1</h1>
+        </div>
+        <div id="home-links">
+          <Link className="nav-button" to={`/year/${year}/month/${month}`}>
+            This Month
+          </Link>
+          <Link
+            className="nav-button"
+            to={`/year/${lastMonthYear}/month/${lastMonth}`}
+          >
+            Last Month
+          </Link>
+          <Link className="nav-button" to={'/all-months'}>
+            All Months
+          </Link>
+        </div>
+      </div>
+      <div id="recent-purchases" className="tut-flag">
+        <h2>Recent purchases</h2>
+        <NewDailyForm />
+        <DailyExpense
+          daily={{
+            name: 'Dry cleaning',
+            amount: 35,
+            month: 12,
+            day: 1,
+            category: { name: 'Laundry' },
+          }}
+        />
+        <DailyExpense
+          daily={{
+            name: 'Subway home',
+            amount: 2.75,
+            month: 12,
+            day: 2,
+            category: { name: 'Subway' },
+          }}
+        />
+        <DailyExpense
+          daily={{
+            name: 'Movie',
+            amount: 15,
+            month: 12,
+            day: 3,
+            category: { name: 'Fun' },
+          }}
+        />
+        <DailyExpense
+          daily={{
+            name: 'Groceries',
+            amount: 40,
+            month: 12,
+            day: 4,
+            category: { name: 'Food' },
+          }}
+        />
+        <DailyExpense
+          daily={{
+            name: 'shampoo',
+            amount: 8,
+            month: 12,
+            day: 5,
+            category: { name: 'Self care' },
+          }}
+        />
+        <h1 className="tut-num">2</h1>
+      </div>
+      <HomeChart year={year} month={month} afterExpenses={afterExpenses} />
+    </div>
+  ) : (
     <div>
       <div id="welcome">
         <h1>Welcome back to Billfold, {username}.</h1>

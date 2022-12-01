@@ -27,6 +27,8 @@ export default function HomeChart({ year, month, afterExpenses }) {
   const rawData = useSelector((state) => state.homeChartData);
   const loading = useSelector((state) => state.loading.homeChart);
 
+  const tut = useSelector((state) => state.showTutorial);
+
   const dispatch = useDispatch();
   const [initStartYear, initStartMonth] = getMonthsAgo(
     new Date(year, month, 15),
@@ -169,7 +171,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
   window.now = new Date();
 
   return (
-    <div className="chart-container">
+    <div className={`chart-container${tut ? ' tut-flag' : ''}`}>
       <div id="home-chart-header">
         <h2>Your spending - visualized</h2>
         <h3>Change chart range</h3>
@@ -239,6 +241,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
           }}
         />
       </div>
+      {tut ? <h1 className="tut-num">3</h1> : <></>}
     </div>
   );
 }

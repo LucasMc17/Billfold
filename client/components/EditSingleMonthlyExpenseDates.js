@@ -10,6 +10,7 @@ export default function EditSingleYearlyExpenseDates() {
   const history = useHistory();
   const { id } = useParams();
   const expense = useSelector((state) => state.singleMonthlyExpense);
+  const tut = useSelector((state) => state.showTutorial);
 
   const [ex, setEx] = useState({
     name: '',
@@ -23,13 +24,17 @@ export default function EditSingleYearlyExpenseDates() {
   });
 
   useEffect(() => {
-    dispatch(fetchExpense(id));
+    if (id !== '0') {
+      dispatch(fetchExpense(id));
+    }
   }, []);
 
   useEffect(() => {
-    const keys = Object.keys(expense);
-    if (keys.length > 0) {
-      setEx({ ...expense, percent: expense.percent * 100 });
+    if (expense) {
+      const keys = Object.keys(expense);
+      if (keys.length > 0) {
+        setEx({ ...expense, percent: expense.percent * 100 });
+      }
     }
   }, [expense]);
 
@@ -86,36 +91,62 @@ export default function EditSingleYearlyExpenseDates() {
   return (
     <div>
       <h1>Edit this Monthly Expense</h1>
-      <h2>{ex.name}</h2>
-      <h2>{ex.amount ? dollarFormat(ex.amount) : `${ex.percent}%`}</h2>
-      <form onSubmit={handleSubmit}>
-        <p>
-          Active from the start of{' '}
-          <input
-            type="month"
-            name="start"
-            value={`${ex.startYear}-${String(ex.startMonth).padStart(2, '0')}`}
-            onChange={handleChange}
-          ></input>
-        </p>
-        <p>
-          Active until the start of{' '}
-          <input
-            type="month"
-            value={
-              ex.endYear
-                ? `${ex.endYear}-${String(ex.endMonth).padStart(2, '0')}`
-                : ''
-            }
-            onChange={handleChange}
-          ></input>{' '}
-          (leave blank if ongoing)
-        </p>
-        <button disabled={error} type="submit">
-          Save Changes
-        </button>
-      </form>
-      <h1>{error ? 'NO WAY JOSE' : ''}</h1>
+      {tut ? (
+        <>
+          <h2>Savings</h2>
+          <h2>25%</h2>
+        </>
+      ) : (
+        <>
+          <h2>{ex.name}</h2>
+          <h2>{ex.amount ? dollarFormat(ex.amount) : `${ex.percent}%`}</h2>
+        </>
+      )}
+      {tut ? (
+        <form>
+          <p>
+            Active from the start of{' '}
+            <input type="month" name="start" value="2021-01"></input>
+          </p>
+          <p>
+            Active until the start of <input type="month" value=""></input>{' '}
+            (leave blank if ongoing)
+          </p>
+          <button type="submit">Save Changes</button>
+        </form>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <p>
+            Active from the start of{' '}
+            <input
+              type="month"
+              name="start"
+              value={`${ex.startYear}-${String(ex.startMonth).padStart(
+                2,
+                '0'
+              )}`}
+              onChange={handleChange}
+            ></input>
+          </p>
+          <p>
+            Active until the start of{' '}
+            <input
+              type="month"
+              value={
+                ex.endYear
+                  ? `${ex.endYear}-${String(ex.endMonth).padStart(2, '0')}`
+                  : ''
+              }
+              onChange={handleChange}
+            ></input>{' '}
+            (leave blank if ongoing)
+          </p>
+          <button disabled={error} type="submit">
+            Save Changes
+          </button>
+        </form>
+      )}
+      <h1>{error ? 'Invalid date range' : ''}</h1>
     </div>
   );
 }

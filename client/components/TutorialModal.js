@@ -9,8 +9,9 @@ export default function TutorialModal() {
     setSlide((prevState) => prevState + 1);
   }
 
-  if ([1, 2].includes(slide)) {
+  if ([1, 2, 9].includes(slide)) {
     document.body.style.overflow = 'hidden';
+    window.scroll(0, 0);
   } else {
     document.body.style.overflow = 'scroll';
   }
@@ -25,6 +26,9 @@ export default function TutorialModal() {
             This is a quick tutorial to show you how to get your Billfold
             account set up. If you'd like to explore on your own, feel free to
             click 'skip' below! You can review this tutorial any time you like.
+            <br />
+            For the sake of this tutorial, we'll be using a fake account with
+            sample data
           </p>
           <h2 class="tut-button" onClick={nextSlide}>
             Get Started!
@@ -175,6 +179,87 @@ export default function TutorialModal() {
             Move on
           </h2>
         </div>
+      ) : (
+        <></>
+      )}
+      {slide === 7 ? (
+        <div id="tut-panel" className="slide-seven">
+          <h2>Editing an item's date range</h2>
+          <p>
+            From this screen you can edit the start and end date of an expense.
+            This is the best way to end an expense without retroactively
+            changing your budget
+          </p>
+          <h2
+            className="tut-button"
+            onClick={() => {
+              history.push('/home');
+              nextSlide();
+            }}
+          >
+            Move on
+          </h2>
+        </div>
+      ) : (
+        <></>
+      )}
+      {slide === 8 ? (
+        <>
+          <div id="tut-panel" className="slide-eight">
+            <h2>Your Dashboard</h2>
+            <p>
+              Or as we like to call it, your Billboard
+              <br />
+              This is the hub for all of your budget data! As you scroll
+              through, you'll notice
+            </p>
+            <ol>
+              <li>An alert letting you know if your spending is on track</li>
+              <li>
+                A list of your five most recent expenses and a form to add new
+                ones
+              </li>
+              <li>A chart showing your spending history</li>
+            </ol>
+            <h2
+              className="tut-button"
+              onClick={() => {
+                history.push('/home');
+                nextSlide();
+              }}
+            >
+              Move on
+            </h2>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
+      {slide === 9 ? (
+        <>
+          <div
+            className="tut-highlight this-month-light"
+            onClick={() => {
+              nextSlide();
+              history.push('/year/0/month/0');
+            }}
+          />
+          <div id="tut-panel" className="slide-nine">
+            <h2>This Month</h2>
+            <p>
+              The This Month button will take you to a list of all your info for
+              the current month. Click it now!
+            </p>
+            <h2
+              className="tut-button"
+              onClick={() => {
+                nextSlide();
+              }}
+            >
+              Move on
+            </h2>
+          </div>
+        </>
       ) : (
         <></>
       )}
