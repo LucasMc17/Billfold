@@ -173,7 +173,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
   console.log(data);
 
   return tut ? (
-    <div className="chart-container tut-flag">
+    <div className={tut === 8 ? 'chart-container tut-flag' : 'chart-container'}>
       <div id="home-chart-header">
         <h2>Your spending - visualized</h2>
         <h3>Change chart range</h3>
@@ -227,7 +227,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
           }}
         />
       </div>
-      <h1 className="tut-num">3</h1>
+      {tut === 8 ? <h1 className="tut-num">2</h1> : <></>}
     </div>
   ) : (
     <div className="chart-container">

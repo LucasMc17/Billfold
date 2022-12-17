@@ -69,10 +69,10 @@ export default function Home() {
     <div>
       <div id="welcome">
         <h1>Welcome back to Billfold, John Doe.</h1>
-        <div id="status" className="tut-flag">
+        <div id="status" className={tut === 8 ? 'tut-flag' : ''}>
           <div id="exc">!</div>
           <h2>You're roughly on track to hit your budget this month!</h2>
-          <h1 className="tut-num">1</h1>
+          {tut === 8 ? <h1 className="tut-num">2</h1> : <></>}
         </div>
         <div id="home-links">
           <Link className="nav-button" to={`/year/${year}/month/${month}`}>
@@ -89,7 +89,7 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      <div id="recent-purchases" className="tut-flag">
+      <div id="recent-purchases" className={tut === 8 ? 'tut-flag' : ''}>
         <h2>Recent purchases</h2>
         <NewDailyForm />
         <DailyExpense
@@ -137,7 +137,7 @@ export default function Home() {
             category: { name: 'Self care' },
           }}
         />
-        <h1 className="tut-num">2</h1>
+        {tut === 8 ? <h1 className="tut-num">2</h1> : <></>}
       </div>
       <HomeChart year={year} month={month} afterExpenses={afterExpenses} />
     </div>

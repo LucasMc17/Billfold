@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
-import { setTutorial } from '../store';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { startTutorial, endTutorial, nextSlide } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
 import history from '../history';
 
 export default function TutorialModal() {
-  const [slide, setSlide] = useState(1);
-  function nextSlide() {
-    setSlide((prevState) => prevState + 1);
-  }
-
+  const slide = useSelector((state) => state.showTutorial);
   if ([1, 2].includes(slide)) {
     document.body.style.overflow = 'hidden';
     window.scroll(0, 0);
@@ -22,9 +18,8 @@ export default function TutorialModal() {
         <div
           id="tut-start-button"
           onClick={() => {
-            setSlide(1);
             history.push('/home');
-            dispatch(setTutorial(true));
+            dispatch(startTutorial());
           }}
         >
           <h3>?</h3>
@@ -44,7 +39,7 @@ export default function TutorialModal() {
                 For the sake of this tutorial, we'll be using a fake account
                 with sample data
               </p>
-              <h2 class="tut-button" onClick={nextSlide}>
+              <h2 class="tut-button" onClick={() => dispatch(nextSlide())}>
                 Get Started!
               </h2>
             </div>
@@ -57,7 +52,7 @@ export default function TutorialModal() {
                 className="tut-highlight my-info-light"
                 onClick={() => {
                   history.push('/myinfo');
-                  nextSlide();
+                  dispatch(nextSlide());
                 }}
               />
               <div id="tut-panel" className="slide-two">
@@ -120,7 +115,7 @@ export default function TutorialModal() {
                   className="tut-button"
                   onClick={() => {
                     history.push('/edit/monthly-expenses');
-                    nextSlide();
+                    dispatch(nextSlide());
                   }}
                 >
                   Move on
@@ -141,7 +136,7 @@ export default function TutorialModal() {
                 start date is in the future. Here we can see that this user used
                 to have a gym membership and a less expensive streaming service
               </p>
-              <h2 className="tut-button" onClick={nextSlide}>
+              <h2 className="tut-button" onClick={() => dispatch(nextSlide())}>
                 Move on
               </h2>
             </div>
@@ -166,7 +161,7 @@ export default function TutorialModal() {
                 className="tut-button"
                 onClick={() => {
                   history.push('/edit/monthly-expenses/0');
-                  nextSlide();
+                  dispatch(nextSlide());
                 }}
               >
                 Move on
@@ -189,7 +184,7 @@ export default function TutorialModal() {
                 className="tut-button"
                 onClick={() => {
                   history.push('/edit/monthly-expenses/dates/0');
-                  nextSlide();
+                  dispatch(nextSlide());
                 }}
               >
                 Move on
@@ -210,7 +205,7 @@ export default function TutorialModal() {
                 className="tut-button"
                 onClick={() => {
                   history.push('/home');
-                  nextSlide();
+                  dispatch(nextSlide());
                 }}
               >
                 Move on
@@ -243,7 +238,7 @@ export default function TutorialModal() {
                   className="tut-button"
                   onClick={() => {
                     history.push('/year/0/month/0');
-                    nextSlide();
+                    dispatch(nextSlide());
                   }}
                 >
                   Move on
@@ -266,7 +261,7 @@ export default function TutorialModal() {
                   className="tut-button"
                   onClick={() => {
                     history.push('/home');
-                    nextSlide();
+                    dispatch(nextSlide());
                   }}
                 >
                   Move on
@@ -299,7 +294,7 @@ export default function TutorialModal() {
                 <h2
                   className="tut-button"
                   onClick={() => {
-                    nextSlide();
+                    dispatch(nextSlide());
                   }}
                 >
                   Move on
@@ -317,7 +312,7 @@ export default function TutorialModal() {
                 <h2
                   className="tut-button"
                   onClick={() => {
-                    dispatch(setTutorial(false));
+                    dispatch(endTutorial());
                   }}
                 >
                   Let's Go!
@@ -332,8 +327,7 @@ export default function TutorialModal() {
             onClick={() => {
               document.body.style.overflow = 'scroll';
               history.push('/home');
-              dispatch(setTutorial(false));
-              setSlide(0);
+              dispatch(endTutorial());
             }}
           >
             SKIP
