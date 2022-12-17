@@ -170,8 +170,67 @@ export default function HomeChart({ year, month, afterExpenses }) {
 
   window.now = new Date();
 
-  return (
-    <div className={`chart-container${tut ? ' tut-flag' : ''}`}>
+  console.log(data);
+
+  return tut ? (
+    <div className="chart-container tut-flag">
+      <div id="home-chart-header">
+        <h2>Your spending - visualized</h2>
+        <h3>Change chart range</h3>
+        <select defaultValue={'6'}>
+          <option value="3">Past 3 months</option>
+          <option value="6">Past 6 months</option>
+          <option value="12">Past 12 months</option>
+          <option value="18">Past 18 months</option>
+          <option value="custom">Custom range...</option>
+        </select>
+      </div>
+      <div id="loading-screen-container">
+        <Chart
+          id="home-chart"
+          type="bar"
+          data={{
+            datasets: [
+              {
+                type: 'bar',
+                label: 'Budget',
+                backgroundColor: 'rgba(0, 0, 0, 0)',
+                borderColor: 'rgba(255, 10, 10, 1)',
+                borderWidth: 1,
+                data: [2256.88, 2256.88, 2256.88, 2256.88, 2256.88, 2256.88],
+              },
+              {
+                type: 'bar',
+                label: 'Dollars Spent',
+                backgroundColor: '#93e9be',
+                data: [2000, 3125, 2250, 1673, 1798, 100.75],
+              },
+            ],
+            labels: [
+              'Jul, 2021',
+              'Aug, 2021',
+              'Sep, 2021',
+              'Oct, 2021',
+              'Nov, 2021',
+              'Dec, 2021',
+            ],
+          }}
+          options={{
+            scales: {
+              y: {
+                max: 3437.5,
+              },
+              x: {
+                stacked: true,
+              },
+            },
+          }}
+        />
+      </div>
+      <h1 className="tut-num">3</h1>
+    </div>
+  ) : (
+    <div className="chart-container">
       <div id="home-chart-header">
         <h2>Your spending - visualized</h2>
         <h3>Change chart range</h3>
@@ -241,7 +300,6 @@ export default function HomeChart({ year, month, afterExpenses }) {
           }}
         />
       </div>
-      {tut ? <h1 className="tut-num">3</h1> : <></>}
     </div>
   );
 }

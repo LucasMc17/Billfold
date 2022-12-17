@@ -83,6 +83,7 @@ export default function MonthlySummary() {
   const { dollarFormat, fixedDec } = useFormatters();
   const data = useData(date);
   const { year, month } = useParams();
+  const tut = useSelector((state) => state.showTutorial);
   const dailyExpenses = useSelector((state) => state.dailyExpenses);
   const dailies = dailyExpenses.filter(
     (ex) => ex.month === Number(month) && ex.year === Number(year)
@@ -162,7 +163,187 @@ export default function MonthlySummary() {
     dispatch(setInsights(getInsights()));
   }, [dailyExpenses]);
 
-  return (
+  console.log(reactChartData[0]);
+
+  return tut ? (
+    <div>
+      <div id="month-overview">
+        <div id="month-header">
+          <h1 className="arrow">{'<<'}</h1>
+          <h1>December, 2021</h1>
+          <h1 className="arrow">{'>>'}</h1>
+        </div>
+        <h1>Categories Overview</h1>
+        <div id="summaries">
+          <div className="summary total">
+            <h2>Total</h2>
+            <h3>BUDGET: $2,256.88</h3>
+            <h3>SPENT: $100.75</h3>
+            <h3>4.46%</h3>
+          </div>
+          <div className="summary">
+            <h2>Laundry</h2>
+            <h3>BUDGET: $100.00</h3>
+            <h3>SPENT: $35.00</h3>
+            <h3>35%</h3>
+          </div>
+          <div className="summary">
+            <h2>Subway</h2>
+            <h3>BUDGET: $50.00</h3>
+            <h3>SPENT: $2.75</h3>
+            <h3>5.5%</h3>
+          </div>
+          <div className="summary">
+            <h2>Food</h2>
+            <h3>BUDGET: $842.78</h3>
+            <h3>SPENT: $40.00</h3>
+            <h3>4.75%</h3>
+          </div>
+          <div className="summary">
+            <h2>Fun</h2>
+            <h3>BUDGET: $526.72</h3>
+            <h3>SPENT: $15.00</h3>
+            <h3>2.85%</h3>
+          </div>
+          <div className="summary">
+            <h2>Home goods</h2>
+            <h3>BUDGET: $421.38</h3>
+            <h3>SPENT: $0.00</h3>
+            <h3>0%</h3>
+          </div>
+          <div className="summary">
+            <h2>Self care</h2>
+            <h3>BUDGET: $316.03</h3>
+            <h3>SPENT: $8.00</h3>
+            <h3>2.53%</h3>
+          </div>
+        </div>
+      </div>
+      <div className="chart-container">
+        <div id="month-chart-header">
+          <h1>Your spending - visualized</h1>
+          <div>
+            <h3>Show by:</h3>
+            <div className="nav-button toggle-container">
+              <div className="toggle-switch">
+                <div
+                  className={metric === 'PERCENT' ? 'toggle-off' : 'toggle-on'}
+                ></div>
+              </div>
+            </div>
+            <h3>{metric}</h3>
+          </div>
+        </div>
+        <div id="loading-screen-container">
+          <Chart
+            type="bar"
+            data={{
+              labels: [
+                'Laundry',
+                'Subway',
+                'Food',
+                'Fun',
+                'Home goods',
+                'Self care',
+                'Total',
+              ],
+              datasets: [
+                {
+                  type: 'bar',
+                  label: 'Budget',
+                  backgroundColor: 'rgba(0, 0, 0, 0)',
+                  borderColor: 'rgba(255, 10, 10, 1)',
+                  borderWidth: 1,
+                  data: [100, 100, 100, 100, 100, 100, 100],
+                },
+                {
+                  type: 'bar',
+                  label: 'Percent Spent',
+                  backgroundColor: '#93e9be',
+                  data: [35, 5.5, 4.75, 2.85, 0, 2.53, 4.46],
+                },
+              ],
+            }}
+            options={{
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  max: reactChartData[1] * 1.1,
+                },
+                x: {
+                  stacked: true,
+                },
+              },
+            }}
+          />
+        </div>
+      </div>
+      <div id="monthly-purchases">
+        <div id="monthly-purchases-header">
+          <h1>Your Purchases</h1>
+          <div>
+            <label>Filter: </label>
+            <select onChange={handleFilter}>
+              <option value={'#special#billfold#all#'}>All</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.name}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <DailyExpense
+          daily={{
+            name: 'Dry cleaning',
+            amount: 35,
+            month: 12,
+            day: 1,
+            category: { name: 'Laundry' },
+          }}
+        />
+        <DailyExpense
+          daily={{
+            name: 'Subway home',
+            amount: 2.75,
+            month: 12,
+            day: 2,
+            category: { name: 'Subway' },
+          }}
+        />
+        <DailyExpense
+          daily={{
+            name: 'Movie',
+            amount: 15,
+            month: 12,
+            day: 3,
+            category: { name: 'Fun' },
+          }}
+        />
+        <DailyExpense
+          daily={{
+            name: 'Groceries',
+            amount: 40,
+            month: 12,
+            day: 4,
+            category: { name: 'Food' },
+          }}
+        />
+        <DailyExpense
+          daily={{
+            name: 'shampoo',
+            amount: 8,
+            month: 12,
+            day: 5,
+            category: { name: 'Self care' },
+          }}
+        />
+        <NewDailyForm
+          defaultDate={new Date(year, month - 1).toISOString().split('T')[0]}
+        />
+      </div>
+    </div>
+  ) : (
     <div>
       <div id="month-overview">
         <div id="month-header">

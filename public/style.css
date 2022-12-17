@@ -20,6 +20,30 @@ nav a {
   /* margin: 1em; */
 }
 
+#tut-start-button {
+  border-radius: 0px 15px 15px 0px;
+  background-color: #93e9be;
+  position: fixed;
+  left: 0;
+  bottom: 5vh;
+  height: 3.5vh;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#tut-start-button>h3 {
+  color:#93e9be;
+  background-color: white;
+  height: 3vh;
+  width: 3vh;
+  min-width: 3vh;
+  font-size: 2.5vh;
+  border-radius: 50%;
+  text-align: center;
+  margin: 0.25vh;
+  padding: 0;
+}
+
 #tut-skip {
   position: absolute;
   right: 0px;
@@ -51,9 +75,15 @@ nav {
   padding: 5px;
 }
 
-.slide-one, .slide-nine {
+.slide-one, .slide-nine, .slide-eleven {
   top: 40vh;
   left: 10vw;
+  width: calc(80vw - 6px);
+}
+
+.slide-ten {
+  top: 10vh;
+  left : 10vw;
   width: calc(80vw - 6px);
 }
 
