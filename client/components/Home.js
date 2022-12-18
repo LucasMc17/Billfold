@@ -72,7 +72,7 @@ export default function Home() {
         <div id="status" className={tut === 8 ? 'tut-flag' : ''}>
           <div id="exc">!</div>
           <h2>You're roughly on track to hit your budget this month!</h2>
-          {tut === 8 ? <h1 className="tut-num">2</h1> : <></>}
+          {tut === 8 ? <h1 className="tut-num">1</h1> : <></>}
         </div>
         <div id="home-links">
           <Link className="nav-button" to={`/year/${year}/month/${month}`}>

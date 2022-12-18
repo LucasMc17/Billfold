@@ -227,7 +227,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
           }}
         />
       </div>
-      {tut === 8 ? <h1 className="tut-num">2</h1> : <></>}
+      {tut === 8 ? <h1 className="tut-num">3</h1> : <></>}
     </div>
   ) : (
     <div className="chart-container">

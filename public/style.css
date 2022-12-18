@@ -29,6 +29,7 @@ nav a {
   height: 3.5vh;
   cursor: pointer;
   z-index: 1;
+  padding-left: 15px;
 }
 
 #tut-start-button>h3 {
@@ -73,6 +74,10 @@ nav {
   background-color: white;
   text-align: center;
   padding: 5px;
+}
+
+#tut-panel li {
+  text-align: left;
 }
 
 .slide-one, .slide-nine, .slide-eleven {
