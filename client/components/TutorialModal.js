@@ -6,10 +6,10 @@ import history from '../history';
 export default function TutorialModal() {
   const slide = useSelector((state) => state.showTutorial);
   if ([1, 2].includes(slide)) {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflowY = 'hidden';
     window.scroll(0, 0);
   } else {
-    document.body.style.overflow = 'scroll';
+    document.body.style.overflowY = 'scroll';
   }
   const dispatch = useDispatch();
   return (
@@ -325,7 +325,7 @@ export default function TutorialModal() {
           <h2
             id="tut-skip"
             onClick={() => {
-              document.body.style.overflow = 'scroll';
+              document.body.style.overflowY = 'scroll';
               history.push('/home');
               dispatch(endTutorial());
             }}
