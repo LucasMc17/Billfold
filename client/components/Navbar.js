@@ -9,7 +9,6 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
   const { dynamicWidth } = useWindowSize();
 
   const [navOpen, toggleNav] = useState('unopened');
-  console.log(navOpen);
   return (
     <div>
       {isLoggedIn ? (
@@ -135,7 +134,7 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
               </Link>
               <Link
                 className="mobile-nav-button"
-                href="#"
+                to="#"
                 onClick={() => {
                   toggleNav(false);
                   handleClick();

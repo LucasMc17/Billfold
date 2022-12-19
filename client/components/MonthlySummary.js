@@ -163,8 +163,6 @@ export default function MonthlySummary() {
     dispatch(setInsights(getInsights()));
   }, [dailyExpenses]);
 
-  console.log(reactChartData[0]);
-
   return tut ? (
     <div>
       <div id="month-overview">

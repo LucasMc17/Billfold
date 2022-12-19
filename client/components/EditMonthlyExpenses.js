@@ -15,7 +15,6 @@ export default function EditMonthlyExpenses() {
   const dispatch = useDispatch();
   const expenses = useSelector((state) => state.allExpenses);
   const tut = useSelector((state) => state.showTutorial);
-  console.log(tut);
   const { dollarFormat, seperateActive } = useFormatters();
 
   const handleDelete = (ex) => {

@@ -170,8 +170,6 @@ export default function HomeChart({ year, month, afterExpenses }) {
 
   window.now = new Date();
 
-  console.log(data);
-
   return tut ? (
     <div className={tut === 8 ? 'chart-container tut-flag' : 'chart-container'}>
       <div id="home-chart-header">
