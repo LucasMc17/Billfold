@@ -23,5 +23,5 @@
   "background_color": "#ffffff",
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": "http://localhost:8080/"
+  "start_url": "https://billfold.pro/"
 }

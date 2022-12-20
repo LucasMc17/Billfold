@@ -1,0 +1,17 @@
+<svg height="200" width="200" viewBox="25 10 60 60">
+  <ellipse cx="57" cy="15" rx="17" ry="6" stroke="#93E9BE" stroke-width="1" fill="none" transform="rotate(7)" />
+
+  <path d="M30.5 17.8 l7.5 0 l2.2 -7.5 l2.2 7.5 l7.5 0 l-6.3 4.5 l2.7 8.2 l-6.5 -5.5 l-6.5 5.5 l2.7 -8.2 z"
+    stroke='white' stroke-width="1" fill='#93E9BE' transform="scale(0.35) translate(90 45) rotate(9)" />
+  <path d="M30.5 17.8 l7.5 0 l2.2 -7.5 l2.2 7.5 l7.5 0 l-6.3 4.5 l2.7 8.2 l-6.5 -5.5 l-6.5 5.5 l2.7 -8.2 z"
+    stroke='white' stroke-width="1" fill='#93E9BE' transform="scale(0.35) translate(110 17) rotate(9)" />
+  <path d="M30.5 17.8 l7.5 0 l2.2 -7.5 l2.2 7.5 l7.5 0 l-6.3 4.5 l2.7 8.2 l-6.5 -5.5 l-6.5 5.5 l2.7 -8.2 z"
+    stroke='white' stroke-width="1" fill='#93E9BE' transform="scale(0.35) translate(130 66) rotate(-9)" />
+  <path
+    d="M48 10 l 6 0 l 0 10 l 15 0 a 10 10 0 1 1 0 20
+  a 10 10 0 1 1 0 20 l -15 0 l 0 10 l -6 0 l 0 -10 l -10 0 l 0 -6 l 28 0 a 6 5 0 1 0 0 -11 l -6 0 l 0 -6 l 6 0 a 6 5 0 1 0 0 -11 l -28 0 l 0 -6 l 10 0 Z"
+    stroke='none' fill='#93E9BE' transform="rotate(-20)
+               translate(0 40)
+               scale(0.6)" />
+  Sorry, your browser does not support inline SVG.
+</svg>

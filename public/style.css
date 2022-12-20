@@ -20,6 +20,20 @@ nav a {
   /* margin: 1em; */
 }
 
+#offline-page {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+#offline-page>img {
+  width: 80vw;
+}
+
 #tut-start-button {
   border-radius: 0px 15px 15px 0px;
   background-color: #93e9be;
