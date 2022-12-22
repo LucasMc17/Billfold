@@ -52,6 +52,9 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
                         <></>
                       )}
                     </Link>
+                    <Link className="nav-button" to="/link-bank-accounts">
+                      Link a Bank Account
+                    </Link>
                   </div>
                   <div id="logout-button">
                     <a className="nav-button" href="#" onClick={handleClick}>

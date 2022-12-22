@@ -26,6 +26,7 @@ import EditSingleIncomeDates from './components/EditSingleIncomeDates';
 import EditSingleIncome from './components/EditSingleIncome';
 import { me } from './store';
 import BillfoldInsights from './components/BillfoldInsights';
+import LinkBankAccounts from './components/LinkBankAccounts';
 
 /**
  * COMPONENT
@@ -105,6 +106,7 @@ class Routes extends Component {
               path="/edit/daily-expenses/:id"
               component={EditDailyExpense}
             />
+            <Route path="/link-bank-accounts" component={LinkBankAccounts} />
             <Redirect to="/home" />
           </Switch>
         ) : (
