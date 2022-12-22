@@ -126,7 +126,7 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
                 Billfold Insights
                 {insights.length ? (
                   <div>
-                    <h3>{insights.length}</h3>
+                    <h3>{insights.length > 9 ? '9+' : insights.length}</h3>
                   </div>
                 ) : (
                   <></>

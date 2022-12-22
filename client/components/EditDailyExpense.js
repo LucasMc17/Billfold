@@ -20,6 +20,9 @@ export default function EditDailyExpense() {
     amount: 0,
     categoryId: 0,
     date: new Date(),
+    year: 0,
+    month: 0,
+    day: 0,
   });
 
   useEffect(() => {
@@ -29,7 +32,7 @@ export default function EditDailyExpense() {
   useEffect(() => {
     const keys = Object.keys(dailyExpense);
     if (keys.length > 0) {
-      setDaily({ ...dailyExpense });
+      setDaily({ ...dailyExpense, date: new Date(dailyExpense.date) });
     }
   }, [dailyExpense]);
 
@@ -40,11 +43,32 @@ export default function EditDailyExpense() {
     }
   }, [daily.date]);
 
+  useEffect(() => {
+    if (!categories.some((cat) => cat.id === daily.categoryId)) {
+      setDaily({
+        ...daily,
+        categoryId: categories.length ? categories[0].id : null,
+      });
+    }
+  }, [categories]);
+
   const handleChange = (evt) => {
-    setDaily({
-      ...daily,
-      [evt.target.name]: evt.target.value,
-    });
+    const { value } = evt.target;
+    if (evt.target.name === 'date') {
+      const valSplit = value.split('-');
+      setDaily({
+        ...daily,
+        date: new Date(valSplit[0], valSplit[1] - 1, valSplit[2]),
+        year: Number(valSplit[0]),
+        month: Number(valSplit[1] - 1),
+        year: Number(valSplit[2]),
+      });
+    } else {
+      setDaily({
+        ...daily,
+        [evt.target.name]: value,
+      });
+    }
   };
 
   function handleSubmit(evt) {
@@ -75,6 +99,15 @@ export default function EditDailyExpense() {
           onChange={handleChange}
           type="text"
           value={daily.amount}
+        />
+        <label htmlFor="date">Date: </label>
+        <input
+          name="date"
+          onChange={handleChange}
+          type="date"
+          value={`${daily.date.getFullYear()}-${String(
+            daily.date.getMonth() + 1
+          ).padStart(2, '0')}-${String(daily.date.getDate()).padStart(2, '0')}`}
         />
         <label htmlFor="categoryId">Category: </label>
         <select
