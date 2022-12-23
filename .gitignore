@@ -1,5 +1,7 @@
 node_modules
 public/bundle.js
+public/service-worker.js
+public/service-worker.js.map
 public/bundle.js.map
 .DS_Store
 npm-debug.log
