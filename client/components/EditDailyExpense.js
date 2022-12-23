@@ -43,8 +43,6 @@ export default function EditDailyExpense() {
     }
   }, [daily.date]);
 
-  console.log(daily);
-
   useEffect(() => {
     if (!categories.some((cat) => cat.id === Number(daily.categoryId))) {
       setDaily({
