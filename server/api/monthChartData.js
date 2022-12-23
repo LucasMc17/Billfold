@@ -106,10 +106,10 @@ router.get('/:year/:month/:metric', requireToken, async (req, res, next) => {
       cats
         .filter((cat) => cat.rule === 'FIXED')
         .reduce((a, b) => a + b.amount, 0);
-    const spents = labels.map((label) => {
-      const category = cats.filter((cat) => cat.name === label)[0];
+    const spents = labels.map((label, i) => {
+      const category = cats[i];
       const purchases = dailies.filter(
-        (daily) => daily.category.name === category.name
+        (daily) => daily.category.id === category.id
       );
       const totalSpent = purchases.reduce((a, b) => a + b.amount, 0);
       if (metric === 'AMOUNT') {

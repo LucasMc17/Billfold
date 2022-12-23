@@ -15,7 +15,7 @@ export default function NewDailyForm(props) {
     name: '',
     date: defaultDate ? defaultDate : new Date().toISOString().split('T')[0],
     amount: 0,
-    category: categories.length ? categories[0].name : '',
+    category: null,
   });
 
   const handleChange = (evt) => {
@@ -27,7 +27,7 @@ export default function NewDailyForm(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    dispatch(postDaily(daily));
+    dispatch(postDaily({ ...daily, category: Number(daily.category) }));
     setDaily((oldDaily) => ({ ...oldDaily, name: '', amount: 0 }));
   }
 
@@ -39,10 +39,10 @@ export default function NewDailyForm(props) {
   }, [daily.date]);
 
   useEffect(() => {
-    if (!categories.some((cat) => cat.name === daily.category)) {
+    if (!categories.some((cat) => cat.id === Number(daily.category))) {
       setDaily({
         ...daily,
-        category: categories.length ? categories[0].name : '',
+        category: categories.length ? categories[0].id : null,
       });
     }
   }, [categories]);
@@ -76,7 +76,7 @@ export default function NewDailyForm(props) {
         <label htmlFor="category">Category: </label>
         <select name="category" onChange={handleChange} value={daily.category}>
           {categories.map((cat) => (
-            <option key={cat.id} value={cat.name}>
+            <option key={cat.id} value={cat.id}>
               {cat.name}
             </option>
           ))}

@@ -18,7 +18,7 @@ export default function EditDailyExpense() {
   const [daily, setDaily] = useState({
     name: '',
     amount: 0,
-    categoryId: 0,
+    categoryId: null,
     date: new Date(),
     year: 0,
     month: 0,
@@ -44,7 +44,7 @@ export default function EditDailyExpense() {
   }, [daily.date]);
 
   useEffect(() => {
-    if (!categories.some((cat) => cat.id === daily.categoryId)) {
+    if (!categories.some((cat) => cat.id === Number(daily.categoryId))) {
       setDaily({
         ...daily,
         categoryId: categories.length ? categories[0].id : null,
@@ -77,6 +77,7 @@ export default function EditDailyExpense() {
       patchDaily({
         ...daily,
         amount: Number(daily.amount),
+        categoryId: Number(dailt.categoryId),
       })
     );
     history.goBack();

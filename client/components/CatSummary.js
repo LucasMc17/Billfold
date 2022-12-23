@@ -16,7 +16,7 @@ export default function CatSummary(props) {
 
   const budget = cat.amount ? cat.amount : cat.percent * data.afterFixedCats;
   const spent = dailies
-    .filter((daily) => daily.category.name === cat.name)
+    .filter((daily) => daily.category.id === cat.id)
     .reduce((acc, daily) => acc + daily.amount, 0);
   const percentSpent = (spent / budget) * 100;
 
