@@ -43,6 +43,8 @@ export default function EditDailyExpense() {
     }
   }, [daily.date]);
 
+  console.log(daily);
+
   useEffect(() => {
     if (!categories.some((cat) => cat.id === Number(daily.categoryId))) {
       setDaily({
@@ -77,7 +79,7 @@ export default function EditDailyExpense() {
       patchDaily({
         ...daily,
         amount: Number(daily.amount),
-        categoryId: Number(dailt.categoryId),
+        categoryId: daily.categoryId ? Number(daily.categoryId) : null,
       })
     );
     history.goBack();

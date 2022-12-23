@@ -68,9 +68,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
     const daily = await DailyExpense.findByPk(id);
-    const category = await Category.findByPk(req.body.categoryId);
     await daily.update(req.body);
-    await daily.setCategory(category);
     const result = await DailyExpense.findByPk(daily.id, {
       include: {
         model: Category,
