@@ -49,6 +49,7 @@ router.post('/', requireToken, async (req, res, next) => {
       })
     );
   } catch (err) {
+    // DELETE FOLLOWING LINE
     res.json(err);
     next(err);
   }
