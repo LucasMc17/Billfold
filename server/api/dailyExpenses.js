@@ -49,6 +49,7 @@ router.post('/', requireToken, async (req, res, next) => {
       })
     );
   } catch (err) {
+    res.json(err);
     next(err);
   }
 });
