@@ -80,6 +80,10 @@ export default function MonthlySummary() {
       return array;
     },
   });
+  const [sort, setSort] = useState({
+    sortFunc: (array) =>
+      array.sort((a, b) => new Date(a.date) - new Date(b.date)),
+  });
   const { dollarFormat, fixedDec } = useFormatters();
   const data = useData(date);
   const { year, month } = useParams();
@@ -107,6 +111,20 @@ export default function MonthlySummary() {
         filterFunc(array) {
           return array.filter((a) => a.category.name === this.filterCat);
         },
+      });
+    }
+  };
+
+  const handleSort = (event) => {
+    if (event.target.value === 'chronological') {
+      setSort({
+        sortFunc: (array) =>
+          array.sort((a, b) => new Date(a.date) - new Date(b.date)),
+      });
+    } else {
+      setSort({
+        sortFunc: (array) =>
+          array.sort((a, b) => new Date(b.date) - new Date(a.date)),
       });
     }
   };
@@ -280,6 +298,11 @@ export default function MonthlySummary() {
         <div id="monthly-purchases-header">
           <h1>Your Purchases</h1>
           <div>
+            <label>Sort By: </label>
+            <select onChange={handleSort}>
+              <option value={'chronological'}>Date</option>
+              <option value={'reverse-chronological'}>Reverse Date</option>
+            </select>
             <label>Filter: </label>
             <select onChange={handleFilter}>
               <option value={'#special#billfold#all#'}>All</option>
@@ -438,6 +461,11 @@ export default function MonthlySummary() {
         <div id="monthly-purchases-header">
           <h1>Your Purchases</h1>
           <div>
+            <label>Sort By: </label>
+            <select onChange={handleSort}>
+              <option value={'chronological'}>Date</option>
+              <option value={'reverse-chronological'}>Reverse Date</option>
+            </select>
             <label>Filter: </label>
             <select onChange={handleFilter}>
               <option value={'#special#billfold#all#'}>All</option>
@@ -453,9 +481,8 @@ export default function MonthlySummary() {
           defaultDate={`${year}-${String(month).padStart(2, '0')}-01`}
         />
         {dailies.length ? (
-          filter
-            .filterFunc(dailies)
-            .sort((a, b) => new Date(a.date) - new Date(b.date))
+          sort
+            .sortFunc(filter.filterFunc(dailies))
             .map((daily) => <DailyExpense key={daily.id} daily={daily} />)
         ) : (
           <h2>You have no purchases this month.</h2>
