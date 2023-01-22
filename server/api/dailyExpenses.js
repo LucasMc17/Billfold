@@ -34,9 +34,12 @@ router.get('/:id', requireToken, async (req, res, next) => {
 
 router.post('/', requireToken, async (req, res, next) => {
   try {
+    const [year, month, day] = req.body.date.split('T')[0].split('-');
+    const properDate = new Date(year, month - 1, day);
     const category = await Category.findByPk(req.body.category);
     const daily = await DailyExpense.create({
       ...req.body,
+      date: properDate,
       userId: req.user.id,
       categoryId: category.id,
     });

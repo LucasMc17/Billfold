@@ -337,7 +337,7 @@ export default function MonthlySummary() {
           }}
         />
         <NewDailyForm
-          defaultDate={new Date(year, month - 1).toISOString().split('T')[0]}
+          defaultDate={`${year}-${String(month).padStart(2, '0')}-1`}
         />
       </div>
     </div>
@@ -458,7 +458,7 @@ export default function MonthlySummary() {
           <h2>You have no purchases this month.</h2>
         )}
         <NewDailyForm
-          defaultDate={new Date(year, month - 1).toISOString().split('T')[0]}
+          defaultDate={`${year}-${String(month).padStart(2, '0')}-01`}
         />
       </div>
     </div>

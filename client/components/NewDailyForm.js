@@ -9,11 +9,18 @@ export default function NewDailyForm(props) {
   const [categories, setCategories] = useState(
     seperateActive(allCategories)[0]
   );
+
+  const today = new Date();
   const dispatch = useDispatch();
   const { defaultDate } = props;
   const [daily, setDaily] = useState({
     name: '',
-    date: defaultDate ? defaultDate : new Date().toISOString().split('T')[0],
+    date: defaultDate
+      ? defaultDate
+      : `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(
+          2,
+          '0'
+        )}-${String(today.getDate()).padStart(2, '0')}`,
     amount: 0,
     category: null,
   });
@@ -27,7 +34,13 @@ export default function NewDailyForm(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    dispatch(postDaily({ ...daily, category: Number(daily.category) }));
+    dispatch(
+      postDaily({
+        ...daily,
+        category: Number(daily.category),
+        date: new Date(daily.date).toISOString(),
+      })
+    );
     setDaily((oldDaily) => ({ ...oldDaily, name: '', amount: 0 }));
   }
 
