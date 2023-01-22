@@ -291,6 +291,9 @@ export default function MonthlySummary() {
             </select>
           </div>
         </div>
+        <NewDailyForm
+          defaultDate={`${year}-${String(month).padStart(2, '0')}-1`}
+        />
         <DailyExpense
           daily={{
             name: 'Dry cleaning',
@@ -335,9 +338,6 @@ export default function MonthlySummary() {
             day: 5,
             category: { name: 'Self care' },
           }}
-        />
-        <NewDailyForm
-          defaultDate={`${year}-${String(month).padStart(2, '0')}-1`}
         />
       </div>
     </div>
@@ -449,6 +449,9 @@ export default function MonthlySummary() {
             </select>
           </div>
         </div>
+        <NewDailyForm
+          defaultDate={`${year}-${String(month).padStart(2, '0')}-01`}
+        />
         {dailies.length ? (
           filter
             .filterFunc(dailies)
@@ -457,9 +460,6 @@ export default function MonthlySummary() {
         ) : (
           <h2>You have no purchases this month.</h2>
         )}
-        <NewDailyForm
-          defaultDate={`${year}-${String(month).padStart(2, '0')}-01`}
-        />
       </div>
     </div>
   );
