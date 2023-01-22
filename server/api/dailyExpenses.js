@@ -69,9 +69,17 @@ router.delete('/:id', requireToken, async (req, res, next) => {
 
 router.put('/:id', requireToken, async (req, res, next) => {
   try {
+    const [year, month, day] = req.body.date.split('-');
+    const properDate = new Date(year, month - 1, day);
     const { id } = req.params;
     const daily = await DailyExpense.findByPk(id);
-    await daily.update(req.body);
+    await daily.update({
+      ...req.body,
+      date: properDate,
+      year,
+      month,
+      day,
+    });
     const result = await DailyExpense.findByPk(daily.id, {
       include: {
         model: Category,
