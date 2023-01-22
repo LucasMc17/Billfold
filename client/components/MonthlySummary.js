@@ -84,6 +84,8 @@ export default function MonthlySummary() {
     sortFunc: (array) =>
       array.sort((a, b) => new Date(a.date) - new Date(b.date)),
   });
+  const [searchTerm, setSearchTerm] = useState('');
+
   const { dollarFormat, fixedDec } = useFormatters();
   const data = useData(date);
   const { year, month } = useParams();
@@ -127,6 +129,10 @@ export default function MonthlySummary() {
           array.sort((a, b) => new Date(b.date) - new Date(a.date)),
       });
     }
+  };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   const handleMetricChange = () => {
@@ -312,6 +318,8 @@ export default function MonthlySummary() {
                 </option>
               ))}
             </select>
+            <label>Search: </label>
+            <input type="text" value={searchTerm} onChange={handleSearch} />
           </div>
         </div>
         <NewDailyForm
@@ -475,6 +483,8 @@ export default function MonthlySummary() {
                 </option>
               ))}
             </select>
+            <label>Search: </label>
+            <input type="text" value={searchTerm} onChange={handleSearch} />
           </div>
         </div>
         <NewDailyForm
@@ -483,6 +493,7 @@ export default function MonthlySummary() {
         {dailies.length ? (
           sort
             .sortFunc(filter.filterFunc(dailies))
+            .filter((daily) => daily.name.includes(searchTerm))
             .map((daily) => <DailyExpense key={daily.id} daily={daily} />)
         ) : (
           <h2>You have no purchases this month.</h2>
