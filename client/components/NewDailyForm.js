@@ -38,7 +38,7 @@ export default function NewDailyForm(props) {
       postDaily({
         ...daily,
         category: Number(daily.category),
-        date: new Date(daily.date).toISOString(),
+        date: daily.date,
       })
     );
     setDaily((oldDaily) => ({ ...oldDaily, name: '', amount: 0 }));
