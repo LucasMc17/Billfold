@@ -493,7 +493,9 @@ export default function MonthlySummary() {
         {dailies.length ? (
           sort
             .sortFunc(filter.filterFunc(dailies))
-            .filter((daily) => daily.name.includes(searchTerm))
+            .filter((daily) =>
+              daily.name.toUpperCase().includes(searchTerm.toUpperCase())
+            )
             .map((daily) => <DailyExpense key={daily.id} daily={daily} />)
         ) : (
           <h2>You have no purchases this month.</h2>
