@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import getInsightGrabber from './custom_hooks/getInsights';
 import { setInsights } from '../store';
 import MonthBarChart from './MonthBarChart';
+import MonthLineChart from './MonthLineChart';
 
 const monthTable = {
   1: 'January',
@@ -43,6 +44,9 @@ export default function MonthlySummary() {
       array.sort((a, b) => new Date(a.date) - new Date(b.date)),
   });
   const [searchTerm, setSearchTerm] = useState('');
+  const [chartData, setChartData] = useState({
+    budget: 0,
+  });
 
   const { dollarFormat, fixedDec } = useFormatters();
   const data = useData(date);
@@ -98,6 +102,12 @@ export default function MonthlySummary() {
   useEffect(() => {
     dispatch(setInsights(getInsights()));
   }, [dailyExpenses]);
+
+  useEffect(() => {
+    setChartData({
+      budget: data.afterExpenses,
+    });
+  }, [data.afterExpenses]);
 
   return tut ? (
     <div>
@@ -281,6 +291,12 @@ export default function MonthlySummary() {
         </div>
       </div>
       <MonthBarChart dailyExpenses={dailyExpenses} month={month} year={year} />
+      <MonthLineChart
+        dailyExpenses={dailyExpenses}
+        month={month}
+        year={year}
+        budget={chartData.budget}
+      />
       <div id="monthly-purchases">
         <div id="monthly-purchases-header">
           <h1>Your Purchases</h1>
