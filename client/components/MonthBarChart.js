@@ -102,7 +102,7 @@ export default function MonthBarChart({
   return tutorial ? (
     <div className="chart-container">
       <div id="month-chart-header">
-        <h1>Your spending - visualized</h1>
+        <h1>Your spending - visualized by category</h1>
         <div>
           <h3>Show by:</h3>
           <div className="nav-button toggle-container">
@@ -162,7 +162,7 @@ export default function MonthBarChart({
   ) : (
     <div className="chart-container">
       <div id="month-chart-header">
-        <h1>Your spending - visualized</h1>
+        <h1>Your spending - visualized by category</h1>
         <div>
           <h3>Show by:</h3>
           <div

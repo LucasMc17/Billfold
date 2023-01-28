@@ -46,6 +46,9 @@ export default function MonthlySummary() {
   const [searchTerm, setSearchTerm] = useState('');
   const [chartData, setChartData] = useState({
     budget: 0,
+    flexBudget: 0,
+    year: 0,
+    month: 0,
   });
 
   const { dollarFormat, fixedDec } = useFormatters();
@@ -107,8 +110,10 @@ export default function MonthlySummary() {
     setChartData({
       budget: data.afterExpenses,
       flexBudget: data.afterFixedCats,
+      year,
+      month,
     });
-  }, [data.afterExpenses, data.afterFixedCats]);
+  }, [data.afterExpenses, data.afterFixedCats, year, month]);
 
   return tut ? (
     <div>
@@ -294,8 +299,8 @@ export default function MonthlySummary() {
       <MonthBarChart dailyExpenses={dailyExpenses} month={month} year={year} />
       <MonthLineChart
         dailyExpenses={dailyExpenses}
-        month={month}
-        year={year}
+        month={chartData.month}
+        year={chartData.year}
         budget={chartData.budget}
         flexBudget={chartData.flexBudget}
       />

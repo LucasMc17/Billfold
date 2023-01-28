@@ -33,12 +33,9 @@ export default function MonthLineChart({
   flexBudget,
 }) {
   const allCategories = useSelector((state) => state.allCategories);
-  const categories = seperateActive(
-    allCategories,
-    new Date(year, month, 15)
-  )[0];
 
   const [chartCategory, setChartCategory] = useState('#special#billfold#all#');
+  const [activeCategories, setActiveCategories] = useState([]);
   const [reactChartData, setReactChartData] = useState([
     {
       labels: ['Total'],
@@ -62,10 +59,15 @@ export default function MonthLineChart({
 
   useEffect(() => {
     setReactChartData(getLineChartData());
+    const categories = seperateActive(
+      allCategories,
+      new Date(year, month - 1, 15)
+    )[0];
+    setActiveCategories(categories);
   }, [dailyExpenses, month, year, chartCategory, budget]);
 
   function getLineChartData() {
-    const cat = categories.find((c) => c.id == chartCategory);
+    const cat = activeCategories.find((c) => c.id == chartCategory);
     const cap = cat
       ? cat.amount
         ? cat.amount
@@ -135,7 +137,7 @@ export default function MonthLineChart({
   return (
     <div className="chart-container">
       <div id="month-chart-header">
-        <h1>Your spending - visualized</h1>
+        <h1>Your spending - visualized across the month</h1>
         <div>
           <h3>Filter by Category:</h3>
           <select
@@ -144,7 +146,7 @@ export default function MonthLineChart({
             value={chartCategory}
           >
             <option value={'#special#billfold#all#'}>All</option>
-            {categories.map((cat) => (
+            {activeCategories.map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.name}
               </option>
