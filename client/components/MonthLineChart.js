@@ -13,6 +13,7 @@ import {
   PointElement,
   LineController,
   BarController,
+  Filler,
 } from 'chart.js';
 ChartJS.register(
   LinearScale,
@@ -21,7 +22,8 @@ ChartJS.register(
   PointElement,
   LineElement,
   LineController,
-  BarController
+  BarController,
+  Filler
 );
 
 export default function MonthLineChart({ dailyExpenses, month, year, budget }) {
@@ -37,13 +39,13 @@ export default function MonthLineChart({ dailyExpenses, month, year, budget }) {
       labels: ['Total'],
       datasets: [
         {
-          type: 'bar',
+          type: 'line',
           label: 'Budget',
           data: [],
           borderColor: 'gray',
         },
         {
-          type: 'bar',
+          type: 'line',
           label: 'Percent Spent',
           data: [],
           backgroundColor: '#93e9be',
@@ -103,9 +105,8 @@ export default function MonthLineChart({ dailyExpenses, month, year, budget }) {
                   daysInMonth) *
                 (i + 1)
             ),
-          borderColor: 'rgba(255, 10, 10, 1)',
-          borderWidth: 1,
-          backgroundColor: 'rgba(0, 0, 0, 0)',
+          borderColor: 'lightgray',
+          borderWidth: 2,
         },
         {
           type: 'line',
@@ -113,7 +114,11 @@ export default function MonthLineChart({ dailyExpenses, month, year, budget }) {
             chartCategory === '#special#billfold#all#' ? 'All' : chartCategory
           } spending`,
           data: data,
-          backgroundColor: '#93e9be',
+          borderWidth: 2,
+          borderColor: '#93e9be',
+          backgroundColor: 'rgba(147, 233, 190, 0.2)',
+          tension: 0.2,
+          fill: true,
         },
       ],
     };
@@ -158,7 +163,7 @@ export default function MonthLineChart({ dailyExpenses, month, year, budget }) {
       </div>
       <div id="loading-screen-container">
         <Chart
-          type="bar"
+          type="line"
           data={reactChartData[0]}
           options={{
             scales: {
