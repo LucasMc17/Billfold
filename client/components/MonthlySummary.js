@@ -106,8 +106,9 @@ export default function MonthlySummary() {
   useEffect(() => {
     setChartData({
       budget: data.afterExpenses,
+      flexBudget: data.afterFixedCats,
     });
-  }, [data.afterExpenses]);
+  }, [data.afterExpenses, data.afterFixedCats]);
 
   return tut ? (
     <div>
@@ -296,6 +297,7 @@ export default function MonthlySummary() {
         month={month}
         year={year}
         budget={chartData.budget}
+        flexBudget={chartData.flexBudget}
       />
       <div id="monthly-purchases">
         <div id="monthly-purchases-header">

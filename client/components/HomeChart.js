@@ -289,7 +289,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
           options={{
             scales: {
               y: {
-                max: Math.floor(data[1] * 1.1),
+                max: Math.round(data[1] * 1.1),
               },
               x: {
                 stacked: true,

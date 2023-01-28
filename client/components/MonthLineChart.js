@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchMonthChartData, monthSetLoading } from '../store';
+import { useSelector } from 'react-redux';
 import { Chart } from 'react-chartjs-2';
 import useFormatters from './custom_hooks/useFormatters';
 const { seperateActive } = useFormatters();
@@ -26,7 +25,13 @@ ChartJS.register(
   Filler
 );
 
-export default function MonthLineChart({ dailyExpenses, month, year, budget }) {
+export default function MonthLineChart({
+  dailyExpenses,
+  month,
+  year,
+  budget,
+  flexBudget,
+}) {
   const allCategories = useSelector((state) => state.allCategories);
   const categories = seperateActive(
     allCategories,
@@ -61,7 +66,11 @@ export default function MonthLineChart({ dailyExpenses, month, year, budget }) {
 
   function getLineChartData() {
     const cat = categories.find((c) => c.id == chartCategory);
-    console.log(cat);
+    const cap = cat
+      ? cat.amount
+        ? cat.amount
+        : cat.percent * flexBudget
+      : budget;
     const dailies = dailyExpenses.filter(
       (daily) => daily.month == month && daily.year == year
     );
@@ -95,24 +104,13 @@ export default function MonthLineChart({ dailyExpenses, month, year, budget }) {
           label: 'Budget Goal',
           data: Array(daysInMonth)
             .fill(0)
-            .map(
-              (data, i) =>
-                ((chartCategory === '#special#billfold#all#'
-                  ? budget
-                  : cat.amount
-                  ? cat.amount
-                  : budget * cat.percent) /
-                  daysInMonth) *
-                (i + 1)
-            ),
+            .map((data, i) => (cap / daysInMonth) * (i + 1)),
           borderColor: 'lightgray',
           borderWidth: 2,
         },
         {
           type: 'line',
-          label: `${
-            chartCategory === '#special#billfold#all#' ? 'All' : chartCategory
-          } spending`,
+          label: `${cat ? cat.name : 'All'} spending`,
           data: data,
           borderWidth: 2,
           borderColor: '#93e9be',
@@ -122,18 +120,11 @@ export default function MonthLineChart({ dailyExpenses, month, year, budget }) {
         },
       ],
     };
-    // const heighestPoint = [
-    //   ...result.datasets[1].data,
-    //   ...result.datasets[0].data,
-    // ].reduce((datum, highest) => (datum > highest ? datum : highest), 0);
-    return [
-      result,
-      chartCategory === '#special#billfold#all#'
-        ? budget
-        : cat.amount
-        ? cat.amount
-        : budget * cat.percent,
-    ];
+    const heighestPoint = [
+      ...result.datasets[1].data,
+      ...result.datasets[0].data,
+    ].reduce((datum, highest) => (datum > highest ? datum : highest), 0);
+    return [result, heighestPoint];
   }
 
   function handleCategoryChange(event) {
@@ -169,7 +160,7 @@ export default function MonthLineChart({ dailyExpenses, month, year, budget }) {
             scales: {
               y: {
                 beginAtZero: true,
-                max: reactChartData[1] * 1.1,
+                max: Math.round(reactChartData[1] * 1.1),
               },
               x: {
                 stacked: true,

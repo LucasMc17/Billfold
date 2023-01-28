@@ -194,7 +194,7 @@ export default function MonthBarChart({
             scales: {
               y: {
                 beginAtZero: true,
-                max: reactChartData[1] * 1.1,
+                max: Math.round(reactChartData[1] * 1.1),
               },
               x: {
                 stacked: true,
