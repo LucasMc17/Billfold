@@ -58,15 +58,15 @@ export default function MonthLineChart({
   ]);
 
   useEffect(() => {
-    setReactChartData(getLineChartData());
     const categories = seperateActive(
       allCategories,
       new Date(year, month - 1, 15)
     )[0];
     setActiveCategories(categories);
-  }, [dailyExpenses, month, year, chartCategory, budget]);
+    setReactChartData(getLineChartData(categories, budget, flexBudget));
+  }, [dailyExpenses, month, year, chartCategory, budget, flexBudget]);
 
-  function getLineChartData() {
+  function getLineChartData(activeCategories, budget, flexBudget) {
     const cat = activeCategories.find((c) => c.id == chartCategory);
     const cap = cat
       ? cat.amount

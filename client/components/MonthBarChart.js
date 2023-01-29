@@ -32,7 +32,6 @@ export default function MonthBarChart({
   flexBudget,
 }) {
   const [metric, setMetric] = useState('PERCENT');
-  const [activeCategories, setActiveCategories] = useState([]);
   const allCategories = useSelector((state) => state.allCategories);
   const [reactChartData, setReactChartData] = useState([
     {
@@ -60,7 +59,6 @@ export default function MonthBarChart({
       allCategories,
       new Date(year, month - 1, 15)
     )[0];
-    setActiveCategories(categories);
     setReactChartData(getBarChartData(budget, flexBudget, categories));
   }, [dailyExpenses, month, year, metric, budget, flexBudget]);
 
