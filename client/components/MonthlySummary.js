@@ -169,7 +169,14 @@ export default function MonthlySummary() {
           </div>
         </div>
       </div>
-      <MonthBarChart tutorial={true} />
+      <MonthBarChart
+        tutorial={true}
+        dailyExpenses={dailyExpenses}
+        month={month}
+        year={year}
+        budget={chartData.budget}
+        flexBudget={chartData.flexBudget}
+      />
       <div id="monthly-purchases">
         <div id="monthly-purchases-header">
           <h1>Your Purchases</h1>
@@ -296,7 +303,13 @@ export default function MonthlySummary() {
           )}
         </div>
       </div>
-      <MonthBarChart dailyExpenses={dailyExpenses} month={month} year={year} />
+      <MonthBarChart
+        dailyExpenses={dailyExpenses}
+        month={month}
+        year={year}
+        budget={chartData.budget}
+        flexBudget={chartData.flexBudget}
+      />
       <MonthLineChart
         dailyExpenses={dailyExpenses}
         month={chartData.month}

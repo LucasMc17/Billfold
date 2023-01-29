@@ -10,7 +10,6 @@ import singleCategory from './singleCategory';
 import singleDailyExpense from './SingleDailyExpense';
 import unassigned from './unassigned';
 import homeChartData from './homeChartData';
-import monthChartData from './monthChartData';
 import allCategories from './allCategories';
 import loading from './loading';
 import allIncomes from './allIncomes';
@@ -30,7 +29,6 @@ const reducer = combineReducers({
   singleDailyExpense,
   unassigned,
   homeChartData,
-  monthChartData,
   allCategories,
   loading,
   allIncomes,
@@ -55,7 +53,6 @@ export * from './singleCategory';
 export * from './SingleDailyExpense';
 export * from './unassigned';
 export * from './homeChartData';
-export * from './monthChartData';
 export * from './allCategories';
 export * from './loading';
 export * from './allIncomes';

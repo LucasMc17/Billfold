@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchMonthChartData, monthSetLoading } from '../store';
+import { useSelector } from 'react-redux';
 import { Chart } from 'react-chartjs-2';
+import useFormatters from './custom_hooks/useFormatters';
+const { seperateActive } = useFormatters();
 import {
   BarElement,
   CategoryScale,
@@ -27,10 +28,12 @@ export default function MonthBarChart({
   month,
   year,
   tutorial,
+  budget,
+  flexBudget,
 }) {
-  const dispatch = useDispatch();
-
   const [metric, setMetric] = useState('PERCENT');
+  const [activeCategories, setActiveCategories] = useState([]);
+  const allCategories = useSelector((state) => state.allCategories);
   const [reactChartData, setReactChartData] = useState([
     {
       labels: ['Total'],
@@ -52,17 +55,14 @@ export default function MonthBarChart({
     100,
   ]);
 
-  const rawData = useSelector((state) => state.monthChartData);
-  const loading = useSelector((state) => state.loading.monthChart);
-
   useEffect(() => {
-    dispatch(monthSetLoading(true));
-    dispatch(fetchMonthChartData(year, month, metric));
-  }, [dailyExpenses, month, year, metric]);
-
-  useEffect(() => {
-    setReactChartData(reactGetChartData());
-  }, [rawData]);
+    const categories = seperateActive(
+      allCategories,
+      new Date(year, month - 1, 15)
+    )[0];
+    setActiveCategories(categories);
+    setReactChartData(getBarChartData(budget, flexBudget, categories));
+  }, [dailyExpenses, month, year, metric, budget, flexBudget]);
 
   const handleMetricChange = () => {
     if (metric === 'PERCENT') {
@@ -72,14 +72,25 @@ export default function MonthBarChart({
     }
   };
 
-  function reactGetChartData() {
+  function getBarChartData(budget, flexBudget, activeCategories) {
+    const dailies = dailyExpenses.filter(
+      (daily) => daily.month == month && daily.year == year
+    );
     const result = {
-      labels: rawData.labels,
+      labels: ['Total', ...activeCategories.map((cat) => cat.name)],
       datasets: [
         {
           type: 'bar',
           label: 'Budget',
-          data: rawData.budgets,
+          data:
+            metric === 'PERCENT'
+              ? Array(activeCategories.length + 1).fill(100)
+              : [
+                  budget,
+                  ...activeCategories.map((cat) =>
+                    cat.amount ? cat.amount : cat.percent * flexBudget
+                  ),
+                ],
           borderColor: 'rgba(255, 10, 10, 1)',
           borderWidth: 1,
           backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -87,7 +98,21 @@ export default function MonthBarChart({
         {
           type: 'bar',
           label: `${metric === 'AMOUNT' ? 'Amount' : 'Percent'} Spent`,
-          data: rawData.spents,
+          data: [
+            metric === 'PERCENT'
+              ? (dailies.reduce((a, b) => a + b.amount, 0) / budget) * 100
+              : dailies.reduce((a, b) => a + b.amount, 0),
+            ...activeCategories.map((cat) => {
+              const total = dailies
+                .filter((daily) => daily.categoryId === cat.id)
+                .reduce((a, b) => a + b.amount, 0);
+              return metric === 'PERCENT'
+                ? (total /
+                    (cat.amount ? cat.amount : cat.percent * flexBudget)) *
+                    100
+                : total;
+            }),
+          ],
           backgroundColor: '#93e9be',
         },
       ],
@@ -179,14 +204,6 @@ export default function MonthBarChart({
         </div>
       </div>
       <div id="loading-screen-container">
-        {loading ? (
-          <div id="loading-screen">
-            <h2>Loading...</h2>
-            <img id="load-icon" src="/load-icon.png" />
-          </div>
-        ) : (
-          <></>
-        )}
         <Chart
           type="bar"
           data={reactChartData[0]}

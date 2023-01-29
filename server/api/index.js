@@ -8,7 +8,6 @@ router.use('/categories', require('./categories'));
 router.use('/daily-expenses', require('./dailyExpenses'));
 router.use('/incomes', require('./incomes'));
 router.use('/chart-data', require('./homeChartData'));
-router.use('/month-chart-data', require('./monthChartData'));
 router.use('/all-categories', require('./allCategories'));
 router.use('/all-incomes', require('./allIncomes'));
 router.use('/all-deducts', require('./allDeducts'));
