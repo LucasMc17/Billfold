@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Chart } from 'react-chartjs-2';
-import { fetchChartData, homeSetLoading } from '../store';
+import useFormatters from './custom_hooks/useFormatters';
 import {
   BarElement,
   CategoryScale,
@@ -22,14 +22,16 @@ ChartJS.register(
   BarController
 );
 
-export default function HomeChart({ year, month, afterExpenses }) {
+const { seperateActive } = useFormatters();
+
+export default function HomeChart({ year, month }) {
   const dailies = useSelector((state) => state.dailyExpenses);
-  const rawData = useSelector((state) => state.homeChartData);
-  const loading = useSelector((state) => state.loading.homeChart);
+  const yearlyDeducts = useSelector((state) => state.allDeducts);
+  const monthlyExpenses = useSelector((state) => state.allExpenses);
+  const incomes = useSelector((state) => state.allIncomes);
 
   const tut = useSelector((state) => state.showTutorial);
 
-  const dispatch = useDispatch();
   const [initStartYear, initStartMonth] = getMonthsAgo(
     new Date(year, month, 15),
     6
@@ -69,14 +71,65 @@ export default function HomeChart({ year, month, afterExpenses }) {
     100,
   ]);
 
-  function getReactChartData() {
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  function getReactChartData(startMonth, startYear, endMonth, endYear) {
+    const labels = [],
+      budgets = [],
+      spents = [];
+    for (
+      let qMonth = endMonth, qYear = endYear;
+      (qYear == startYear && qMonth >= startMonth) || qYear > startYear;
+
+    ) {
+      labels.unshift(`${months[qMonth - 1]}, ${qYear}`);
+      const qDate = new Date(qYear, qMonth - 1, 15);
+      const income = seperateActive(incomes, qDate)[0].reduce(
+        (a, b) => a + b.amount,
+        0
+      );
+      const afterDeducts =
+        seperateActive(yearlyDeducts, qDate)[0].reduce(
+          (a, b) => (b.amount ? a - b.amount : a * (1 - b.percent)),
+          income
+        ) / 12;
+      const afterExpenses = seperateActive(monthlyExpenses, qDate)[0].reduce(
+        (a, b) => (b.amount ? a - b.amount : a * (1 - b.percent)),
+        afterDeducts
+      );
+      budgets.unshift(afterExpenses);
+      spents.unshift(
+        dailies
+          .filter((daily) => daily.year == qYear && daily.month == qMonth)
+          .reduce((a, b) => a + b.amount, 0)
+      );
+      if (qMonth == 1) {
+        qYear -= 1;
+        qMonth = 12;
+      } else {
+        qMonth -= 1;
+      }
+    }
     let result = {
-      labels: rawData.labels,
+      labels: labels,
       datasets: [
         {
           type: 'bar',
           label: 'Budget',
-          data: rawData.budgets,
+          data: budgets,
           backgroundColor: 'rgba(0, 0, 0, 0)',
           borderColor: 'rgba(255, 10, 10, 1)',
           borderWidth: 1,
@@ -84,7 +137,7 @@ export default function HomeChart({ year, month, afterExpenses }) {
         {
           type: 'bar',
           label: 'Dollars Spent',
-          data: rawData.spents,
+          data: spents,
           backgroundColor: '#93e9be',
         },
       ],
@@ -98,13 +151,22 @@ export default function HomeChart({ year, month, afterExpenses }) {
   }
 
   useEffect(() => {
-    dispatch(homeSetLoading(true));
-    dispatch(fetchChartData(view));
-  }, [view.startMonth, view.startYear, view.endMonth, view.endYear, dailies]);
-
-  useEffect(() => {
-    setData(getReactChartData());
-  }, [rawData]);
+    setData(
+      getReactChartData(
+        view.startMonth,
+        view.startYear,
+        view.endMonth,
+        view.endYear
+      )
+    );
+  }, [
+    view.startMonth,
+    view.startYear,
+    view.endMonth,
+    view.endYear,
+    dailies,
+    incomes,
+  ]);
 
   function getMonthsAgo(date, num) {
     date.setMonth(date.getMonth() - num);
@@ -274,14 +336,6 @@ export default function HomeChart({ year, month, afterExpenses }) {
         </div>
       </div>
       <div id="loading-screen-container">
-        {loading ? (
-          <div id="loading-screen">
-            <h2>Loading...</h2>
-            <img id="load-icon" src="/load-icon.png" />
-          </div>
-        ) : (
-          <></>
-        )}
         <Chart
           id="home-chart"
           type="bar"

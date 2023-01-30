@@ -139,7 +139,7 @@ export default function Home() {
         />
         {tut === 8 ? <h1 className="tut-num">2</h1> : <></>}
       </div>
-      <HomeChart year={year} month={month} afterExpenses={afterExpenses} />
+      <HomeChart year={year} month={month} />
     </div>
   ) : (
     <div>
