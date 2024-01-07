@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
+const Sequelize = require("sequelize");
+const db = require("../db");
 
-const DailyExpense = db.define('dailyExpense', {
+const DailyExpense = db.define("dailyExpense", {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -22,7 +22,6 @@ const DailyExpense = db.define('dailyExpense', {
     type: Sequelize.INTEGER,
     defaultValue: new Date().getFullYear(),
     validate: {
-      max: new Date().getFullYear(),
       min: 1900,
     },
   },
