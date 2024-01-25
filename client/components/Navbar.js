@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { logout } from '../store';
-import Logo from './Logo';
-import useWindowSize from './custom_hooks/useWindowSize';
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { logout } from "../store";
+import Logo from "./Logo";
+import useWindowSize from "./custom_hooks/useWindowSize";
 
 const Navbar = ({ handleClick, isLoggedIn, insights }) => {
   const { dynamicWidth } = useWindowSize();
 
-  const [navOpen, toggleNav] = useState('unopened');
+  console.log("THIS IS THE TEST BRANCH!");
+
+  const [navOpen, toggleNav] = useState("unopened");
   return (
     <div>
       {isLoggedIn ? (
@@ -65,7 +67,7 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
                   src="/hamburger.png"
                   onClick={() =>
                     toggleNav(
-                      navOpen === 'unopened' ? true : navOpen ? false : true
+                      navOpen === "unopened" ? true : navOpen ? false : true,
                     )
                   }
                 />
@@ -75,11 +77,11 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
           <div
             id="mobile-nav"
             className={
-              navOpen === 'unopened'
-                ? 'unopened-nav'
+              navOpen === "unopened"
+                ? "unopened-nav"
                 : navOpen
-                ? 'open-nav'
-                : 'closed-nav'
+                ? "open-nav"
+                : "closed-nav"
             }
           >
             <div>
@@ -126,7 +128,7 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
                 Billfold Insights
                 {insights.length ? (
                   <div>
-                    <h3>{insights.length > 9 ? '9+' : insights.length}</h3>
+                    <h3>{insights.length > 9 ? "9+" : insights.length}</h3>
                   </div>
                 ) : (
                   <></>
@@ -146,7 +148,7 @@ const Navbar = ({ handleClick, isLoggedIn, insights }) => {
           </div>
         </>
       ) : (
-        ''
+        ""
       )}
     </div>
   );
